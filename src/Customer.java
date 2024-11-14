@@ -23,5 +23,4 @@ public class Customer implements User, Serializable {
         this.isActive = isActive;
         this.orderedItems = new ArrayList<>();
     }
-	// xxx your codes
 }

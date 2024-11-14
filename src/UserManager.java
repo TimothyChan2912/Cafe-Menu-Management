@@ -6,6 +6,4 @@ public class UserManager {
 	
 	public UserManager() {
     }
-	
-   		// xxx your codes
 }
