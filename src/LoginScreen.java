@@ -1,8 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Map;
+import javax.swing.*;
 
 public class LoginScreen extends JDialog {
 	
@@ -16,4 +14,5 @@ public class LoginScreen extends JDialog {
         setLocationRelativeTo(parent);
 
 	// xxx your codes
+    }
 }
