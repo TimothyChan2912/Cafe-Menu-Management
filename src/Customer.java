@@ -23,5 +23,94 @@ public class Customer implements User, Serializable {
         this.isActive = isActive;
         this.orderedItems = new ArrayList<>();
     }
-	// xxx your codes
+	//getters
+    @Override
+    public String getFirstName () {
+        return this.firstName;
+    }
+
+    @Override
+    public String getLastName () {
+        return this.lastName;
+    }
+
+    @Override
+    public String getEmail () {
+        return this.email;
+    }
+
+    @Override
+    public String getUserName () {
+        return this.userName;
+    }
+
+    @Override
+    public String getPassword () {
+        return this.password;
+    }
+    
+    @Override
+    public List<String> getOrderedItems () {
+        return this.orderedItems;
+    }
+
+    @Override
+    public String getRole () {
+        return "Customer";
+    }
+
+    @Override
+    public String getDetails () {
+        return "";
+    }
+
+    @Override
+    public boolean isActive () {
+        return this.isActive;
+    }
+
+    @Override
+    public boolean canPlace () {
+        return true;
+    }
+
+    //setters
+    @Override
+    public void setActive (boolean active) {
+        this.isActive = active;
+    }
+
+    @Override
+    public void setOrderedItems (List<String> orderedItems) {
+        this.orderedItems = orderedItems;
+    }
+
+    @Override 
+    public void setUserName (String userName) {
+        this.userName = userName;
+    }
+
+    @Override
+    public void orderItems(MenuItem item) throws CustomExceptions.ItemNotAvailableException {
+
+    }
+
+    @Override
+    public void cancelItem(MenuItem item) {
+        
+    }
+
+    @Override
+    public String toDataString () {
+        String dataString = "Customer;" + this.firstName + ";" + this.lastName + ";" + this.email + ";" + this.userName + ";" + this.password + ";" + this.isActive + ";";
+        for (String s : this.orderedItems) {
+            dataString = dataString + s + ";";
+        }
+        return dataString;
+    }
+    
+    @Override
+    public int compareTo (User o) {
+        return this.compareTo(o);
+    }
 }
