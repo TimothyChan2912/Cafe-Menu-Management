@@ -25,6 +25,17 @@ public class Admin implements User, Serializable {
         this.orderedItems = new ArrayList<>();
     }
 
+    // Constructor to initialize a Admin object with ordered items
+    public Admin(String firstName, String lastName, String email, String userName, String password, boolean isActive, List<String> orderedItems) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.isActive = isActive;
+        this.orderedItems = orderedItems;
+    }    
+
     //getters
     @Override
     public String getFirstName () {
@@ -94,12 +105,16 @@ public class Admin implements User, Serializable {
 
     @Override
     public void orderItems(MenuItem item) throws CustomExceptions.ItemNotAvailableException {
-
+        if (this.orderedItems.size() < MAX_ORDER_LIMIT) {
+            this.orderedItems.add(item.getName());
+        } else {
+            throw new CustomExceptions.ItemNotAvailableException("You have reached the maximum order limit.");
+        }
     }
 
     @Override
     public void cancelItem(MenuItem item) {
-        
+        this.orderedItems.remove(item.getName());
     }
 
     @Override
@@ -115,4 +130,10 @@ public class Admin implements User, Serializable {
     public int compareTo (User o) {
         return this.compareTo(o);
     }
+
+    @Override
+    public String toString () {
+        return "Admin: " + this.firstName + " " + this.lastName + " (" + this.email + ")";
+    }
 }
+
