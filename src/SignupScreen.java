@@ -13,7 +13,6 @@ public class SignupScreen extends JFrame{
     private JLabel signupEmail;
     private JLabel signupPassword;
     private JLabel signupRole;
-	private JLabel signupSuccess;
 
     private static JTextField signupFirstNameText;
     private static JTextField signupLastNameText;
@@ -21,8 +20,8 @@ public class SignupScreen extends JFrame{
     private static JPasswordField signupPasswordText;
     private static JComboBox<String> signupRoleText;
 
-	private static ArrayList<Customer> customers = new ArrayList<Customer>();
-	private static ArrayList<Admin> admins = new ArrayList<Admin>();
+	public static ArrayList<Customer> customers = new ArrayList<Customer>();
+	public static ArrayList<Admin> admins = new ArrayList<Admin>();
 
     private GridBagLayout layout = new GridBagLayout();
     private GridBagConstraints gbc = new GridBagConstraints();
@@ -30,7 +29,6 @@ public class SignupScreen extends JFrame{
 
     private JButton btnSignupSubmit;
     private JButton btnSignupCancel;
-	private JButton btnSuccessOk;
 
 	private String username;
 
