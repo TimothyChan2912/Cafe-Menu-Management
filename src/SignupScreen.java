@@ -57,24 +57,24 @@ public class SignupScreen extends JFrame{
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         a.addObjects(signupFirstName, pSignup, layout, gbc, 0, 1, 1, 1, 50, 50);
-        a.addObjects(signupFirstNameText, pSignup, layout, gbc, 2, 1, 3, 1, 250, 25);
+        a.addObjects(signupFirstNameText, pSignup, layout, gbc, 0, 2, 3, 1, 250, 25);
 
-        a.addObjects(signupLastName, pSignup, layout, gbc, 0, 2, 1, 1, 50, 50);
-        a.addObjects(signupLastNameText, pSignup, layout, gbc, 2, 2, 3, 1, 250, 25);
+        a.addObjects(signupLastName, pSignup, layout, gbc, 0, 3, 1, 1, 50, 50);
+        a.addObjects(signupLastNameText, pSignup, layout, gbc, 0, 4, 3, 1, 250, 25);
 
-        a.addObjects(signupEmail, pSignup, layout, gbc, 0, 3, 1, 1, 50, 50);
-        a.addObjects(signupEmailText, pSignup, layout, gbc, 2, 3, 3, 1, 250, 25);
+        a.addObjects(signupEmail, pSignup, layout, gbc, 0, 5, 1, 1, 50, 50);
+        a.addObjects(signupEmailText, pSignup, layout, gbc, 0, 6, 3, 1, 250, 25);
 
-        a.addObjects(signupPassword, pSignup, layout, gbc, 0, 4, 1, 1, 50, 50);
-        a.addObjects(signupPasswordText, pSignup, layout, gbc, 2, 4, 3, 1, 250, 25);
+        a.addObjects(signupPassword, pSignup, layout, gbc, 0, 7, 1, 1, 50, 50);
+        a.addObjects(signupPasswordText, pSignup, layout, gbc, 0, 8, 3, 1, 250, 25);
 
-        a.addObjects(signupRole, pSignup, layout, gbc, 0, 5, 1, 1, 50, 50);
-		a.addObjects(signupRoleText, pSignup, layout, gbc, 2, 5, 3, 1, 250, 25);
+        a.addObjects(signupRole, pSignup, layout, gbc, 0, 9, 1, 1, 50, 50);
+		a.addObjects(signupRoleText, pSignup, layout, gbc, 0, 10, 3, 1, 250, 50);
         signupRoleText.addItem("Customer");
         signupRoleText.addItem("Admin");
 
-		a.addObjects(btnSignupSubmit, pSignup, layout, gbc, 2, 6, 1, 1, 50, 25);
-		a.addObjects(btnSignupCancel, pSignup, layout, gbc, 3, 6, 1, 1, 50, 25);
+        a.addObjects(btnSignupSubmit, pSignup, layout, gbc, 0, 11, 1, 1, 50, 25);
+        a.addObjects(btnSignupCancel, pSignup, layout, gbc, 1, 11, 1, 1, 50, 25);
 
         this.add(pSignup);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

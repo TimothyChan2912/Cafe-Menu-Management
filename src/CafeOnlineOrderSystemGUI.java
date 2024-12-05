@@ -29,7 +29,7 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         btnSignup = new JButton("Sign Up");
         btnExit = new JButton("Exit");
 
-        display = new JLabel("Welcome to (Restaurant Name)");
+        display = new JLabel("Welcome to BlackBear Diner");
         help = new JLabel("Not a User? Click here to sign up");
 
         BtnListener btnlistener = new BtnListener();
@@ -41,9 +41,11 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         pMain.setLayout(layout);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.CENTER;
         gbc.ipadx = 250;
         gbc.ipady = 100;
+
+        display.setHorizontalAlignment(SwingConstants.CENTER);
+        help.setHorizontalAlignment(SwingConstants.CENTER);
 
         a.addObjects(display, pMain, layout, gbc, 1, 0, 3, 1);
         a.addObjects(help, pMain, layout, gbc, 1, 3, 3, 1);
