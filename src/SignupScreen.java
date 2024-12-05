@@ -1,78 +1,144 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.Map;
-import java.awt.event.*;
-import javafx.scene.control.*;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.util.ArrayList;
 
+public class SignupScreen extends JFrame{
+    private final int FRAME_WIDTH = 1000;
+    private final int FRAME_HEIGHT = 1000;
 
+    private JLabel signupFirstName;
+    private JLabel signupLastName;
+    private JLabel signupEmail;
+    private JLabel signupPassword;
+    private JLabel signupRole;
+	private JLabel signupSuccess;
 
-public class SignupScreen extends JDialog {
+    private static JTextField signupFirstNameText;
+    private static JTextField signupLastNameText;
+    private static JTextField signupEmailText;
+    private static JPasswordField signupPasswordText;
+    private static JComboBox<String> signupRoleText;
 
-	private CafeOnlineOrderSystemGUI mainGUI;
-    private cafe mycafe;
+	private static ArrayList<Customer> customers = new ArrayList<Customer>();
+	private static ArrayList<Admin> admins = new ArrayList<Admin>();
 
-   	private final int FRAME_WIDTH = 1000;
-	private final int FRAME_LENGTH = 1000;
+    private GridBagLayout layout = new GridBagLayout();
+    private GridBagConstraints gbc = new GridBagConstraints();
+    private AddObjects a = new AddObjects();
 
-	private JLabel signupFirstName;
-	private JLabel signupLastName;
-	private JLabel signupEmail;
-	private JLabel signupPassword;
-	private JLabel userType;
+    private JButton btnSignupSubmit;
+    private JButton btnSignupCancel;
+	private JButton btnSuccessOk;
 
-	private JButton btnSignupSubmit;
+	private String username;
 
-	public static JTextField signupFirstNameText;
-	public static JTextField signupLastNameText;
-	public static JTextField signupEmailText;
-	public static JTextField signupPasswordText;
+    public SignupScreen() {
+        btnSignupSubmit = new JButton("Submit");
+        btnSignupCancel = new JButton("Cancel");
 
-	
-	// ToggleGroup userTypeGroup = new ToggleGroup();
-	// private RadioButton userTypeCustomer = new RadioButton("Customer");
-	// private RadioButton userTypeAdministrator = new RadioButton("Administrator");
-	// userTypeCustomer.setToggleGroup(userTypeGroup);
-	// userTypeAdministrator.setToggleGroup(userTypeGroup);
-	// userTypeCustomer.setSelected(true);
+        Btnlistener btnlistener = new Btnlistener();
+        btnSignupSubmit.addActionListener(btnlistener);
+        btnSignupCancel.addActionListener(btnlistener);
 
-	public SignupScreen() {
-		signupFirstName = new JLabel("First Name: ");
-		signupLastName = new JLabel("Last Name: ");
-		signupEmail = new JLabel("Email: ");
-		signupPassword = new JLabel("Password: ");
-		
-		BtnListener btnlistnener = new BtnListener();
-		btnSignupSubmit.addActionListener(btnlistnener);
+        signupFirstName = new JLabel("First Name");
+        signupLastName = new JLabel("Last Name");
+        signupEmail = new JLabel("Email");
+        signupPassword = new JLabel("Password");
+        signupRole = new JLabel("Role");
+
+        signupFirstNameText = new JTextField("");
+        signupLastNameText = new JTextField("");
+        signupEmailText = new JTextField("");
+        signupPasswordText = new JPasswordField("");
+        signupRoleText = new JComboBox<String>();
+
+        JPanel pSignup = new JPanel();
+        pSignup.setLayout(layout);
+
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        a.addObjects(signupFirstName, pSignup, layout, gbc, 0, 1, 1, 1, 50, 50);
+        a.addObjects(signupFirstNameText, pSignup, layout, gbc, 2, 1, 3, 1, 250, 25);
+
+        a.addObjects(signupLastName, pSignup, layout, gbc, 0, 2, 1, 1, 50, 50);
+        a.addObjects(signupLastNameText, pSignup, layout, gbc, 2, 2, 3, 1, 250, 25);
+
+        a.addObjects(signupEmail, pSignup, layout, gbc, 0, 3, 1, 1, 50, 50);
+        a.addObjects(signupEmailText, pSignup, layout, gbc, 2, 3, 3, 1, 250, 25);
+
+        a.addObjects(signupPassword, pSignup, layout, gbc, 0, 4, 1, 1, 50, 50);
+        a.addObjects(signupPasswordText, pSignup, layout, gbc, 2, 4, 3, 1, 250, 25);
+
+        a.addObjects(signupRole, pSignup, layout, gbc, 0, 5, 1, 1, 50, 50);
+		a.addObjects(signupRoleText, pSignup, layout, gbc, 2, 5, 3, 1, 250, 25);
+        signupRoleText.addItem("Customer");
+        signupRoleText.addItem("Admin");
+
+		a.addObjects(btnSignupSubmit, pSignup, layout, gbc, 2, 6, 1, 1, 50, 25);
+		a.addObjects(btnSignupCancel, pSignup, layout, gbc, 3, 6, 1, 1, 50, 25);
+
+        this.add(pSignup);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        this.setVisible(true);
+    }
+
+	public ArrayList<Customer> getCustomers() {
+		return customers;
+	}
+
+	public ArrayList<Admin> getAdmins() {
+		return admins;
 	}
 
 	public String getFirstName() {
 		return signupFirstNameText.getText();
 	}
-	
+
 	public String getLastName() {
 		return signupLastNameText.getText();
 	}
-	
+
 	public String getEmail() {
 		return signupEmailText.getText();
 	}
-	
-	public  String getPassword() {
-		return signupPasswordText.getText();
+
+	public String getPassword() {
+		return new String(signupPasswordText.getPassword());
 	}
 
-	class BtnListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == btnSignupSubmit) {
-				//password submit method
-			}
+	public String getRole() {
+		return (String) signupRoleText.getSelectedItem();
+	}
+
+	private void SignupClick() {
+		String firstname = getFirstName();
+
+		String rand = "";
+		for(int i = 0; i < 4; i++) {
+			rand += (int)(Math.random() * 10);
 		}
+
+		username = firstname + rand;
 	}
 
-}	
+    class Btnlistener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource() == btnSignupSubmit) {
+				SignupClick();
+				if(getRole().equals("Customer")) {
+					customers.add(new Customer(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
+					new SignupSuccess(username);
+				}
+				else {
+					admins.add(new Admin(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
+				}
+            }
+            if(e.getSource() == btnSignupCancel) {
+                dispose();
+            }
+        }
+    }
+}
