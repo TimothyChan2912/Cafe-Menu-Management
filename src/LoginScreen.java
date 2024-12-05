@@ -18,6 +18,7 @@ public class LoginScreen extends JFrame {
     private JButton btnLoginCancel;
 
     private String role;
+    private int index;
 
     private GridBagLayout layout = new GridBagLayout();
     private GridBagConstraints gbc = new GridBagConstraints();
@@ -62,11 +63,11 @@ public class LoginScreen extends JFrame {
     public boolean checkUsernameAndPassword() {
         String username = loginUsernameText.getText();
         String password = loginPasswordText.getText();
-        boolean found = true;
 
         for(int i = 0; i < SignupScreen.admins.size(); i++) {
             if(SignupScreen.admins.get(i).getUserName().equals(username) && SignupScreen.admins.get(i).getPassword().equals(password)) {
                 role = "admin";
+                index = i;
                 return true;
             }
         }
@@ -74,6 +75,7 @@ public class LoginScreen extends JFrame {
         for(int i = 0; i < SignupScreen.customers.size(); i++) {
             if(SignupScreen.customers.get(i).getUserName().equals(username) && SignupScreen.customers.get(i).getPassword().equals(password)) {
                 role = "customer";
+                index = i;
                 return true;
             }
         }
@@ -86,12 +88,10 @@ public class LoginScreen extends JFrame {
             if(e.getSource() == btnLogin) {
                 if(checkUsernameAndPassword()) {
                     if(role.equals("admin")) {
-                        new AdminDashboard();
-                        dispose();
+                        new AdminDashboard(SignupScreen.admins.get(index));
                     }
                     else if(role.equals("customer")) {
                         new CustomerDashboard();
-                        dispose();
                     }
                 }
                 else {

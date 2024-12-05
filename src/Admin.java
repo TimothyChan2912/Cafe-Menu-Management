@@ -25,17 +25,6 @@ public class Admin implements User, Serializable {
         this.orderedItems = new ArrayList<>();
     }
 
-    // Constructor to initialize a Admin object with ordered items
-    public Admin(String firstName, String lastName, String email, String userName, String password, boolean isActive, List<String> orderedItems) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.userName = userName;
-        this.password = password;
-        this.isActive = isActive;
-        this.orderedItems = orderedItems;
-    }    
-
     //getters
     @Override
     public String getFirstName () {
@@ -63,6 +52,11 @@ public class Admin implements User, Serializable {
     }
     
     @Override
+    public boolean isActive () {
+        return this.isActive;
+    }
+
+    @Override
     public List<String> getOrderedItems () {
         return this.orderedItems;
     }
@@ -73,21 +67,10 @@ public class Admin implements User, Serializable {
     }
 
     @Override
-    public String getDetails () {
-        return "";
+    public void orderItems (MenuItem item) {
+        this.orderedItems.add(item.getName());
     }
 
-    @Override
-    public boolean isActive () {
-        return this.isActive;
-    }
-
-    @Override
-    public boolean canPlace () {
-        return false;
-    }
-
-    //setters
     @Override
     public void setActive (boolean active) {
         this.isActive = active;
@@ -98,42 +81,25 @@ public class Admin implements User, Serializable {
         this.orderedItems = orderedItems;
     }
 
-    @Override 
+    @Override
     public void setUserName (String userName) {
         this.userName = userName;
     }
 
     @Override
-    public void orderItems(MenuItem item) throws CustomExceptions.ItemNotAvailableException {
-        if (this.orderedItems.size() < MAX_ORDER_LIMIT) {
-            this.orderedItems.add(item.getName());
-        } else {
-            throw new CustomExceptions.ItemNotAvailableException("You have reached the maximum order limit.");
-        }
-    }
-
-    @Override
-    public void cancelItem(MenuItem item) {
+    public void cancelItem (MenuItem item) {
         this.orderedItems.remove(item.getName());
     }
 
     @Override
-    public String toDataString () {
-        String dataString = "Admin;" + this.firstName + ";" + this.lastName + ";" + this.email + ";" + this.userName + ";" + this.password + ";" + this.isActive + ";";
-        for (String s : this.orderedItems) {
-            dataString = dataString + s + ";";
-        }
-        return dataString;
-    }
-    
-    @Override
-    public int compareTo (User o) {
-        return this.compareTo(o);
+    public boolean canPlace () {
+        return this.orderedItems.size() < MAX_ORDER_LIMIT;
     }
 
     @Override
-    public String toString () {
-        return "Admin: " + this.firstName + " " + this.lastName + " (" + this.email + ")";
+    public String getDetails () {
+        return "Name: " + this.firstName + " " + this.lastName + "\nEmail: " + this.email + "\nUsername: " + this.userName;
     }
+    
 }
 
