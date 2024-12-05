@@ -29,7 +29,7 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         btnSignup = new JButton("Sign Up");
         btnExit = new JButton("Exit");
 
-        display = new JLabel("Welcome to (Restaurant Name)");
+        display = new JLabel("Welcome to BlackBear Diner");
         help = new JLabel("Not a User? Click here to sign up");
 
         BtnListener btnlistener = new BtnListener();
@@ -44,14 +44,17 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         gbc.ipadx = 250;
         gbc.ipady = 100;
 
+        display.setHorizontalAlignment(SwingConstants.CENTER);
+        help.setHorizontalAlignment(SwingConstants.CENTER);
+
         a.addObjects(display, pMain, layout, gbc, 1, 0, 3, 1);
         a.addObjects(help, pMain, layout, gbc, 1, 3, 3, 1);
 
         gbc.ipady = 50;
 
         a.addObjects(btnLogin, pMain, layout, gbc, 1, 1, 3, 1);
-        a.addObjects(btnSignup, pMain, layout, gbc, 1, 2, 3, 1);
-        a.addObjects(btnExit, pMain, layout, gbc, 1, 4, 3, 1);
+        a.addObjects(btnExit, pMain, layout, gbc, 1, 2, 3, 1);
+        a.addObjects(btnSignup, pMain, layout, gbc, 1, 4, 3, 1);
 
         this.add(pMain);
         this.setTitle("Blackbear Diner");
