@@ -13,13 +13,13 @@ public class AdminDashboard extends JFrame {
     private JButton btnManageMenu;
     private JButton btnCustomerLogin;
 
-    private User admin;
+    private Admin admin;
 
     private GridBagLayout layout = new GridBagLayout();
     private GridBagConstraints gbc = new GridBagConstraints();
     private AddObjects a = new AddObjects();
     
-    public AdminDashboard(User admin) {
+    public AdminDashboard(Admin admin) {
 
         welcome = new JLabel("Welcome, " + admin.getUserName());
 
@@ -53,14 +53,11 @@ public class AdminDashboard extends JFrame {
     class BtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnManageCustomers) {
-                //Manage Customer Screen
-                dispose();
+                new AdminCustomerManager(admin);
             } else if (e.getSource() == btnManageMenu) {
                 //Manage Menu Screen
-                dispose();
             } else if (e.getSource() == btnCustomerLogin) {
-                new SignupScreen();
-                dispose();
+                new LoginScreen();
             }
         }
     }

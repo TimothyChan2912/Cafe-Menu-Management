@@ -41,6 +41,7 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         pMain.setLayout(layout);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.ipadx = 250;
         gbc.ipady = 100;
 
@@ -50,8 +51,8 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         gbc.ipady = 50;
 
         a.addObjects(btnLogin, pMain, layout, gbc, 1, 1, 3, 1);
-        a.addObjects(btnSignup, pMain, layout, gbc, 1, 2, 3, 1);
-        a.addObjects(btnExit, pMain, layout, gbc, 1, 4, 3, 1);
+        a.addObjects(btnExit, pMain, layout, gbc, 1, 2, 3, 1);
+        a.addObjects(btnSignup, pMain, layout, gbc, 1, 4, 3, 1);
 
         this.add(pMain);
         this.setTitle("Blackbear Diner");
