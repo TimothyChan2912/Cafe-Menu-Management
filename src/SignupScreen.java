@@ -132,7 +132,7 @@ public class SignupScreen extends JFrame{
 				}
 				else {
 					admins.add(new Admin(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
-					new SignupSuccess(username);
+                    new SignupSuccess(username);
 				}
             }
             if(e.getSource() == btnSignupCancel) {

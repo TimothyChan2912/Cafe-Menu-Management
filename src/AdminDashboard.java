@@ -21,6 +21,7 @@ public class AdminDashboard extends JFrame {
     
     public AdminDashboard(Admin admin) {
 
+        this.admin = admin;
         welcome = new JLabel("Welcome, " + admin.getUserName());
 
         btnManageCustomers = new JButton("Manage Customers");

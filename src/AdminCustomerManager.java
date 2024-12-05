@@ -37,7 +37,7 @@ public class AdminCustomerManager extends JFrame {
     private JScrollPane inactiveScrollPane;
     private JScrollPane activeScrollPane;
 
-    public AdminCustomerManager(Admin admin) {
+    public AdminCustomerManager(Admin admin) {    
         btnReactivate = new JButton("Re-activate");
         btnInactivate = new JButton("Inactivate");
         btnAdd = new JButton("Add");
@@ -89,20 +89,20 @@ public class AdminCustomerManager extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         a.addObjects(adminInfo, pAdminCustomerManager, layout, gbc, 0, 0, 1, 1, 50, 50);
-        //a.addObjects(inactiveCustomers, pAdminCustomerManager, layout, gbc, 0, 1, 1, 1, 50, 50);
-        // a.addObjects(activeCustomers, pAdminCustomerManager, layout, gbc, 1, 1, 1, 1, 50, 50);
-        // a.addObjects(inactiveScrollPane, pAdminCustomerManager, layout, gbc, 0, 2, 1, 1, 50, 50);
-        // a.addObjects(activeScrollPane, pAdminCustomerManager, layout, gbc, 1, 2, 1, 1, 50, 50);
-        // a.addObjects(btnReactivate, pAdminCustomerManager, layout, gbc, 0, 3, 1, 1, 50, 25);
-        // a.addObjects(btnInactivate, pAdminCustomerManager, layout, gbc, 1, 3, 1, 1, 50, 25);
-        // a.addObjects(btnAdd, pAdminCustomerManager, layout, gbc, 0, 4, 1, 1, 50, 25);
-        // a.addObjects(btnEdit, pAdminCustomerManager, layout, gbc, 1, 4, 1, 1, 50, 25);
-        // a.addObjects(btnDelete, pAdminCustomerManager, layout, gbc, 2, 4, 1, 1, 50, 25);
-        // a.addObjects(SearchBy, pAdminCustomerManager, layout, gbc, 0, 5, 1, 1, 50, 50);
-        // a.addObjects(filterCriteria, pAdminCustomerManager, layout, gbc, 1, 5, 1, 1, 50, 25);
-        // a.addObjects(sortOrder, pAdminCustomerManager, layout, gbc, 0, 5, 1, 1, 50, 50);
-        // a.addObjects(filterOrder, pAdminCustomerManager, layout, gbc, 1, 5, 1, 1, 50, 25);
-        // a.addObjects(btnSort, pAdminCustomerManager, layout, gbc, 2, 5, 1, 1, 50, 25);
+        a.addObjects(inactiveCustomers, pAdminCustomerManager, layout, gbc, 0, 1, 1, 1, 50, 50);
+        a.addObjects(activeCustomers, pAdminCustomerManager, layout, gbc, 1, 1, 1, 1, 50, 50);
+        a.addObjects(inactiveScrollPane, pAdminCustomerManager, layout, gbc, 0, 2, 1, 1, 50, 50);
+        a.addObjects(activeScrollPane, pAdminCustomerManager, layout, gbc, 1, 2, 1, 1, 50, 50);
+        a.addObjects(btnReactivate, pAdminCustomerManager, layout, gbc, 0, 3, 1, 1, 50, 25);
+        a.addObjects(btnInactivate, pAdminCustomerManager, layout, gbc, 1, 3, 1, 1, 50, 25);
+        a.addObjects(btnAdd, pAdminCustomerManager, layout, gbc, 0, 4, 1, 1, 50, 25);
+        a.addObjects(btnEdit, pAdminCustomerManager, layout, gbc, 1, 4, 1, 1, 50, 25);
+        a.addObjects(btnDelete, pAdminCustomerManager, layout, gbc, 2, 4, 1, 1, 50, 25);
+        a.addObjects(SearchBy, pAdminCustomerManager, layout, gbc, 2, 5, 1, 1, 50, 50);
+        a.addObjects(filterCriteria, pAdminCustomerManager, layout, gbc, 3, 5, 1, 1, 50, 25);
+        a.addObjects(sortOrder, pAdminCustomerManager, layout, gbc, 0, 5, 1, 1, 50, 50);
+        a.addObjects(filterOrder, pAdminCustomerManager, layout, gbc, 1, 5, 1, 1, 50, 25);
+        a.addObjects(btnSort, pAdminCustomerManager, layout, gbc, 4, 5, 1, 1, 50, 25);
 
         this.add(pAdminCustomerManager);
         this.setTitle("Customer Management Dashboard");
