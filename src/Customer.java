@@ -110,6 +110,11 @@ public class Customer implements User, Serializable {
     }
     
     @Override
+    public String toString () {
+        return this.lastName + ", " + this.firstName;
+    }
+
+    @Override
     public int compareTo (User o) {
         return this.compareTo(o);
     }

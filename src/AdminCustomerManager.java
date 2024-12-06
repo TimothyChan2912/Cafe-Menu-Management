@@ -36,7 +36,10 @@ public class AdminCustomerManager extends JFrame {
 
     private JScrollPane inactiveScrollPane;
     private JScrollPane activeScrollPane;
+    private Customer selectedCustomer;
 
+    private JFrame frame = new JFrame();
+    
     public AdminCustomerManager(Admin admin) {    
         btnReactivate = new JButton("Re-activate");
         btnInactivate = new JButton("Inactivate");
@@ -77,7 +80,23 @@ public class AdminCustomerManager extends JFrame {
         activeCustomerListDisplay = new JList<Customer>(activeModel);
 
         inactiveCustomerListDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        activeCustomerListDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        inactiveCustomerListDisplay.addListSelectionListener(e -> {
+            if(!e.getValueIsAdjusting()) {
+                if(inactiveCustomerListDisplay != null) {
+                    selectedCustomer = inactiveCustomerListDisplay.getSelectedValue();
+                    activeCustomerListDisplay.clearSelection();
+                }
+            }
+        });
+
+        activeCustomerListDisplay.addListSelectionListener(e -> {
+            if(!e.getValueIsAdjusting()) {
+                if(activeCustomerListDisplay != null) {
+                    selectedCustomer = activeCustomerListDisplay.getSelectedValue();
+                    inactiveCustomerListDisplay.clearSelection();
+                }
+            }
+        });
 
         inactiveScrollPane = new JScrollPane(inactiveCustomerListDisplay);
         activeScrollPane = new JScrollPane(activeCustomerListDisplay);
@@ -116,30 +135,51 @@ public class AdminCustomerManager extends JFrame {
     class BtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnReactivate) {
-                Customer customer = inactiveCustomerListDisplay.getSelectedValue();
-                if(customer == null) {
-                    //send message to select an active customer
+                if(selectedCustomer.isActive()) {
+                    JOptionPane.showMessageDialog(frame, "Selected customer should be Inactive", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
-                if(customer != null) {
-                    inactiveModel.removeElement(customer);
-                    activeModel.addElement(customer);
+                else if(selectedCustomer == null) {
+                    JOptionPane.showMessageDialog(frame, "No customer selected", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
-            } else if(e.getSource() == btnInactivate) {
-                Customer customer = activeCustomerListDisplay.getSelectedValue();
-                if(customer == null) {
-                    //send message to select an inactive customer
+                else {
+                    selectedCustomer.setActive(true);
+                    activeModel.addElement(selectedCustomer);
+                    inactiveModel.removeElement(selectedCustomer);
+                    selectedCustomer = null;
+                    activeCustomerListDisplay.clearSelection();
                 }
-                if(customer != null) {
-                    activeModel.removeElement(customer);
-                    inactiveModel.addElement(customer);
+            }
+            else if(e.getSource() == btnInactivate) {
+                if(!selectedCustomer.isActive()) {
+                    JOptionPane.showMessageDialog(frame, "Selected customer should be Active", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
-            } else if(e.getSource() == btnAdd) {
+                else if(selectedCustomer == null) {
+                    JOptionPane.showMessageDialog(frame, "No customer selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    selectedCustomer.setActive(false);
+                    inactiveModel.addElement(selectedCustomer);
+                    activeModel.removeElement(selectedCustomer);
+                    selectedCustomer = null;
+                    inactiveCustomerListDisplay.clearSelection();
+                }
+            } 
+            else if(e.getSource() == btnAdd) {
                 new AdminCustomerManagerAdd();
-            } else if(e.getSource() == btnEdit) {
-                // Edit customer
-            } else if(e.getSource() == btnDelete) {
-                // Delete customer
-            } else if(e.getSource() == btnSort) {
+            } 
+            else if(e.getSource() == btnEdit) {
+                new AdminCustomerManagerEdit(selectedCustomer);
+            } 
+            else if(e.getSource() == btnDelete) {
+                if(selectedCustomer != null) {
+                    if(inactiveModel.contains(selectedCustomer)) {
+                        inactiveModel.removeElement(selectedCustomer);
+                    } else {
+                        activeModel.removeElement(selectedCustomer);
+                    }
+                }
+            } 
+            else if(e.getSource() == btnSort) {
                 // Sort customers
             }
         }
