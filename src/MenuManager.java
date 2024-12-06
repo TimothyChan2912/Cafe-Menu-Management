@@ -4,4 +4,8 @@ import java.util.Iterator;
 public class MenuManager {
 	
    		// xxx your codes
+		public MenuManager () {
+		}
+
+		
 }

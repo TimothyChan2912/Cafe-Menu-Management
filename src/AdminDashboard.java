@@ -1,7 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class AdminDashboard extends JFrame {
     private final int FRAME_WIDTH = 1000;
@@ -57,7 +57,7 @@ public class AdminDashboard extends JFrame {
             if (e.getSource() == btnManageCustomers) {
                 new AdminCustomerManager(admin);
             } else if (e.getSource() == btnManageMenu) {
-                //Manage Menu Screen
+                new MenuManagementScreen(admin);
             } else if (e.getSource() == btnCustomerLogin) {
                 new LoginScreen();
             }
