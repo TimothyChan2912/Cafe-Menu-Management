@@ -171,13 +171,7 @@ public class AdminCustomerManager extends JFrame {
                 new AdminCustomerManagerEdit(selectedCustomer, selectedCustomer.isActive());
             } 
             else if(e.getSource() == btnDelete) {
-                if(selectedCustomer != null) {
-                    if(inactiveModel.contains(selectedCustomer)) {
-                        inactiveModel.removeElement(selectedCustomer);
-                    } else {
-                        activeModel.removeElement(selectedCustomer);
-                    }
-                }
+                new AdminCustomerManagerDelete(selectedCustomer);
             } 
             else if(e.getSource() == btnSort) {
                 // Sort customers
