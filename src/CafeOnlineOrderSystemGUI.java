@@ -1,10 +1,7 @@
-import javax.swing.*;
-import javax.swing.border.Border;
-
-import java.awt.event.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class CafeOnlineOrderSystemGUI extends JFrame{
     private final int FRAME_WIDTH = 1000; 
@@ -29,7 +26,7 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         btnSignup = new JButton("Sign Up");
         btnExit = new JButton("Exit");
 
-        display = new JLabel("Welcome to BlackBear Diner");
+        display = new JLabel("Welcome to Black Bear Diner!");
         help = new JLabel("Not a User? Click here to sign up");
 
         BtnListener btnlistener = new BtnListener();
@@ -37,7 +34,7 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         btnSignup.addActionListener(btnlistener);
         btnExit.addActionListener(btnlistener);
 
-        JPanel pMain = new JPanel();
+        ImagePanel pMain = new ImagePanel("src/resources/backdrop.jpg");
         pMain.setLayout(layout);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -56,10 +53,10 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         a.addObjects(btnExit, pMain, layout, gbc, 1, 2, 3, 1);
         a.addObjects(btnSignup, pMain, layout, gbc, 1, 4, 3, 1);
 
-        this.add(pMain);
-        this.setTitle("Blackbear Diner");
+        this.setTitle("Black Bear Diner");
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.add(pMain);
         this.setVisible(true);
     }
 
