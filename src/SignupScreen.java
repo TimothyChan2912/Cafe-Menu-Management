@@ -129,13 +129,16 @@ public class SignupScreen extends JFrame{
 				if(getRole().equals("Customer")) {
 					customers.add(new Customer(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
 					new SignupSuccess(username);
+                    dispose();
 				}
 				else {
 					admins.add(new Admin(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
                     new SignupSuccess(username);
+                    dispose();
 				}
             }
             if(e.getSource() == btnSignupCancel) {
+                new CafeOnlineOrderSystemGUI();
                 dispose();
             }
         }

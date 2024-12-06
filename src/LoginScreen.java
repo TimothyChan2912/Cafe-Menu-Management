@@ -89,9 +89,11 @@ public class LoginScreen extends JFrame {
                 if(checkUsernameAndPassword()) {
                     if(role.equals("admin")) {
                         new AdminDashboard(SignupScreen.admins.get(index));
+                        dispose();
                     }
                     else if(role.equals("customer")) {
                         new CustomerDashboard();
+                        dispose();
                     }
                 }
                 else {
@@ -99,6 +101,7 @@ public class LoginScreen extends JFrame {
                 }
             }
             if(e.getSource() == btnLoginCancel) {
+                new CafeOnlineOrderSystemGUI();
                 dispose();
             }
         }

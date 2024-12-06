@@ -82,6 +82,8 @@ public class AdminCustomerManager extends JFrame {
         inactiveScrollPane = new JScrollPane(inactiveCustomerListDisplay);
         activeScrollPane = new JScrollPane(activeCustomerListDisplay);
 
+        inactiveCustomers.setFont(inactiveCustomers.getFont().deriveFont(20f).deriveFont(Font.BOLD));
+        activeCustomers.setFont(activeCustomers.getFont().deriveFont(20f).deriveFont(Font.BOLD));
 
         JPanel pAdminCustomerManager = new JPanel();
         pAdminCustomerManager.setLayout(layout);

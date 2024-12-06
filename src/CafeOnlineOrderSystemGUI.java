@@ -67,9 +67,11 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         public void actionPerformed(ActionEvent e) {
            if(e.getSource() == btnLogin) {
                new LoginScreen();
+               dispose();
            } 
            else if(e.getSource() == btnSignup) {
                 new SignupScreen();
+                dispose();
            } 
            else if(e.getSource() == btnExit) {
                System.exit(0);

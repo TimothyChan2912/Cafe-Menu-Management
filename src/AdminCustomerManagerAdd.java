@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 
 
 public class AdminCustomerManagerAdd extends JFrame {
-    private final int FRAME_WIDTH = 1000;
-    private final int FRAME_HEIGHT = 250;
+    private final int FRAME_WIDTH = 1600;
+    private final int FRAME_HEIGHT = 300;
 
     private JLabel userType;
     private JLabel firstName;
@@ -70,20 +70,19 @@ public class AdminCustomerManagerAdd extends JFrame {
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        a.addObjects(userType, pAdd, layout, gbc, 0, 0, 1, 1, 50, 50);
-        a.addObjects(firstName, pAdd, layout, gbc, 0, 1, 1, 1, 50, 50);
-        a.addObjects(lastName, pAdd, layout, gbc, 0, 2, 1, 1, 50, 50);
-        a.addObjects(email, pAdd, layout, gbc, 0, 3, 1, 1, 50, 50);
-        a.addObjects(password, pAdd, layout, gbc, 0, 4, 1, 1, 50, 50);
-        a.addObjects(status, pAdd, layout, gbc, 0, 5, 1, 1, 50, 50);
-
-        a.addObjects(firstNameText, pAdd, layout, gbc, 1, 1, 3, 1, 250, 25);
-        a.addObjects(lastNameText, pAdd, layout, gbc, 1, 2, 3, 1, 250, 25);
-        a.addObjects(emailText, pAdd, layout, gbc, 1, 3, 3, 1, 250, 25);
-        a.addObjects(passwordText, pAdd, layout, gbc, 1, 4, 3, 1, 250, 25);
-        a.addObjects(statusCheckActive, pAdd, layout, gbc, 1, 5, 1, 1, 50, 25);
-        a.addObjects(statusCheckInactive, pAdd, layout, gbc, 2, 5, 1, 1, 50, 25);
-        a.addObjects(userTypeList, pAdd, layout, gbc, 1, 0, 1, 1, 50, 25);
+        a.addObjects(userType, pAdd, layout, gbc, 0, 0, 1, 1, 10, 50);
+        a.addObjects(userTypeList, pAdd, layout, gbc, 1, 0, 1, 1, 50, 5);
+        a.addObjects(firstName, pAdd, layout, gbc, 2, 0, 1, 1, 25, 50);
+        a.addObjects(firstNameText, pAdd, layout, gbc, 3, 0, 1, 1, 100, 5);
+        a.addObjects(lastName, pAdd, layout, gbc, 4, 0, 1, 1, 25, 50);
+        a.addObjects(lastNameText, pAdd, layout, gbc, 5, 0, 1, 1, 100, 5);
+        a.addObjects(email, pAdd, layout, gbc, 6, 0, 1, 1, 25, 50);
+        a.addObjects(emailText, pAdd, layout, gbc, 7, 0, 1, 1, 100, 5);
+        a.addObjects(password, pAdd, layout, gbc, 8, 0, 1, 1, 25, 50);
+        a.addObjects(passwordText, pAdd, layout, gbc, 9, 0, 1, 1, 100, 5);
+        a.addObjects(status, pAdd, layout, gbc, 10, 0, 1, 1, 25, 50);
+        a.addObjects(statusCheckActive, pAdd, layout, gbc, 11, 0, 1, 1, 50, 15);
+        a.addObjects(statusCheckInactive, pAdd, layout, gbc, 12, 0, 1, 1, 50, 15);
 
         gbc.ipady = 50;
 
