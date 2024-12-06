@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.swing.JFrame;
 
 
 public class AdminCustomerManagerAdd extends JFrame {
@@ -100,7 +99,7 @@ public class AdminCustomerManagerAdd extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnOk) {
-                // Add user to database
+                addUser();
             } else if (e.getSource() == btnCancel) {
                 dispose();
             }
@@ -115,10 +114,19 @@ public class AdminCustomerManagerAdd extends JFrame {
         String password = passwordText.getText();
         boolean isActive = statusCheckActive.isSelected();
 
+        String rand = "";
+        for(int i = 0; i < 4; i++) {
+            rand += (int)(Math.random() * 10);
+        }
+
+        String username = firstName + rand;
+
         if (isActive) {
-            // Add user to database
+            Customer activeCustomer = new Customer(firstName, lastName, email, username, password, true);
+            AdminCustomerManager.activeModel.addElement(activeCustomer);
         } else {
-            // Add user to database   
+            Customer inactiveCustomer = new Customer(firstName, lastName, email, username, password, false);
+            AdminCustomerManager.inactiveModel.addElement(inactiveCustomer); 
         }  
     }
 }

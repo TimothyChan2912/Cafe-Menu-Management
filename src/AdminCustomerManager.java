@@ -31,8 +31,8 @@ public class AdminCustomerManager extends JFrame {
     private JList<Customer> inactiveCustomerListDisplay;
     private JList<Customer> activeCustomerListDisplay;
 
-    private DefaultListModel<Customer> inactiveModel;
-    private DefaultListModel<Customer> activeModel;
+    public static DefaultListModel<Customer> inactiveModel;
+    public static DefaultListModel<Customer> activeModel;
 
     private JScrollPane inactiveScrollPane;
     private JScrollPane activeScrollPane;
