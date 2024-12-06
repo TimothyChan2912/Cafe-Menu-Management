@@ -42,10 +42,12 @@ public class AdminCustomerManagerEdit extends JFrame {
 
     Customer customer;
     int customerIndex;
+    boolean isActive;
 
-    public AdminCustomerManagerEdit(Customer customer) {
+    public AdminCustomerManagerEdit(Customer customer, boolean isActive) {
         this.customer = customer;
         customerIndex = AdminCustomerManager.activeModel.indexOf(customer);
+        this.isActive = isActive;
 
         btnOk = new JButton("Ok");
         btnCancel = new JButton("Cancel");
@@ -122,20 +124,33 @@ public class AdminCustomerManagerEdit extends JFrame {
     }
 
     public void editUser() {
-        String userType = userTypeList.getSelectedItem().toString();
         String firstName = firstNameText.getText();
         String lastName = lastNameText.getText();
         String email = emailText.getText();
         String password = passwordText.getText();
-        boolean isActive = statusCheckActive.isSelected();
+        boolean isActiveChecked = statusCheckActive.isSelected();
         String username = customer.getUserName();
 
-        if (isActive) {
+        if (isActiveChecked) {
+            if(isActiveChecked != isActive) {
+                AdminCustomerManager.activeModel.addElement(customer);
+                AdminCustomerManager.inactiveModel.removeElement(customer);
+            }
+            else {
             Customer activeCustomer = new Customer(firstName, lastName, email, username, password, true);
             AdminCustomerManager.activeModel.set(customerIndex, activeCustomer);
-        } else {
-            Customer inactiveCustomer = new Customer(firstName, lastName, email, username, password, false);
-            AdminCustomerManager.inactiveModel.set(customerIndex, inactiveCustomer);
-        }  
+            }
+        } 
+        else {
+            if(isActiveChecked != isActive) {
+                AdminCustomerManager.inactiveModel.addElement(customer);
+                AdminCustomerManager.activeModel.removeElement(customer);
+            }
+            else {
+                Customer inactiveCustomer = new Customer(firstName, lastName, email, username, password, false);
+                AdminCustomerManager.inactiveModel.set(customerIndex, inactiveCustomer);
+            }
+        } 
+        dispose(); 
     }
 }

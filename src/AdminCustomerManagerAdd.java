@@ -128,5 +128,6 @@ public class AdminCustomerManagerAdd extends JFrame {
             Customer inactiveCustomer = new Customer(firstName, lastName, email, username, password, false);
             AdminCustomerManager.inactiveModel.addElement(inactiveCustomer); 
         }  
+        dispose();
     }
 }

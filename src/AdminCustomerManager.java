@@ -168,7 +168,7 @@ public class AdminCustomerManager extends JFrame {
                 new AdminCustomerManagerAdd();
             } 
             else if(e.getSource() == btnEdit) {
-                new AdminCustomerManagerEdit(selectedCustomer);
+                new AdminCustomerManagerEdit(selectedCustomer, selectedCustomer.isActive());
             } 
             else if(e.getSource() == btnDelete) {
                 if(selectedCustomer != null) {
