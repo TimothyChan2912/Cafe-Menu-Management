@@ -52,6 +52,7 @@ public class CustomerDashboard extends JFrame {
 
    	public CustomerDashboard (User currentUser) {
 		this.currentUser = currentUser;
+		System.out.println("Initializing CustomerDashboard for user: " + currentUser.getUserName());
 
 		userInfo = new JLabel(currentUser.getFirstName() + " " + currentUser.getLastName() + ": " + currentUser.getUserName());
 		cartLabel = new JLabel("Cart");
@@ -66,6 +67,7 @@ public class CustomerDashboard extends JFrame {
 		btnLogout = new JButton("Logout");
 		btnSort = new JButton("Sort");
 		btnSearch = new JButton("Search");
+		btnBack = new JButton("Back");
 
 		sortOrderDropDown = new JComboBox<String>();
         sortByDropDown = new JComboBox<String>();
@@ -80,6 +82,13 @@ public class CustomerDashboard extends JFrame {
 		sortByDropDown.addItem("Menu Type");
 		sortByDropDown.addItem("Current");
 		sortByDropDown.addItem("Available");
+
+		noTipButton = new JRadioButton("No Tip");
+		tenPercentButton = new JRadioButton("10% Tip");
+		fifteenPercentButton = new JRadioButton("15% Tip");
+		twentyPercentButton = new JRadioButton("20% Tip");
+
+		searchField = new JTextField(10);
         	
 
 		breakfastCheckbox = new JCheckBox("Breakfast/Lunch");
@@ -93,6 +102,9 @@ public class CustomerDashboard extends JFrame {
 		btnSearch.addActionListener(btnlistener);
 		btnLogout.addActionListener(btnlistener);
 
+		cartDoc = new DefaultStyledDocument();
+		billDoc = new DefaultStyledDocument();
+		menuDoc = new DefaultStyledDocument();
 		cartPane = new JTextPane(cartDoc);
 		billPane = new JTextPane(billDoc);
 		menuPane = new JTextPane(menuDoc);
@@ -110,10 +122,10 @@ public class CustomerDashboard extends JFrame {
 		pCheckboxes.add(dinnerCheckbox);
 
 		JPanel pUserInfo = new JPanel();
-		pUserInfo.setLayout(new GridLayout(0, 3));
+		pUserInfo.setLayout(new GridLayout(0, 2));
 		pUserInfo.add(userInfo);
 		pUserInfo.add(btnLogout);
-		pUserInfo.add(btnBack);
+		//pUserInfo.add(btnBack);
 
 		tipGroup = new ButtonGroup();
 		tipGroup.add(noTipButton);
@@ -142,17 +154,22 @@ public class CustomerDashboard extends JFrame {
 		pSearchSort.add(searchField);
 		pSearchSort.add(btnSearch);
 
+		gbc.insets = new Insets(0, 0, 0, 10);
 		a.addObjects(pCheckboxes, pCustomerDashboard, layout, gbc, 0, 0, 1, 1, 0, 10);
-		a.addObjects(pUserInfo, pCustomerDashboard, layout, gbc, 1, 0, 1, 1, 0, 10);
 		a.addObjects(cartLabel, pCustomerDashboard, layout, gbc, 0, 1, 1, 1, 200, 50);
-		a.addObjects(menuLabel, pCustomerDashboard, layout, gbc, 1, 1, 1, 1,200, 50);
-		a.addObjects(cartPane, pCustomerDashboard, layout, gbc, 0, 2, 1, 1, 200, 200);
-		a.addObjects(menuPane, pCustomerDashboard, layout, gbc, 1, 2, 1, 4,200,200);
-		a.addObjects(billLabel, pCustomerDashboard, layout, gbc, 0, 3, 1, 1, 0, 10);
-		a.addObjects(billPane, pCustomerDashboard, layout, gbc, 0, 4, 1, 1, 0, 10);
+		a.addObjects(cartPane, pCustomerDashboard, layout, gbc, 0, 2, 1, 1, 200, 150);
+		a.addObjects(billLabel, pCustomerDashboard, layout, gbc, 0, 3, 1, 1, 0, 50);
+		a.addObjects(billPane, pCustomerDashboard, layout, gbc, 0, 4, 1, 1, 200, 150);
 		a.addObjects(pTip, pCustomerDashboard, layout, gbc, 0, 5, 1, 1, 0, 10);
 		a.addObjects(pActionButtons, pCustomerDashboard, layout, gbc, 0, 6, 1, 1, 0, 10);
+
+		gbc.insets = new Insets(0, 10, 0, 0);
+		a.addObjects(pUserInfo, pCustomerDashboard, layout, gbc, 1, 0, 1, 1, 0, 10);
+		a.addObjects(menuLabel, pCustomerDashboard, layout, gbc, 1, 1, 1, 1,200, 50);
+		a.addObjects(menuPane, pCustomerDashboard, layout, gbc, 1, 2, 1, 4,200,375); //425
 		a.addObjects(btnAddToCart, pCustomerDashboard, layout, gbc, 1, 6, 1, 1, 0, 10);
+
+		gbc.insets = new Insets(0, 0, 0, 0);
 		a.addObjects(pSearchSort, pCustomerDashboard, layout, gbc, 0, 7, 2, 1, 0 ,10);
 
 

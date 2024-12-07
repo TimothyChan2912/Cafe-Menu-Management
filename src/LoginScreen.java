@@ -88,10 +88,12 @@ public class LoginScreen extends JFrame {
             if(e.getSource() == btnLogin) {
                 if(checkUsernameAndPassword()) {
                     if(role.equals("admin")) {
+                        System.out.println("Launching CustomerDashboard for: " + SignupScreen.admins.get(index).getUserName());
                         new AdminDashboard(SignupScreen.admins.get(index));
                         dispose();
                     }
                     else if(role.equals("customer")) {
+                        System.out.println("Launching CustomerDashboard for: " + SignupScreen.customers.get(index).getUserName());
                         new CustomerDashboard(SignupScreen.customers.get(index));
                         dispose();
                     }

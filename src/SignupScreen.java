@@ -132,11 +132,13 @@ public class SignupScreen extends JFrame{
 				SignupClick();
 				if(getRole().equals("Customer")) {
 					customers.add(new Customer(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
+                    System.out.println("New customer added: " + getFirstName() + " " + getLastName());
 					new SignupSuccess(username);
                     dispose();
 				}
 				else {
 					admins.add(new Admin(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
+                    System.out.println("New customer added: " + getFirstName() + " " + getLastName());
                     new SignupSuccess(username);
                     dispose();
 				}
