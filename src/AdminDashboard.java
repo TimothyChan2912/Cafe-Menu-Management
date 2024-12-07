@@ -56,10 +56,13 @@ public class AdminDashboard extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnManageCustomers) {
                 new AdminCustomerManager(admin);
+                dispose();
             } else if (e.getSource() == btnManageMenu) {
                 new MenuManagementScreen(admin);
+                dispose();
             } else if (e.getSource() == btnCustomerLogin) {
                 new LoginScreen();
+                dispose();
             }
         }
     }
