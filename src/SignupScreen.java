@@ -19,6 +19,9 @@ public class SignupScreen extends JFrame{
     private static JTextField signupEmailText;
     private static JPasswordField signupPasswordText;
     private static JComboBox<String> signupRoleText;
+    
+    private JButton btnSignupSubmit;
+    private JButton btnSignupCancel;
 
 	public static ArrayList<Customer> customers = new ArrayList<Customer>();
 	public static ArrayList<Admin> admins = new ArrayList<Admin>();
@@ -26,9 +29,6 @@ public class SignupScreen extends JFrame{
     private GridBagLayout layout = new GridBagLayout();
     private GridBagConstraints gbc = new GridBagConstraints();
     private AddObjects a = new AddObjects();
-
-    private JButton btnSignupSubmit;
-    private JButton btnSignupCancel;
 
 	private String username;
 
@@ -58,27 +58,27 @@ public class SignupScreen extends JFrame{
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         gbc.insets = new Insets(160, 0, 0, 0);
-        a.addObjects(signupFirstName, pSignup, layout, gbc, 0, 1, 1, 1, 50, 10);
+        a.addObjects(signupFirstName, pSignup, layout, gbc, 0, 0, 1, 1, 50, 10);
         gbc.insets = new Insets(10, 0, 0, 0);
-        a.addObjects(signupFirstNameText, pSignup, layout, gbc, 0, 2, 4, 1, 250, 10);
+        a.addObjects(signupFirstNameText, pSignup, layout, gbc, 0, 1, 4, 1, 250, 10);
 
-        a.addObjects(signupLastName, pSignup, layout, gbc, 0, 3, 1, 1, 50, 10);
-        a.addObjects(signupLastNameText, pSignup, layout, gbc, 0, 4, 4, 1, 250, 10);
+        a.addObjects(signupLastName, pSignup, layout, gbc, 0, 2, 1, 1, 50, 10);
+        a.addObjects(signupLastNameText, pSignup, layout, gbc, 0, 3, 4, 1, 250, 10);
 
-        a.addObjects(signupEmail, pSignup, layout, gbc, 0, 5, 1, 1, 50, 10);
-        a.addObjects(signupEmailText, pSignup, layout, gbc, 0, 6, 4, 1, 250, 10);
+        a.addObjects(signupEmail, pSignup, layout, gbc, 0, 4, 1, 1, 50, 10);
+        a.addObjects(signupEmailText, pSignup, layout, gbc, 0, 5, 4, 1, 250, 10);
 
-        a.addObjects(signupPassword, pSignup, layout, gbc, 0, 7, 1, 1, 50, 10);
-        a.addObjects(signupPasswordText, pSignup, layout, gbc, 0, 8, 4, 1, 250, 10);
+        a.addObjects(signupPassword, pSignup, layout, gbc, 0, 6, 1, 1, 50, 10);
+        a.addObjects(signupPasswordText, pSignup, layout, gbc, 0, 7, 4, 1, 250, 10);
 
-        a.addObjects(signupRole, pSignup, layout, gbc, 0, 9, 1, 1, 50, 25);
-		a.addObjects(signupRoleText, pSignup, layout, gbc, 0, 10, 4, 1, 250, 25);
+        a.addObjects(signupRole, pSignup, layout, gbc, 0, 8, 1, 1, 50, 25);
+		a.addObjects(signupRoleText, pSignup, layout, gbc, 0, 9, 4, 1, 250, 25);
         signupRoleText.addItem("Customer");
         signupRoleText.addItem("Admin");
 
         gbc.insets = new Insets(35, 0, 0, 0);
-        a.addObjects(btnSignupSubmit, pSignup, layout, gbc, 0, 11, 2, 1, 50, 25);
-        a.addObjects(btnSignupCancel, pSignup, layout, gbc, 2, 11, 2, 1, 50, 25);
+        a.addObjects(btnSignupSubmit, pSignup, layout, gbc, 0, 10, 2, 1, 0, 25);
+        a.addObjects(btnSignupCancel, pSignup, layout, gbc, 2, 10, 2, 1, 0, 25);
 
         this.add(pSignup);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

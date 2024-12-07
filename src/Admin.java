@@ -68,7 +68,7 @@ public class Admin implements User, Serializable {
 
     @Override
     public void orderItems (MenuItem item) {
-        this.orderedItems.add(item.getName());
+        this.orderedItems.add(item.getTitle());
     }
 
     @Override
@@ -88,7 +88,7 @@ public class Admin implements User, Serializable {
 
     @Override
     public void cancelItem (MenuItem item) {
-        this.orderedItems.remove(item.getName());
+        this.orderedItems.remove(item.getTitle());
     }
 
     @Override
@@ -99,6 +99,20 @@ public class Admin implements User, Serializable {
     @Override
     public String getDetails () {
         return "Name: " + this.firstName + " " + this.lastName + "\nEmail: " + this.email + "\nUsername: " + this.userName;
+    }
+
+    @Override
+    public int compareTo (User o) {
+        return this.compareTo(o);
+    }
+
+    @Override
+    public String toDataString () {
+        String dataString = "Customer;" + this.firstName + ";" + this.lastName + ";" + this.email + ";" + this.userName + ";" + this.password + ";" + this.isActive + ";";
+        for (String s : this.orderedItems) {
+            dataString = dataString + s + ";";
+        }
+        return dataString;
     }
     
 }

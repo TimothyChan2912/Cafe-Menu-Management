@@ -37,20 +37,21 @@ public class LoginScreen extends JFrame {
         loginUsernameText = new JTextField("");
         loginPasswordText = new JPasswordField("");
 
-        JPanel pLogin = new JPanel();
+        ImagePanel pLogin = new ImagePanel("src/resources/loginScreen.jpg");
         pLogin.setLayout(layout);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        a.addObjects(loginUsername, pLogin, layout, gbc, 0, 0, 1, 1, 50, 50);
-        a.addObjects(loginUsernameText, pLogin, layout, gbc, 0, 1, 3, 1, 250, 25);
-        a.addObjects(loginPassword, pLogin, layout, gbc, 0, 2, 1, 1, 50, 50);
-        a.addObjects(loginPasswordText, pLogin, layout, gbc, 0, 3, 3, 1, 250, 25);
+        gbc.insets = new Insets(15, 0, 0, 0);
+        a.addObjects(loginUsername, pLogin, layout, gbc, 0, 0, 1, 1, 50, 10);
+        gbc.insets = new Insets(10, 0, 0, 0);
+        a.addObjects(loginUsernameText, pLogin, layout, gbc, 0, 1, 4, 1, 357, 10);
+        a.addObjects(loginPassword, pLogin, layout, gbc, 0, 2, 1, 1, 50, 10);
+        a.addObjects(loginPasswordText, pLogin, layout, gbc, 0, 3, 4, 1, 357, 10);
 
-        gbc.ipady = 50;
-
-        a.addObjects(btnLogin, pLogin, layout, gbc, 0, 6, 1, 1, 50, 25);
-        a.addObjects(btnLoginCancel, pLogin, layout, gbc, 1, 6, 3, 1, 50, 25);
+        gbc.insets = new Insets(55, 0, 0, 0);
+        a.addObjects(btnLogin, pLogin, layout, gbc, 0, 6, 2, 1, 50, 25);
+        a.addObjects(btnLoginCancel, pLogin, layout, gbc, 2, 6, 2, 1, 50, 25);
 
         this.add(pLogin);
         this.setTitle("Login");
