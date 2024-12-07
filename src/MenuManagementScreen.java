@@ -93,6 +93,7 @@ public class MenuManagementScreen extends JFrame {
         	btnSort.addActionListener(btnlistener);
 			btnSearch.addActionListener(btnlistener);
 			btnLogout.addActionListener(btnlistener);
+			btnBack.addActionListener(btnlistener);
 
 			searchField = new JTextField(10);
 
@@ -202,7 +203,8 @@ public class MenuManagementScreen extends JFrame {
             } else if(e.getSource() == btnSort) {
                 // Sort customers
             } else if (e.getSource() == btnLogout) {
-                // Logout
+                new CafeOnlineOrderSystemGUI();
+				dispose();
             } else if(e.getSource() == btnSearch) {
                 // Search customers
             } else if (e.getSource() == btnBack) {

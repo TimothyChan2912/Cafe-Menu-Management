@@ -88,6 +88,8 @@ public class CustomerManagementScreen extends JFrame {
         btnEdit.addActionListener(btnlistener);
         btnDelete.addActionListener(btnlistener);
         btnSort.addActionListener(btnlistener);
+        btnLogout.addActionListener(btnlistener);
+        btnBack.addActionListener(btnlistener);
 
         inactiveModel = new DefaultListModel<Customer>();
         activeModel = new DefaultListModel<Customer>();
@@ -166,7 +168,7 @@ public class CustomerManagementScreen extends JFrame {
 		pSearchSort.add(btnSearch);
         pSearchSort.setOpaque(false);
 
-        gbc.insets = new Insets(20, 0, 0, 0);
+        gbc.insets = new Insets(30, 0, 0, 0);
 		a.addObjects(pAdminInfo, pAdminCustomerManager, layout, gbc, 1, 0, 1, 1, 0, 10);
         gbc.insets = new Insets(0, 0, 0, 0);
 		a.addObjects(inactiveCustomers, pAdminCustomerManager, layout, gbc, 0, 1, 1, 1, 200, 50);
