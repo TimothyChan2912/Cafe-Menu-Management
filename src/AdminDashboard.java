@@ -36,15 +36,19 @@ public class AdminDashboard extends JFrame {
         welcome.setFont(welcome.getFont().deriveFont(36f).deriveFont(Font.BOLD));
         welcome.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JPanel pAdminDashboard = new JPanel();
+        ImagePanel pAdminDashboard = new ImagePanel("src/resources/adminDashboardScreen.jpg");
         pAdminDashboard.setLayout(layout);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        a.addObjects(welcome, pAdminDashboard, layout, gbc, 1, 0, 3, 1);
-        a.addObjects(btnManageCustomers, pAdminDashboard, layout, gbc, 0, 1, 1, 1, 300, 25);
-        a.addObjects(btnManageMenu, pAdminDashboard, layout, gbc, 1, 1, 1, 1, 300, 25);
-        a.addObjects(btnCustomerLogin, pAdminDashboard, layout, gbc, 1, 2, 1, 1, 800, 25);
+        gbc.insets = new Insets(25, 0, 35, 0);
+        a.addObjects(welcome, pAdminDashboard, layout, gbc, 0, 0, 2, 1);
+        gbc.insets = new Insets(0, 0, 0, 10);
+        a.addObjects(btnManageCustomers, pAdminDashboard, layout, gbc, 0, 1, 1, 1, 225, 25);
+        gbc.insets = new Insets(0, 10, 0, 0);
+        a.addObjects(btnManageMenu, pAdminDashboard, layout, gbc, 1, 1, 1, 1, 225, 25);
+        gbc.insets = new Insets(45, 200, 55, 200);
+        a.addObjects(btnCustomerLogin, pAdminDashboard, layout, gbc, 0, 2, 2, 1, 200, 25);
 
         this.add(pAdminDashboard);
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -55,7 +59,7 @@ public class AdminDashboard extends JFrame {
     class BtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnManageCustomers) {
-                new AdminCustomerManager(admin);
+                new CustomerManagementScreen(admin);
                 dispose();
             } else if (e.getSource() == btnManageMenu) {
                 new MenuManagementScreen(admin);

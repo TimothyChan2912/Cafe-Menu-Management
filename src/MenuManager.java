@@ -28,19 +28,26 @@ public class MenuManager {
     private JRadioButton current;
     private JRadioButton offSeason;
 
-    private JButton btnOk;
     private JButton btnCancel;
 
-	JFrame addFrame = new JFrame("Enter Item Details");
-	JFrame editFrame = new JFrame("Update Item Details");
-    private GridBagLayout layout = new GridBagLayout();
+	private JFrame fAdd;
+	private JFrame fEdit;
+
     private GridBagConstraints gbc = new GridBagConstraints();
     private AddObjects a = new AddObjects();
 
 	public MenuManager () {
 	}
 
+
+
+
+    //Menu Add
+    private GridBagLayout addLayout = new GridBagLayout();
+    private JButton addBtnOk;
+
 	public void add() {
+        fAdd = new JFrame("Enter User Details");
 		menuType = new JLabel("Menu Type:");
         title = new JLabel("Title:");
         description = new JLabel("Description:");
@@ -62,39 +69,49 @@ public class MenuManager {
         current.setSelected(true);
         
         BtnListener btnListener = new BtnListener();
-        btnOk = new JButton("OK");
+        addBtnOk = new JButton("OK");
         btnCancel = new JButton("Cancel");
-        btnOk.addActionListener(btnListener);
+        addBtnOk.addActionListener(btnListener);
         btnCancel.addActionListener(btnListener);
 
         JPanel pAdd = new JPanel();
-        pAdd.setLayout(layout);
+        pAdd.setLayout(addLayout);
 
-        // a.addObjects(menuType, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(menuTypeDropDown, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(title, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemTitleField, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(description, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemDescriptionField, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemID, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemIDField, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(price, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemPriceField, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(count, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemCountField, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(status, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(current, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(offSeason, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(btnOk, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(btnCancel, pAdd, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
+        a.addObjects(menuType, pAdd, addLayout, gbc, 0, 0, 1, 1);
+        a.addObjects(menuTypeDropDown, pAdd, addLayout, gbc, 1, 0, 1, 1);
+        a.addObjects(title, pAdd, addLayout, gbc, 2, 0, 1, 1);
+        a.addObjects(itemTitleField, pAdd, addLayout, gbc, 3, 0, 1, 1);
+        a.addObjects(description, pAdd, addLayout, gbc, 4, 0, 1, 1);
+        a.addObjects(itemDescriptionField, pAdd, addLayout, gbc, 5, 0, 1, 1);
+        a.addObjects(itemID, pAdd, addLayout, gbc, 6, 0, 1, 1);
+        a.addObjects(itemIDField, pAdd, addLayout, gbc, 7, 0, 1, 1);
+        a.addObjects(price, pAdd, addLayout, gbc, 8, 0, 1, 1);
+        a.addObjects(itemPriceField, pAdd, addLayout, gbc, 9, 0, 1, 1);
+        a.addObjects(count, pAdd, addLayout, gbc, 10, 0, 1, 1);
+        a.addObjects(itemCountField, pAdd, addLayout, gbc, 11, 0, 1, 1);
+        a.addObjects(status, pAdd, addLayout, gbc, 12, 0, 1, 1);
+        a.addObjects(current, pAdd, addLayout, gbc, 13, 0, 1, 1);
+        a.addObjects(offSeason, pAdd, addLayout, gbc, 14, 0, 1, 1);
 
-		addFrame.add(pAdd);
-        addFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        addFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        addFrame.setVisible(true);
+        JPanel pButtons = new JPanel();
+        pButtons.add(addBtnOk);
+        pButtons.add(btnCancel);
+        a.addObjects(pButtons, pAdd, addLayout, gbc, 0, 1, 15, 1);
+
+		fAdd.add(pAdd);
+        fAdd.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        fAdd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fAdd.setVisible(true);
 	}
 
+    
+    //Menu Edit
+    private GridBagLayout editLayout = new GridBagLayout();
+    private JButton editBtnOk;
+
+
 	public void edit(/*selected item */) {
+        fEdit = new JFrame("Update Item Details");
 		menuType = new JLabel("Menu Type:");
         title = new JLabel("Title:");
         description = new JLabel("Description:");
@@ -116,36 +133,39 @@ public class MenuManager {
         current.setSelected(true);
         
         BtnListener btnListener = new BtnListener();
-        btnOk = new JButton("OK");
+        editBtnOk = new JButton("OK");
         btnCancel = new JButton("Cancel");
-        btnOk.addActionListener(btnListener);
+        editBtnOk.addActionListener(btnListener);
         btnCancel.addActionListener(btnListener);
 
         JPanel pEdit = new JPanel();
-        pEdit.setLayout(layout);
+        pEdit.setLayout(editLayout);
 
-        // a.addObjects(menuType, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(menuTypeDropDown, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(title, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemTitleField, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(description, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemDescriptionField, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemID, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemIDField, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(price, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemPriceField, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(count, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(itemCountField, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(status, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(current, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(offSeason, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(btnOk, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
-        // a.addObjects(btnCancel, pEdit, layout, gbc, WIDTH, WIDTH, WIDTH, HEIGHT);
+        a.addObjects(menuType, pEdit, editLayout, gbc, 0, 0, 1, 1);
+        a.addObjects(menuTypeDropDown, pEdit, editLayout, gbc, 1, 0, 1, 1);
+        a.addObjects(title, pEdit, editLayout, gbc, 2, 0, 1, 1);
+        a.addObjects(itemTitleField, pEdit, editLayout, gbc, 3, 0, 1, 1);
+        a.addObjects(description, pEdit, editLayout, gbc, 4, 0, 1, 1);
+        a.addObjects(itemDescriptionField, pEdit, editLayout, gbc, 5, 0, 1, 1);
+        a.addObjects(itemID, pEdit, editLayout, gbc, 6, 0, 1, 1);
+        a.addObjects(itemIDField, pEdit, editLayout, gbc, 7, 0, 1, 1);
+        a.addObjects(price, pEdit, editLayout, gbc, 8, 0, 1, 1);
+        a.addObjects(itemPriceField, pEdit, editLayout, gbc, 9, 0, 1, 1);
+        a.addObjects(count, pEdit, editLayout, gbc, 10, 0, 1, 1);
+        a.addObjects(itemCountField, pEdit, editLayout, gbc, 11, 0, 1, 1);
+        a.addObjects(status, pEdit, editLayout, gbc, 12, 0, 1, 1);
+        a.addObjects(current, pEdit, editLayout, gbc, 13, 0, 1, 1);
+        a.addObjects(offSeason, pEdit, editLayout, gbc, 14, 0, 1, 1);
+        
+        JPanel pButtons = new JPanel();
+        pButtons.add(editBtnOk);
+        pButtons.add(btnCancel);
+        a.addObjects(pButtons, pEdit, editLayout, gbc, 0, 1, 15, 1);
 
-		editFrame.add(pEdit);
-        editFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        editFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        editFrame.setVisible(true);
+		fEdit.add(pEdit);
+        fEdit.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        fEdit.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fEdit.setVisible(true);
 	}
 
 	public void delete(/*selected item */) {
@@ -165,11 +185,13 @@ public class MenuManager {
 
 	class BtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == btnOk) {
-                addFrame.dispose();
-            }
-            else if (e.getSource() == btnCancel) {
-                addFrame.dispose();
+            if(e.getSource() == editBtnOk) {
+                fEdit.dispose();
+            } else if (e.getSource() == addBtnOk) {
+                fAdd.dispose();
+            } else if (e.getSource() == btnCancel) {
+                fAdd.dispose();
+                fEdit.dispose();
             }
         }
     }
