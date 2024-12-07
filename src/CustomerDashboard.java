@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 public class CustomerDashboard extends JFrame {
 
-	private UserManager userManager;
+	private CustomerManager customerManager;
 	private User currentUser; // The user who is currently logged in
 
 	private JTextPane cartPane;
@@ -90,6 +90,10 @@ public class CustomerDashboard extends JFrame {
         btnSort.addActionListener(btnlistener);
 		btnSearch.addActionListener(btnlistener);
 		btnLogout.addActionListener(btnlistener);
+
+		
+
+
 	}
 
 	class BtnListener implements ActionListener {
