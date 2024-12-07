@@ -5,6 +5,8 @@ import javax.swing.*;
 import javax.swing.text.*;
 
 public class CustomerDashboard extends JFrame {
+	private final int FRAME_WIDTH = 1000;
+	private final int FRAME_HEIGHT = 1000;
 
 	private UserManager userManager;
 	private User currentUser; // The user who is currently logged in
@@ -153,6 +155,12 @@ public class CustomerDashboard extends JFrame {
 		a.addObjects(btnAddToCart, pCustomerDashboard, layout, gbc, 1, 6, 1, 1, 0, 10);
 		a.addObjects(pSearchSort, pCustomerDashboard, layout, gbc, 0, 7, 2, 1, 0 ,10);
 
+
+		this.add(pCustomerDashboard);
+    	this.setTitle("Customer Dashboard");
+    	this.setSize(FRAME_WIDTH, FRAME_HEIGHT); // Set appropriate size
+    	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	this.setVisible(true);
 	}
 
 	class BtnListener implements ActionListener {
