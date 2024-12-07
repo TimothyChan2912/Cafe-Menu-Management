@@ -34,6 +34,7 @@ public class MenuManagementScreen extends JFrame {
 		private GridBagLayout layout = new GridBagLayout();
     	private GridBagConstraints gbc = new GridBagConstraints();
     	private AddObjects a = new AddObjects();
+		MenuManager menuManager = new MenuManager();
 
 		private JList<String> inactiveMenuListDisplay;
     	private JList<String> activeMenuListDisplay;
@@ -124,16 +125,17 @@ public class MenuManagementScreen extends JFrame {
 
 		class BtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+
             if(e.getSource() == btnReactivate) {
-                // Reactivate customer
+                menuManager.reactivate();
             } else if(e.getSource() == btnDeactivate) {
-                // Inactivate customer
+                menuManager.deactivate();
             } else if(e.getSource() == btnAdd) {
-                // Add customer
+                menuManager.add();
             } else if(e.getSource() == btnEdit) {
-                // Edit customer
+                menuManager.edit();
             } else if(e.getSource() == btnDelete) {
-                // Delete customer
+                menuManager.delete();
             } else if(e.getSource() == btnSort) {
                 // Sort customers
             } else if (e.getSource() == btnLogout) {
