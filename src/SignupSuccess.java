@@ -3,8 +3,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class SignupSuccess extends JFrame {
-    private final int FRAME_WIDTH = 1000;
-    private final int FRAME_HEIGHT = 1000;
+    private final int FRAME_WIDTH = 500;
+    private final int FRAME_HEIGHT = 150;
 
     private JLabel signupSuccess;
     private JButton btnSuccessOk;
