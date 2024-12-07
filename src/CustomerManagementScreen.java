@@ -2,14 +2,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.util.*;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class CustomerManagementScreen extends JFrame {
     private final int FRAME_WIDTH = 1000;
     private final int FRAME_HEIGHT = 1000;
 
-	UserManager userManager = new UserManager();
-
     private Admin admin;
+    UserManager userManager = new UserManager();
 
     private JLabel adminInfo;
     private JLabel inactiveCustomers;
@@ -122,40 +124,22 @@ public class CustomerManagementScreen extends JFrame {
         inactiveCustomers.setFont(inactiveCustomers.getFont().deriveFont(20f).deriveFont(Font.BOLD));
         activeCustomers.setFont(activeCustomers.getFont().deriveFont(20f).deriveFont(Font.BOLD));
 
-        ImagePanel pAdminCustomerManager = new ImagePanel("src/resources/manageUserScreen.jpg");
+        JPanel pAdminCustomerManager = new JPanel();
         pAdminCustomerManager.setLayout(layout);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        // a.addObjects(adminInfo, pAdminCustomerManager, layout, gbc, 0, 0, 1, 1, 50, 50);
-        // a.addObjects(inactiveCustomers, pAdminCustomerManager, layout, gbc, 0, 1, 1, 1, 50, 50);
-        // a.addObjects(activeCustomers, pAdminCustomerManager, layout, gbc, 1, 1, 1, 1, 50, 50);
-        // a.addObjects(inactiveScrollPane, pAdminCustomerManager, layout, gbc, 0, 2, 1, 1, 50, 50);
-        // a.addObjects(activeScrollPane, pAdminCustomerManager, layout, gbc, 1, 2, 1, 1, 50, 50);
-        // a.addObjects(btnReactivate, pAdminCustomerManager, layout, gbc, 0, 3, 1, 1, 50, 25);
-        // a.addObjects(btnInactivate, pAdminCustomerManager, layout, gbc, 1, 3, 1, 1, 50, 25);
-        // a.addObjects(btnAdd, pAdminCustomerManager, layout, gbc, 0, 4, 1, 1, 50, 25);
-        // a.addObjects(btnEdit, pAdminCustomerManager, layout, gbc, 1, 4, 1, 1, 50, 25);
-        // a.addObjects(btnDelete, pAdminCustomerManager, layout, gbc, 2, 4, 1, 1, 50, 25);
-        // a.addObjects(searchBy, pAdminCustomerManager, layout, gbc, 2, 5, 1, 1, 50, 50);
-        // a.addObjects(filterCriteria, pAdminCustomerManager, layout, gbc, 3, 5, 1, 1, 50, 25);
-        // a.addObjects(sortOrder, pAdminCustomerManager, layout, gbc, 0, 5, 1, 1, 50, 50);
-        // a.addObjects(filterOrder, pAdminCustomerManager, layout, gbc, 1, 5, 1, 1, 50, 25);
-        // a.addObjects(btnSort, pAdminCustomerManager, layout, gbc, 4, 5, 1, 1, 50, 25);
 
 		JPanel pAdminInfo = new JPanel();
 		pAdminInfo.setLayout(new GridLayout(0, 3));
 		pAdminInfo.add(adminInfo);
 		pAdminInfo.add(btnLogout);
 		pAdminInfo.add(btnBack);
-        pAdminInfo.setOpaque(false);
 
 		JPanel pItemControls = new JPanel();
 		pItemControls.setLayout(new GridLayout(0, 3));
 		pItemControls.add(btnAdd);
 		pItemControls.add(btnEdit);
 		pItemControls.add(btnDelete);
-        pItemControls.setOpaque(false);
 
 		JPanel pSearchSort = new JPanel();
 		pSearchSort.setLayout(new FlowLayout());
@@ -166,11 +150,8 @@ public class CustomerManagementScreen extends JFrame {
 		pSearchSort.add(btnSort);
 		pSearchSort.add(searchField);
 		pSearchSort.add(btnSearch);
-        pSearchSort.setOpaque(false);
 
-        gbc.insets = new Insets(30, 0, 0, 0);
 		a.addObjects(pAdminInfo, pAdminCustomerManager, layout, gbc, 1, 0, 1, 1, 0, 10);
-        gbc.insets = new Insets(0, 0, 0, 0);
 		a.addObjects(inactiveCustomers, pAdminCustomerManager, layout, gbc, 0, 1, 1, 1, 200, 50);
 		a.addObjects(activeCustomers, pAdminCustomerManager, layout, gbc, 1, 1, 1, 1,200, 50);
 		a.addObjects(inactiveScrollPane, pAdminCustomerManager, layout, gbc, 0, 2, 1, 1, 200, 200);
@@ -229,7 +210,7 @@ public class CustomerManagementScreen extends JFrame {
                 userManager.delete(selectedCustomer);
             } 
             else if(e.getSource() == btnSort) {
-                // Sort customers
+                customerSort();
             } else if (e.getSource() == btnBack) {
                 new AdminDashboard(admin);
                 dispose();
@@ -237,10 +218,103 @@ public class CustomerManagementScreen extends JFrame {
                 new CafeOnlineOrderSystemGUI();
                 dispose();
             } else if (e.getSource() == btnSearch) {
-                // Search customers
+                CustomerSearch();
             }
         }
     }
 
+    public void customerSort() {
+        String compareFilter = filterCriteria.getSelectedItem().toString();
+        Customer.CompareBy compare;
+        
+        if(compareFilter.equals("First Name")) {
+            compare = Customer.CompareBy.FIRST_NAME;
+        }
+        else if(compareFilter.equals("Last Name")) {
+            compare = Customer.CompareBy.LAST_NAME;
+        }
+        else if(compareFilter.equals("Email")) {
+            compare = Customer.CompareBy.EMAIL;
+        }
+        else {
+            compare = Customer.CompareBy.USERNAME;
+        }
 
+        Customer.setCompareBy(compare, filterOrder.getSelectedItem().toString().equals("Ascending"));
+
+            List<Customer> inactiveList = Collections.list(inactiveModel.elements());
+            List<Customer> activeList = Collections.list(activeModel.elements());
+
+            Collections.sort(inactiveList);
+            Collections.sort(activeList);
+
+            inactiveModel.clear();
+            activeModel.clear();
+
+            for(Customer customer : inactiveList) {
+                inactiveModel.addElement(customer);
+            }
+
+            for(Customer customer : activeList) {
+                activeModel.addElement(customer);
+            }
+    }
+
+    public void CustomerSearch() {
+        String regex = searchField.getText();
+
+        if(regex.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Please enter a search term", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String cri = filterCriteria.getSelectedItem().toString();
+        Pattern pattern = null;
+
+        try {
+            pattern = Pattern.compile(regex);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(frame, "Invalid search term", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        List<Customer> inactiveList = Collections.list(inactiveModel.elements());
+        List<Customer> activeList = Collections.list(activeModel.elements());
+
+        inactiveModel.clear();
+        activeModel.clear();
+
+        for(Customer customer : extractHelper(pattern, cri, inactiveList)) {
+            inactiveModel.addElement(customer);
+        }
+
+        for(Customer customer : extractHelper(pattern, cri, activeList)) {
+            activeModel.addElement(customer);
+        }
+    }
+
+    private List<Customer> extractHelper(Pattern pattern, String field, List<Customer> list) {
+        List<Customer> result = new ArrayList<Customer>();
+
+        for(Customer customer: list) {
+            String name = customer.toString();
+            if(field.equals("First Name")) {
+                name = customer.getFirstName();
+            }
+            else if(field.equals("Last Name")) {
+                name = customer.getLastName();
+            }
+            else if(field.equals("Email")) {
+                name = customer.getEmail();
+            }
+            else if(field.equals("Username")) {
+                name = customer.getUserName();
+            }
+
+            if(pattern.matcher(name).find()) {
+                result.add(customer);
+            }
+        }
+        return result;
+    }
 }
