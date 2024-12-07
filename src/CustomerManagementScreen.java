@@ -7,7 +7,7 @@ public class CustomerManagementScreen extends JFrame {
     private final int FRAME_WIDTH = 1000;
     private final int FRAME_HEIGHT = 1000;
 
-	UserManager userManager = new UserManager();
+	CustomerManager customerManager = new CustomerManager();
 
     private Admin admin;
 
@@ -213,13 +213,13 @@ public class CustomerManagementScreen extends JFrame {
                 }
             } 
             else if(e.getSource() == btnAdd) {
-                userManager.add();
+                customerManager.add();
             } 
             else if(e.getSource() == btnEdit) {
-                userManager.edit(selectedCustomer, selectedCustomer.isActive());
+                customerManager.edit(selectedCustomer, selectedCustomer.isActive());
             } 
             else if(e.getSource() == btnDelete) {
-                userManager.delete(selectedCustomer);
+                customerManager.delete(selectedCustomer);
             } 
             else if(e.getSource() == btnSort) {
                 // Sort customers

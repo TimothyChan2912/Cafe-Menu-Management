@@ -3,7 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class UserManager {
+public class CustomerManager {
 	private final int FRAME_WIDTH = 1600;
     private final int FRAME_HEIGHT = 300;
 
@@ -32,7 +32,7 @@ public class UserManager {
     private GridBagConstraints gbc = new GridBagConstraints();
     private AddObjects a = new AddObjects();
 
-	public UserManager() {
+	public CustomerManager() {
     }
 
 
