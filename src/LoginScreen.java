@@ -1,8 +1,7 @@
 import java.awt.*;
-import java.util.Map;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class LoginScreen extends JFrame {
 	private final int FRAME_WIDTH = 1000;
@@ -92,7 +91,7 @@ public class LoginScreen extends JFrame {
                         dispose();
                     }
                     else if(role.equals("customer")) {
-                        new CustomerDashboard();
+                        new CustomerDashboard(SignupScreen.customers.get(index));
                         dispose();
                     }
                 }

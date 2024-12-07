@@ -52,29 +52,33 @@ public class SignupScreen extends JFrame{
         signupPasswordText = new JPasswordField("");
         signupRoleText = new JComboBox<String>();
 
-        JPanel pSignup = new JPanel();
+        ImagePanel pSignup = new ImagePanel("src/resources/signupScreen.jpg");
         pSignup.setLayout(layout);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        a.addObjects(signupFirstName, pSignup, layout, gbc, 0, 1, 1, 1, 50, 50);
-        a.addObjects(signupFirstNameText, pSignup, layout, gbc, 0, 2, 3, 1, 250, 25);
 
-        a.addObjects(signupLastName, pSignup, layout, gbc, 0, 3, 1, 1, 50, 50);
-        a.addObjects(signupLastNameText, pSignup, layout, gbc, 0, 4, 3, 1, 250, 25);
+        gbc.insets = new Insets(160, 0, 0, 0);
+        a.addObjects(signupFirstName, pSignup, layout, gbc, 0, 1, 1, 1, 50, 10);
+        gbc.insets = new Insets(10, 0, 0, 0);
+        a.addObjects(signupFirstNameText, pSignup, layout, gbc, 0, 2, 4, 1, 250, 10);
 
-        a.addObjects(signupEmail, pSignup, layout, gbc, 0, 5, 1, 1, 50, 50);
-        a.addObjects(signupEmailText, pSignup, layout, gbc, 0, 6, 3, 1, 250, 25);
+        a.addObjects(signupLastName, pSignup, layout, gbc, 0, 3, 1, 1, 50, 10);
+        a.addObjects(signupLastNameText, pSignup, layout, gbc, 0, 4, 4, 1, 250, 10);
 
-        a.addObjects(signupPassword, pSignup, layout, gbc, 0, 7, 1, 1, 50, 50);
-        a.addObjects(signupPasswordText, pSignup, layout, gbc, 0, 8, 3, 1, 250, 25);
+        a.addObjects(signupEmail, pSignup, layout, gbc, 0, 5, 1, 1, 50, 10);
+        a.addObjects(signupEmailText, pSignup, layout, gbc, 0, 6, 4, 1, 250, 10);
 
-        a.addObjects(signupRole, pSignup, layout, gbc, 0, 9, 1, 1, 50, 50);
-		a.addObjects(signupRoleText, pSignup, layout, gbc, 0, 10, 3, 1, 250, 50);
+        a.addObjects(signupPassword, pSignup, layout, gbc, 0, 7, 1, 1, 50, 10);
+        a.addObjects(signupPasswordText, pSignup, layout, gbc, 0, 8, 4, 1, 250, 10);
+
+        a.addObjects(signupRole, pSignup, layout, gbc, 0, 9, 1, 1, 50, 25);
+		a.addObjects(signupRoleText, pSignup, layout, gbc, 0, 10, 4, 1, 250, 25);
         signupRoleText.addItem("Customer");
         signupRoleText.addItem("Admin");
 
-        a.addObjects(btnSignupSubmit, pSignup, layout, gbc, 0, 11, 1, 1, 50, 25);
-        a.addObjects(btnSignupCancel, pSignup, layout, gbc, 1, 11, 1, 1, 50, 25);
+        gbc.insets = new Insets(35, 0, 0, 0);
+        a.addObjects(btnSignupSubmit, pSignup, layout, gbc, 0, 11, 2, 1, 50, 25);
+        a.addObjects(btnSignupCancel, pSignup, layout, gbc, 2, 11, 2, 1, 50, 25);
 
         this.add(pSignup);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
