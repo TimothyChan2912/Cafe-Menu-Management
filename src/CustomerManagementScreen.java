@@ -7,7 +7,7 @@ public class CustomerManagementScreen extends JFrame {
     private final int FRAME_WIDTH = 1000;
     private final int FRAME_HEIGHT = 1000;
 
-	CustomerManager customerManager = new CustomerManager();
+	UserManager userManager = new UserManager();
 
     private Admin admin;
 
@@ -120,7 +120,7 @@ public class CustomerManagementScreen extends JFrame {
         inactiveCustomers.setFont(inactiveCustomers.getFont().deriveFont(20f).deriveFont(Font.BOLD));
         activeCustomers.setFont(activeCustomers.getFont().deriveFont(20f).deriveFont(Font.BOLD));
 
-        JPanel pAdminCustomerManager = new JPanel();
+        ImagePanel pAdminCustomerManager = new ImagePanel("src/resources/manageUserScreen.jpg");
         pAdminCustomerManager.setLayout(layout);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -146,12 +146,14 @@ public class CustomerManagementScreen extends JFrame {
 		pAdminInfo.add(adminInfo);
 		pAdminInfo.add(btnLogout);
 		pAdminInfo.add(btnBack);
+        pAdminInfo.setOpaque(false);
 
 		JPanel pItemControls = new JPanel();
 		pItemControls.setLayout(new GridLayout(0, 3));
 		pItemControls.add(btnAdd);
 		pItemControls.add(btnEdit);
 		pItemControls.add(btnDelete);
+        pItemControls.setOpaque(false);
 
 		JPanel pSearchSort = new JPanel();
 		pSearchSort.setLayout(new FlowLayout());
@@ -162,8 +164,11 @@ public class CustomerManagementScreen extends JFrame {
 		pSearchSort.add(btnSort);
 		pSearchSort.add(searchField);
 		pSearchSort.add(btnSearch);
+        pSearchSort.setOpaque(false);
 
+        gbc.insets = new Insets(20, 0, 0, 0);
 		a.addObjects(pAdminInfo, pAdminCustomerManager, layout, gbc, 1, 0, 1, 1, 0, 10);
+        gbc.insets = new Insets(0, 0, 0, 0);
 		a.addObjects(inactiveCustomers, pAdminCustomerManager, layout, gbc, 0, 1, 1, 1, 200, 50);
 		a.addObjects(activeCustomers, pAdminCustomerManager, layout, gbc, 1, 1, 1, 1,200, 50);
 		a.addObjects(inactiveScrollPane, pAdminCustomerManager, layout, gbc, 0, 2, 1, 1, 200, 200);
@@ -213,13 +218,13 @@ public class CustomerManagementScreen extends JFrame {
                 }
             } 
             else if(e.getSource() == btnAdd) {
-                customerManager.add();
+                userManager.add();
             } 
             else if(e.getSource() == btnEdit) {
-                customerManager.edit(selectedCustomer, selectedCustomer.isActive());
+                userManager.edit(selectedCustomer, selectedCustomer.isActive());
             } 
             else if(e.getSource() == btnDelete) {
-                customerManager.delete(selectedCustomer);
+                userManager.delete(selectedCustomer);
             } 
             else if(e.getSource() == btnSort) {
                 // Sort customers

@@ -129,7 +129,7 @@ public class MenuManagementScreen extends JFrame {
 
 
 
-			JPanel pAdminMenuManager = new JPanel();
+			ImagePanel pAdminMenuManager = new ImagePanel("src/resources/manageMenuScreen.jpg");
         	pAdminMenuManager.setLayout(layout);
 
         	gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -138,18 +138,21 @@ public class MenuManagementScreen extends JFrame {
 			pCheckboxes.setLayout(new GridLayout(0, 2));
 			pCheckboxes.add(breakfastLunch);
 			pCheckboxes.add(dinner);
+			pCheckboxes.setOpaque(false);
 
 			JPanel pAdminInfo = new JPanel();
 			pAdminInfo.setLayout(new GridLayout(0, 3));
 			pAdminInfo.add(adminInfo);
 			pAdminInfo.add(btnLogout);
 			pAdminInfo.add(btnBack);
+			pAdminInfo.setOpaque(false);
 
 			JPanel pItemControls = new JPanel();
 			pItemControls.setLayout(new GridLayout(0, 3));
 			pItemControls.add(btnAdd);
 			pItemControls.add(btnEdit);
 			pItemControls.add(btnDelete);
+			pItemControls.setOpaque(false);
 
 			JPanel pSearchSort = new JPanel();
 			pSearchSort.setLayout(new FlowLayout());
@@ -160,9 +163,12 @@ public class MenuManagementScreen extends JFrame {
 			pSearchSort.add(btnSort);
 			pSearchSort.add(searchField);
 			pSearchSort.add(btnSearch);
+			pSearchSort.setOpaque(false);
 
+			gbc.insets = new Insets(30, 0, 0, 0);
 			a.addObjects(pCheckboxes, pAdminMenuManager, layout, gbc, 0, 0, 1, 1, 0, 10);
 			a.addObjects(pAdminInfo, pAdminMenuManager, layout, gbc, 1, 0, 1, 1, 0, 10);
+			gbc.insets = new Insets(0, 0, 0, 0);
 			a.addObjects(backupMenu, pAdminMenuManager, layout, gbc, 0, 1, 1, 1, 200, 50);
 			a.addObjects(currentMenu, pAdminMenuManager, layout, gbc, 1, 1, 1, 1,200, 50);
 			a.addObjects(inactiveScrollPane, pAdminMenuManager, layout, gbc, 0, 2, 1, 1, 200, 200);

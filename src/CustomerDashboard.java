@@ -1,12 +1,12 @@
 import java.awt.*;
-import javax.swing.*;
-import javax.swing.text.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.text.*;
 
 public class CustomerDashboard extends JFrame {
 
-	private CustomerManager customerManager;
+	private UserManager userManager;
 	private User currentUser; // The user who is currently logged in
 
 	private JTextPane cartPane;
@@ -19,7 +19,6 @@ public class CustomerDashboard extends JFrame {
 	private JCheckBox breakfastCheckbox;
 	private JCheckBox dinnerCheckbox;
 
-	private JPanel tipPanel;
 	private ButtonGroup tipGroup;
 	private JRadioButton noTipButton;
 	private JRadioButton tenPercentButton;
@@ -27,6 +26,7 @@ public class CustomerDashboard extends JFrame {
 	private JRadioButton twentyPercentButton;
 
 	private JButton btnLogout;
+	private JButton btnBack;
 	private JButton btnAddToCart;
 	private JButton btnPlaceOrder;
 	private JButton btnCancelOrder;
@@ -91,8 +91,67 @@ public class CustomerDashboard extends JFrame {
 		btnSearch.addActionListener(btnlistener);
 		btnLogout.addActionListener(btnlistener);
 
-		
+		cartPane = new JTextPane(cartDoc);
+		billPane = new JTextPane(billDoc);
+		menuPane = new JTextPane(menuDoc);
 
+		// Set up panes / docs
+
+		JPanel pCustomerDashboard = new JPanel();
+        pCustomerDashboard.setLayout(layout);
+
+    	gbc.fill = GridBagConstraints.HORIZONTAL;
+
+		JPanel pCheckboxes = new JPanel();
+		pCheckboxes.setLayout(new GridLayout(0, 2));
+		pCheckboxes.add(breakfastCheckbox);
+		pCheckboxes.add(dinnerCheckbox);
+
+		JPanel pUserInfo = new JPanel();
+		pUserInfo.setLayout(new GridLayout(0, 3));
+		pUserInfo.add(userInfo);
+		pUserInfo.add(btnLogout);
+		pUserInfo.add(btnBack);
+
+		tipGroup = new ButtonGroup();
+		tipGroup.add(noTipButton);
+		tipGroup.add(tenPercentButton);
+		tipGroup.add(fifteenPercentButton);
+		tipGroup.add(twentyPercentButton);
+		JPanel pTip = new JPanel();
+		pTip.setLayout(new FlowLayout());
+		pTip.add(noTipButton);
+		pTip.add(tenPercentButton);
+		pTip.add(fifteenPercentButton);
+		pTip.add(twentyPercentButton);
+		
+		JPanel pActionButtons = new JPanel();
+		pActionButtons.setLayout(new GridLayout(0, 2));
+		pActionButtons.add(btnPlaceOrder);
+		pActionButtons.add(btnCancelOrder);
+
+		JPanel pSearchSort = new JPanel();
+		pSearchSort.setLayout(new FlowLayout());
+		pSearchSort.add(sortOrder);
+		pSearchSort.add(sortOrderDropDown);
+		pSearchSort.add(searchSortBy);
+		pSearchSort.add(sortByDropDown);
+		pSearchSort.add(btnSort);
+		pSearchSort.add(searchField);
+		pSearchSort.add(btnSearch);
+
+		a.addObjects(pCheckboxes, pCustomerDashboard, layout, gbc, 0, 0, 1, 1, 0, 10);
+		a.addObjects(pUserInfo, pCustomerDashboard, layout, gbc, 1, 0, 1, 1, 0, 10);
+		a.addObjects(cartLabel, pCustomerDashboard, layout, gbc, 0, 1, 1, 1, 200, 50);
+		a.addObjects(menuLabel, pCustomerDashboard, layout, gbc, 1, 1, 1, 1,200, 50);
+		a.addObjects(cartPane, pCustomerDashboard, layout, gbc, 0, 2, 1, 1, 200, 200);
+		a.addObjects(menuPane, pCustomerDashboard, layout, gbc, 1, 2, 1, 4,200,200);
+		a.addObjects(billLabel, pCustomerDashboard, layout, gbc, 0, 3, 1, 1, 0, 10);
+		a.addObjects(billPane, pCustomerDashboard, layout, gbc, 0, 4, 1, 1, 0, 10);
+		a.addObjects(pTip, pCustomerDashboard, layout, gbc, 0, 5, 1, 1, 0, 10);
+		a.addObjects(pActionButtons, pCustomerDashboard, layout, gbc, 0, 6, 1, 1, 0, 10);
+		a.addObjects(btnAddToCart, pCustomerDashboard, layout, gbc, 1, 6, 1, 1, 0, 10);
+		a.addObjects(pSearchSort, pCustomerDashboard, layout, gbc, 0, 7, 2, 1, 0 ,10);
 
 	}
 
