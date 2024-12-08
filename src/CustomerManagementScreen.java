@@ -39,15 +39,15 @@ public class CustomerManagementScreen extends JFrame {
     private GridBagConstraints gbc = new GridBagConstraints();
     private AddObjects a = new AddObjects();
 
-    private JList<Customer> inactiveCustomerListDisplay;
-    private JList<Customer> activeCustomerListDisplay;
+    private JList<User> inactiveCustomerListDisplay;
+    private JList<User> activeCustomerListDisplay;
 
-    public static DefaultListModel<Customer> inactiveModel;
-    public static DefaultListModel<Customer> activeModel;
+    public static DefaultListModel<User> inactiveModel;
+    public static DefaultListModel<User> activeModel;
 
     private JScrollPane inactiveScrollPane;
     private JScrollPane activeScrollPane;
-    private Customer selectedCustomer;
+    private User selectedCustomer;
 
     private JFrame frame = new JFrame();
     
@@ -93,11 +93,19 @@ public class CustomerManagementScreen extends JFrame {
         btnLogout.addActionListener(btnlistener);
         btnBack.addActionListener(btnlistener);
 
-        inactiveModel = new DefaultListModel<Customer>();
-        activeModel = new DefaultListModel<Customer>();
+        inactiveModel = new DefaultListModel<User>();
+        activeModel = new DefaultListModel<User>();
 
-        inactiveCustomerListDisplay = new JList<Customer>(inactiveModel);
-        activeCustomerListDisplay = new JList<Customer>(activeModel);
+        inactiveCustomerListDisplay = new JList<User>(inactiveModel);
+        activeCustomerListDisplay = new JList<User>(activeModel);
+
+        for(User user : userManager.userList) {
+				if(user.isActive()) {
+                    activeModel.addElement(user);
+                } else {
+                	inactiveModel.addElement(user);
+				}
+            }
 
         inactiveCustomerListDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         inactiveCustomerListDisplay.addListSelectionListener(e -> {
@@ -223,8 +231,8 @@ public class CustomerManagementScreen extends JFrame {
 
         Customer.setCompareBy(compare, filterOrder.getSelectedItem().toString().equals("Ascending"));
 
-            List<Customer> inactiveList = Collections.list(inactiveModel.elements());
-            List<Customer> activeList = Collections.list(activeModel.elements());
+            List<User> inactiveList = Collections.list(inactiveModel.elements());
+            List<User> activeList = Collections.list(activeModel.elements());
 
             Collections.sort(inactiveList);
             Collections.sort(activeList);
@@ -232,11 +240,11 @@ public class CustomerManagementScreen extends JFrame {
             inactiveModel.clear();
             activeModel.clear();
 
-            for(Customer customer : inactiveList) {
+            for(User customer : inactiveList) {
                 inactiveModel.addElement(customer);
             }
 
-            for(Customer customer : activeList) {
+            for(User customer : activeList) {
                 activeModel.addElement(customer);
             }
     }
@@ -259,25 +267,25 @@ public class CustomerManagementScreen extends JFrame {
             return;
         }
 
-        List<Customer> inactiveList = Collections.list(inactiveModel.elements());
-        List<Customer> activeList = Collections.list(activeModel.elements());
+        List<User> inactiveList = Collections.list(inactiveModel.elements());
+        List<User> activeList = Collections.list(activeModel.elements());
 
         inactiveModel.clear();
         activeModel.clear();
 
-        for(Customer customer : extractHelper(pattern, cri, inactiveList)) {
+        for(User customer : extractHelper(pattern, cri, inactiveList)) {
             inactiveModel.addElement(customer);
         }
 
-        for(Customer customer : extractHelper(pattern, cri, activeList)) {
+        for(User customer : extractHelper(pattern, cri, activeList)) {
             activeModel.addElement(customer);
         }
     }
 
-    private List<Customer> extractHelper(Pattern pattern, String field, List<Customer> list) {
-        List<Customer> result = new ArrayList<Customer>();
+    private List<User> extractHelper(Pattern pattern, String field, List<User> list) {
+        List<User> result = new ArrayList<User>();
 
-        for(Customer customer: list) {
+        for(User customer: list) {
             String name = customer.toString();
             if(field.equals("First Name")) {
                 name = customer.getFirstName();

@@ -1,9 +1,18 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.*;
+
 import javax.swing.*;
 
 public class UserManager {
+    public List<User> userList;
+
 	private final int FRAME_WIDTH = 1600;
     private final int FRAME_HEIGHT = 300;
 
@@ -34,8 +43,60 @@ public class UserManager {
     private GridBagConstraints gbc = new GridBagConstraints();
     private AddObjects a = new AddObjects();
 
-	public UserManager() {
-    }
+	public UserManager () {
+        userList = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/userData.txt"))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(";");
+
+                if (parts.length == 7) {
+                    String type = parts[0];
+                    String firstName = parts[1];
+                    String lastName = parts[2];
+                    String email = parts[3];
+                    String username = parts[4];
+                    String password = parts[5];
+                    boolean active = Boolean.parseBoolean(parts[6]);
+
+                    if (type.equals("Admin")) {
+                        userList.add(new Admin(firstName, lastName, email, username, password, active));
+                    } else if (type.equals("Customer")) {
+                        userList.add(new Customer(firstName, lastName, email, username, password, active));
+                    }
+                } else {
+                    System.err.println("Invalid line format: " + line);
+                }
+
+                if (parts.length > 7) {
+                    String type = parts[0];
+                    String firstName = parts[1];
+                    String lastName = parts[2];
+                    String email = parts[3];
+                    String username = parts[4];
+                    String password = parts[5];
+                    boolean active = Boolean.parseBoolean(parts[6]);
+
+                    List<String> orderedItems = new ArrayList<>();
+                    for (int i = 7; i > parts.length; i++) {
+                        orderedItems.add(parts[i]);
+                    }
+
+                    if (type.equals("Admin")) {
+                        userList.add(new Admin(firstName, lastName, email, username, password, active, orderedItems));
+                    } else if (type.equals("Customer")) {
+                        userList.add(new Customer(firstName, lastName, email, username, password, active, orderedItems));
+                    }
+                } else {
+                    System.err.println("Invalid line format: " + line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 
 
 
@@ -138,14 +199,14 @@ public class UserManager {
 
 
     //User edit
-    Customer customer;
+    User customer;
     int customerIndex;
     boolean isActive;
     private JButton editBtnOk;
     private JButton editBtnCancel;
     private GridBagLayout editLayout = new GridBagLayout();
 
-    public void edit(Customer customer, boolean isActive) {
+    public void edit(User customer, boolean isActive) {
         fEdit = new JFrame("Update User Details");
 
         this.customer = customer;
@@ -252,13 +313,13 @@ public class UserManager {
 
 
     //User Delete
-    private Customer selectedCustomer;
+    private User selectedCustomer;
     private JButton btnYes;
     private JButton btnNo;
     private JLabel delete;
     private GridBagLayout deleteLayout = new GridBagLayout();
 
-    public void delete(Customer customer) {
+    public void delete(User customer) {
         fDelete = new JFrame("Confirm Deletion");
         selectedCustomer = customer;
 
@@ -290,10 +351,10 @@ public class UserManager {
 
 
     //User Reactivate
-    private JList<Customer> activeCustomerListDisplay;
-    public static DefaultListModel<Customer> inactiveModel;
-    public static DefaultListModel<Customer> activeModel;
-    public void reactivate (Customer customer, DefaultListModel<Customer> active, DefaultListModel<Customer> inactive, JList<Customer> display) {
+    private JList<User> activeCustomerListDisplay;
+    public static DefaultListModel<User> inactiveModel;
+    public static DefaultListModel<User> activeModel;
+    public void reactivate (User customer, DefaultListModel<User> active, DefaultListModel<User> inactive, JList<User> display) {
         fReactivate = new JFrame();
         selectedCustomer = customer;
         activeModel = active;
@@ -317,8 +378,8 @@ public class UserManager {
 
 
     //User deactivate
-    private JList<Customer> inactiveCustomerListDisplay;
-    public void deactivate (Customer customer, DefaultListModel<Customer> active, DefaultListModel<Customer> inactive, JList<Customer> display) {
+    private JList<User> inactiveCustomerListDisplay;
+    public void deactivate (User customer, DefaultListModel<User> active, DefaultListModel<User> inactive, JList<User> display) {
         fDeactivate = new JFrame();
         selectedCustomer = customer;
         activeModel = active;

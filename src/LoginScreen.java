@@ -50,8 +50,12 @@ public class LoginScreen extends JFrame {
         a.addObjects(loginPasswordText, pLogin, layout, gbc, 0, 3, 4, 1, 357, 10);
 
         gbc.insets = new Insets(55, 0, 0, 0);
-        a.addObjects(btnLogin, pLogin, layout, gbc, 0, 6, 2, 1, 50, 25);
-        a.addObjects(btnLoginCancel, pLogin, layout, gbc, 2, 6, 2, 1, 50, 25);
+        JPanel pButtons  = new JPanel();
+        pButtons.setLayout(new GridLayout(0,2));
+        pButtons.add(btnLogin);
+        pButtons.add(btnLoginCancel);
+        pButtons.setOpaque(false);
+        a.addObjects(pButtons, pLogin, layout, gbc, 0, 6, 4, 1, 50, 25);
 
         this.add(pLogin);
         this.setTitle("Login");

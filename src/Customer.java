@@ -26,6 +26,17 @@ public class Customer implements User, Serializable {
         this.isActive = isActive;
         this.orderedItems = new ArrayList<>();
     }
+
+    public Customer(String firstName, String lastName, String email, String userName, String password, boolean isActive, List<String> orderedItems) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.isActive = isActive;
+        this.orderedItems = orderedItems;
+    }
+
 	//getters
     @Override
     public String getFirstName () {
@@ -105,9 +116,9 @@ public class Customer implements User, Serializable {
 
     @Override
     public String toDataString () {
-        String dataString = "Customer;" + this.firstName + ";" + this.lastName + ";" + this.email + ";" + this.userName + ";" + this.password + ";" + this.isActive + ";";
+        String dataString = "Customer;" + this.firstName + ";" + this.lastName + ";" + this.email + ";" + this.userName + ";" + this.password + ";" + this.isActive;
         for (String s : this.orderedItems) {
-            dataString = dataString + s + ";";
+            dataString =  dataString + ";" + s;
         }
         return dataString;
     }

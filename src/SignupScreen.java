@@ -14,6 +14,8 @@ public class SignupScreen extends JFrame{
     private JLabel signupPassword;
     private JLabel signupRole;
 
+    private JFrame frame = new JFrame();
+
     private static JTextField signupFirstNameText;
     private static JTextField signupLastNameText;
     private static JTextField signupEmailText;
@@ -21,7 +23,7 @@ public class SignupScreen extends JFrame{
     private static JComboBox<String> signupRoleText;
     
     private JButton btnSignupSubmit;
-    private JButton btnSignupCancel;
+    private JButton btnSignupBack;
 
 	public static ArrayList<Customer> customers = new ArrayList<Customer>();
 	public static ArrayList<Admin> admins = new ArrayList<Admin>();
@@ -34,11 +36,11 @@ public class SignupScreen extends JFrame{
 
     public SignupScreen() {
         btnSignupSubmit = new JButton("Submit");
-        btnSignupCancel = new JButton("Cancel");
+        btnSignupBack = new JButton("Back");
 
         Btnlistener btnlistener = new Btnlistener();
         btnSignupSubmit.addActionListener(btnlistener);
-        btnSignupCancel.addActionListener(btnlistener);
+        btnSignupBack.addActionListener(btnlistener);
 
         signupFirstName = new JLabel("First Name");
         signupLastName = new JLabel("Last Name");
@@ -77,8 +79,12 @@ public class SignupScreen extends JFrame{
         signupRoleText.addItem("Admin");
 
         gbc.insets = new Insets(35, 0, 0, 0);
-        a.addObjects(btnSignupSubmit, pSignup, layout, gbc, 0, 10, 2, 1, 0, 25);
-        a.addObjects(btnSignupCancel, pSignup, layout, gbc, 2, 10, 2, 1, 0, 25);
+        JPanel pButtons = new JPanel();
+        pButtons.setLayout(new GridLayout(0, 2));
+        pButtons.add(btnSignupSubmit);
+        pButtons.add(btnSignupBack);
+        pButtons.setOpaque(false);
+        a.addObjects(pButtons, pSignup, layout, gbc, 0, 10, 4, 1, 0, 25);
 
         this.add(pSignup);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -133,17 +139,15 @@ public class SignupScreen extends JFrame{
 				if(getRole().equals("Customer")) {
 					customers.add(new Customer(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
                     System.out.println("New customer added: " + getFirstName() + " " + getLastName());
-					new SignupSuccess(username);
-                    dispose();
+					JOptionPane.showMessageDialog(frame, "Signup Successful! Your username is " + username, "Success!", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else {
 					admins.add(new Admin(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
-                    System.out.println("New customer added: " + getFirstName() + " " + getLastName());
-                    new SignupSuccess(username);
-                    dispose();
+                    System.out.println("New admin added: " + getFirstName() + " " + getLastName());
+                    JOptionPane.showMessageDialog(frame, "Signup Successful! Your username is " + username, "Success!", JOptionPane.INFORMATION_MESSAGE);
 				}
             }
-            if(e.getSource() == btnSignupCancel) {
+            if(e.getSource() == btnSignupBack) {
                 new CafeOnlineOrderSystemGUI();
                 dispose();
             }
