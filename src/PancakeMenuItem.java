@@ -1,6 +1,7 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 public class PancakeMenuItem implements MenuItem, Serializable {
     private static final long serialVersionUID = 1L;
@@ -98,6 +99,32 @@ public class PancakeMenuItem implements MenuItem, Serializable {
     public static void setCompareBy (CompareBy compareBy, boolean ascending) {
         compareByType = compareBy;
         ascendingType = ascending;
+    }
+
+    public String extractString() {
+        StringBuilder sb = new StringBuilder();
+            sb.append(title);
+            sb.append("-");
+            sb.append(itemID);
+            sb.append("-");
+            sb.append(description);
+            sb.append("-");
+            sb.append(String.format("%.2f", price));
+        return sb.toString();
+    }
+
+    public String extractString(MenuItemFields field) {
+        String name = "";
+        if(field.equals(MenuItemFields.TITLE)) {
+            name = title;
+        } else if(field.equals(MenuItemFields.ITEM_ID)) {
+            name = itemID;
+        } else if(field.equals(MenuItemFields.DESCRIPTION)) {
+            name = description;
+        } else if(field.equals(MenuItemFields.PRICE)) {
+            name = String.format("%.2f", price);
+        }
+        return name;
     }
 
     @Override

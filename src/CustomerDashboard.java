@@ -10,7 +10,8 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CustomerDashboard extends JFrame {
 	private final int FRAME_WIDTH = 1000;
@@ -309,7 +310,7 @@ public class CustomerDashboard extends JFrame {
 				menuSort();
 			}
 			else if (e.getSource() == btnSearch) {
-				// Search for menu items
+				menuSearch();
 			}
 		}
 	}
@@ -469,6 +470,56 @@ public class CustomerDashboard extends JFrame {
                 menuModel.addElement(menuItem);
             }
     }
+
+	 public ArrayList<MenuItem> extract(Pattern pattern, String field) {
+        ArrayList<MenuItem> result = new ArrayList<>();
+		System.out.println("Extracting" + Collections.list(menuModel.elements()).size());
+        for(MenuItem item : Collections.list(menuModel.elements())) {
+            String name = item.extractString();
+
+            if(field.equals(MenuItemFields.TITLE.toString())) {
+                name = item.getTitle();
+            }
+            else if(field.equals(MenuItemFields.ITEM_ID.toString())) {
+                name = item.getItemID();
+            }
+            else if(field.equals(MenuItemFields.DESCRIPTION.toString())) {
+                name = item.getDescription();
+            }
+            else if(field.equals(MenuItemFields.PRICE.toString())) {
+                name = String.format("%.2f", item.getPrice());
+            }
+            if(pattern.matcher(name).matches()) {
+                result.add(item);
+            }  
+        }
+        return result;
+    }
+	
+	public void menuSearch() {
+		String regex = searchField.getText();
+		if(regex.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Please enter a search term");
+			return;
+		}
+
+		String cri = (String)sortByDropDown.getSelectedItem();
+		Pattern pattern = null;
+
+		try {
+			pattern = Pattern.compile(regex);
+		}
+		catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Invalid search term");
+			return;
+		}
+
+		ArrayList<MenuItem> result = extract(pattern, cri);
+		menuModel.clear();
+		for(MenuItem mItem : result) {
+			menuModel.addElement(mItem);
+		}
+	}
 
 	public void menuItemDisplayInfo(int index) {
 		MenuItem menuItem = menuModel.getElementAt(index);
