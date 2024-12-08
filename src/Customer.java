@@ -128,6 +128,32 @@ public class Customer implements User, Serializable {
         return this.lastName + ", " + this.firstName;
     }
 
+    public String extractString() {
+        StringBuilder sb = new StringBuilder();
+            sb.append(firstName);
+            sb.append("-");
+            sb.append(lastName);
+            sb.append("-");
+            sb.append(email);
+            sb.append("-");
+            sb.append(userName);
+        return sb.toString();
+    }
+
+    public String extractString(UserFields field) {
+        String name = "";
+        if(field.equals(UserFields.FIRST_NAME)) {
+            name = firstName;
+        } else if(field.equals(UserFields.LAST_NAME)) {
+            name = lastName;
+        } else if(field.equals(UserFields.EMAIL)) {
+            name = email;
+        } else if(field.equals(UserFields.USERNAME)) {
+            name = userName;
+        }
+        return name;
+    }
+
     public static void setCompareBy (CompareBy compareBy, boolean ascending) {
         compareByType = compareBy;
         ascendingType = ascending;

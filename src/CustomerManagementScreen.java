@@ -94,6 +94,7 @@ public class CustomerManagementScreen extends JFrame {
         btnSort.addActionListener(btnlistener);
         btnLogout.addActionListener(btnlistener);
         btnBack.addActionListener(btnlistener);
+        btnSearch.addActionListener(btnlistener);
 
         inactiveModel = new DefaultListModel<User>();
         activeModel = new DefaultListModel<User>();
@@ -269,63 +270,90 @@ public class CustomerManagementScreen extends JFrame {
             }
     }
 
-    public void customerSearch() {
-        String regex = searchField.getText();
+    public ArrayList<User> extractActive(Pattern pattern, String field) {
+        ArrayList<User> result = new ArrayList<>();
+		System.out.println("Extracting" + Collections.list(activeModel.elements()).size());
+        for(User user : Collections.list(activeModel.elements())) {
+            String name = user.extractString();
 
-        if(regex.isEmpty()) {
-            JOptionPane.showMessageDialog(frame, "Please enter a search term", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        String cri = filterCriteria.getSelectedItem().toString();
-        Pattern pattern = null;
-
-        try {
-            pattern = Pattern.compile(regex);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(frame, "Invalid search term", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        List<User> inactiveList = Collections.list(inactiveModel.elements());
-        List<User> activeList = Collections.list(activeModel.elements());
-
-        inactiveModel.clear();
-        activeModel.clear();
-
-        for(User customer : extractHelper(pattern, cri, inactiveList)) {
-            inactiveModel.addElement(customer);
-        }
-
-        for(User customer : extractHelper(pattern, cri, activeList)) {
-            activeModel.addElement(customer);
-        }
-    }
-
-    private List<User> extractHelper(Pattern pattern, String field, List<User> list) {
-        List<User> result = new ArrayList<User>();
-
-        for(User customer: list) {
-            String name = customer.toString();
-            if(field.equals("First Name")) {
-                name = customer.getFirstName();
+            if(field.equals(UserFields.FIRST_NAME.toString())) {
+                name = user.getFirstName();
             }
-            else if(field.equals("Last Name")) {
-                name = customer.getLastName();
+            else if(field.equals(UserFields.LAST_NAME.toString())) {
+                name = user.getLastName();
             }
-            else if(field.equals("Email")) {
-                name = customer.getEmail();
+            else if(field.equals(UserFields.EMAIL.toString())) {
+                name = user.getEmail();
             }
-            else if(field.equals("Username")) {
-                name = customer.getUserName();
+            else if(field.equals(UserFields.USERNAME.toString())) {
+                name = user.getUserName();
             }
-
-            if(pattern.matcher(name).find()) {
-                result.add(customer);
-            }
+            if(pattern.matcher(name).matches()) {
+                result.add(user);
+            }  
         }
         return result;
     }
+
+    public ArrayList<User> extractInactive(Pattern pattern, String field) {
+        ArrayList<User> result = new ArrayList<>();
+		System.out.println("Extracting" + Collections.list(inactiveModel.elements()).size());
+        for(User user : Collections.list(inactiveModel.elements())) {
+            String name = user.extractString();
+
+            if(field.equals(UserFields.FIRST_NAME.toString())) {
+                name = user.getFirstName();
+            }
+            else if(field.equals(UserFields.LAST_NAME.toString())) {
+                name = user.getLastName();
+            }
+            else if(field.equals(UserFields.EMAIL.toString())) {
+                name = user.getEmail();
+            }
+            else if(field.equals(UserFields.USERNAME.toString())) {
+                name = user.getUserName();
+            }
+            if(pattern.matcher(name).matches()) {
+                result.add(user);
+            }  
+        }
+        return result;
+    }
+	
+	public void customerSearch() {
+		String regex = searchField.getText();
+		if(regex.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Please enter a search term");
+			return;
+		}
+
+		String cri = (String)filterCriteria.getSelectedItem();
+		Pattern pattern = null;
+
+		try {
+			pattern = Pattern.compile(regex);
+		}
+		catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Invalid search term");
+			return;
+		}
+
+		ArrayList<User> resultActive = extractActive(pattern, cri);
+        ArrayList<User> resultInactive = extractInactive(pattern, cri);
+
+		activeModel.clear();
+        inactiveModel.clear();
+
+		for(User user : resultActive) {
+			activeModel.addElement(user);
+		}
+
+        for(User user : resultInactive) {
+            inactiveModel.addElement(user);
+        }
+
+	}
+
 
     public void activeUserDisplayInfo(int index) {
 		User user = activeModel.getElementAt(index);

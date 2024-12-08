@@ -21,6 +21,8 @@ public interface User extends Comparable<User>, Serializable {
     default boolean isAdmin() {
         return "Admin".equals(getRole());
     }
+
+    String extractString();
     
     String toDataString(); // Convert the object to a string for saving to a file
     static Admin fromDataString(String data) {

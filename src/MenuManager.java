@@ -43,35 +43,9 @@ public class MenuManager {
     private AddObjects a = new AddObjects();
 
 	public MenuManager () {
-        menuList = new ArrayList<>();
+        menuList = cafe.readMenu();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/menuData.txt"))) {
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(";");
-
-                if (parts.length == 7) {
-                    String type = parts[0];
-                    String title = parts[1];
-                    String itemID = parts[2];
-                    String description = parts[3];
-                    float price = Float.parseFloat(parts[4]);
-                    int count = Integer.parseInt(parts[5]);
-                    boolean available = Boolean.parseBoolean(parts[6]);
-
-                    if (type.equals("Pancake")) {
-                        menuList.add(new PancakeMenuItem(title, itemID, description, price, count, available));
-                    } else if (type.equals("Diner")) {
-                        menuList.add(new DinerMenuItem(title, itemID, description, price, count, available));
-                    }
-                } else {
-                    System.err.println("Invalid line format: " + line);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
 	}
 
     //Menu Add
@@ -143,6 +117,8 @@ public class MenuManager {
         fAdd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fAdd.setVisible(true);
 	}
+
+    
 
     public void addItem() {
         String menuType = menuTypeDropDown.getSelectedItem().toString();
