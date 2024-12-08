@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import javax.swing.*;
 import java.util.*;
 import java.util.List;
@@ -100,14 +102,32 @@ public class CustomerManagementScreen extends JFrame {
         activeCustomerListDisplay = new JList<User>(activeModel);
 
         for(User user : userManager.userList) {
-				if(user.isActive()) {
-                    activeModel.addElement(user);
-                } else {
-                	inactiveModel.addElement(user);
+			if(user.isActive()) {
+                activeModel.addElement(user);
+            } else {
+               	inactiveModel.addElement(user);
+			}
+        }
+
+        inactiveCustomerListDisplay.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					inactiveUserDisplayInfo(inactiveCustomerListDisplay.locationToIndex(e.getPoint()));
 				}
-            }
+			}
+		});
+
+        activeCustomerListDisplay.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					activeUserDisplayInfo(activeCustomerListDisplay.locationToIndex(e.getPoint()));
+				}
+			}
+		});
+        
 
         inactiveCustomerListDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         inactiveCustomerListDisplay.addListSelectionListener(e -> {
             if(!e.getValueIsAdjusting()) {
                 if(inactiveCustomerListDisplay != null) {
@@ -162,7 +182,7 @@ public class CustomerManagementScreen extends JFrame {
 		pSearchSort.add(btnSearch);
         pSearchSort.setOpaque(false);
 
-        gbc.insets = new Insets(20, 0, 0, 0);
+        gbc.insets = new Insets(25, 0, 0, 0);
 		a.addObjects(pAdminInfo, pAdminCustomerManager, layout, gbc, 1, 0, 1, 1, 0, 10);
         gbc.insets = new Insets(0, 0, 0, 0);
 		a.addObjects(inactiveCustomers, pAdminCustomerManager, layout, gbc, 0, 1, 1, 1, 200, 50);
@@ -306,4 +326,36 @@ public class CustomerManagementScreen extends JFrame {
         }
         return result;
     }
+
+    public void activeUserDisplayInfo(int index) {
+		User user = activeModel.getElementAt(index);
+		String displayInfo = "Name: " + user.getFirstName() + " " + user.getLastName() + "\n" +
+							"Username: " + user.getUserName() + "\n" +
+							"Email: " + user.getEmail() + "\n" +
+							"Active: true" + "\n" +
+							"Password: " + user.getPassword() + "\n" + 
+                            "Ordered Items: ";
+        
+        for (String item : user.getOrderedItems()) {
+			displayInfo += item + ", ";
+		}
+
+		JOptionPane.showMessageDialog(null, displayInfo, "User Details", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+    public void inactiveUserDisplayInfo(int index) {
+		User user = inactiveModel.getElementAt(index);
+		String displayInfo = "Name: " + user.getFirstName() + " " + user.getLastName() + "\n" +
+							"Username: " + user.getUserName() + "\n" +
+							"Email: " + user.getEmail() + "\n" +
+							"Active: false" + "\n" +
+							"Password: " + user.getPassword() + "\n" + 
+                            "Ordered Items: ";
+        
+        for (String item : user.getOrderedItems()) {
+			displayInfo += item + ", ";
+		}
+
+		JOptionPane.showMessageDialog(null, displayInfo, "User Details", JOptionPane.INFORMATION_MESSAGE);
+	}
 }

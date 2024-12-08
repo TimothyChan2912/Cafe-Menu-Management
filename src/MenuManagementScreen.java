@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import javax.swing.*;
 import java.util.*;
 import java.util.List;
@@ -110,6 +112,22 @@ public class MenuManagementScreen extends JFrame {
                 	inactiveModel.addElement(menuItem);
 				}
             }
+
+			inactiveMenuListDisplay.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount() == 2) {
+						offSeasonDisplayInfo(inactiveMenuListDisplay.locationToIndex(e.getPoint()));
+					}
+				}
+			});
+
+			activeMenuListDisplay.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount() == 2) {
+						currentDisplayInfo(activeMenuListDisplay.locationToIndex(e.getPoint()));
+					}
+				}
+			});
 
 
 			inactiveMenuListDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -358,4 +376,26 @@ public class MenuManagementScreen extends JFrame {
         }
         return result;
     }
+
+	public void currentDisplayInfo(int index) {
+		MenuItem item = activeModel.getElementAt(index);
+		String displayInfo = "Title: " + item.getTitle() + "\n" +
+							"Description: " + item.getDescription() + "\n" +
+							"ItemID: " + item.getItemID() + "\n" +
+							"Price: $" + item.getPrice() + "\n" +
+							"Count: " + item.getCount() + "\n";
+
+		JOptionPane.showMessageDialog(null, displayInfo, "Item Details", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+    public void offSeasonDisplayInfo(int index) {
+		MenuItem item = inactiveModel.getElementAt(index);
+		String displayInfo = "Title: " + item.getTitle() + "\n" +
+							"Description: " + item.getDescription() + "\n" +
+							"ItemID: " + item.getItemID() + "\n" +
+							"Price: $" + item.getPrice() + "\n" +
+							"Count: " + item.getCount() + "\n";
+
+		JOptionPane.showMessageDialog(null, displayInfo, "Item Details", JOptionPane.INFORMATION_MESSAGE);
+	}
 }

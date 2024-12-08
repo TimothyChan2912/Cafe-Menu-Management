@@ -80,7 +80,7 @@ public class UserManager {
                     boolean active = Boolean.parseBoolean(parts[6]);
 
                     List<String> orderedItems = new ArrayList<>();
-                    for (int i = 7; i > parts.length; i++) {
+                    for (int i = 7; i < parts.length; i++) {
                         orderedItems.add(parts[i]);
                     }
 
