@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.text.*;
 
@@ -10,13 +12,16 @@ public class CustomerDashboard extends JFrame {
 
 	private UserManager userManager;
 	private User currentUser; // The user who is currently logged in
+	MenuManager menuManager = new MenuManager();
 
 	private JTextPane cartPane;
 	private JTextPane billPane;
-	private JTextPane menuPane;
+
 	private StyledDocument cartDoc;
 	private StyledDocument billDoc;
-	private StyledDocument menuDoc;
+
+ 	private JList<MenuItem> menuListDisplay;
+    private static DefaultListModel<MenuItem> menuModel;
 
 	private JCheckBox breakfastCheckbox;
 	private JCheckBox dinnerCheckbox;
@@ -78,10 +83,6 @@ public class CustomerDashboard extends JFrame {
 		sortByDropDown.addItem("ID");
 		sortByDropDown.addItem("Description");
         sortByDropDown.addItem("Price");
-		sortByDropDown.addItem("Count");
-		sortByDropDown.addItem("Menu Type");
-		sortByDropDown.addItem("Current");
-		sortByDropDown.addItem("Available");
 
 		noTipButton = new JRadioButton("No Tip");
 		tenPercentButton = new JRadioButton("10% Tip");
@@ -102,19 +103,26 @@ public class CustomerDashboard extends JFrame {
 		btnSearch.addActionListener(btnlistener);
 		btnLogout.addActionListener(btnlistener);
 
+		// PANES AND DOCS
 		cartDoc = new DefaultStyledDocument();
 		billDoc = new DefaultStyledDocument();
-		menuDoc = new DefaultStyledDocument();
+		menuModel = new DefaultListModel<MenuItem>();	
 		cartPane = new JTextPane(cartDoc);
 		billPane = new JTextPane(billDoc);
-		menuPane = new JTextPane(menuDoc);
 
-		// Set up panes / docs
+		JScrollPane spMenu = new JScrollPane(menuModel);
+		menuListDisplay = new JList<MenuItem>(menuModel);
+		for(MenuItem menuItem : menuManager.menuList) {
+			if(menuItem.isCurrent()) {
+                menuModel.addElement(menuItem);
+            }
+        }
 
 		JPanel pCustomerDashboard = new JPanel();
         pCustomerDashboard.setLayout(layout);
 
     	gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.anchor = GridBagConstraints.NORTH;
 
 		JPanel pCheckboxes = new JPanel();
 		pCheckboxes.setLayout(new GridLayout(0, 2));
@@ -166,7 +174,7 @@ public class CustomerDashboard extends JFrame {
 		gbc.insets = new Insets(0, 10, 0, 0);
 		a.addObjects(pUserInfo, pCustomerDashboard, layout, gbc, 1, 0, 1, 1, 0, 10);
 		a.addObjects(menuLabel, pCustomerDashboard, layout, gbc, 1, 1, 1, 1,200, 50);
-		a.addObjects(menuPane, pCustomerDashboard, layout, gbc, 1, 2, 1, 4,200,375); //425
+		a.addObjects(spMenu, pCustomerDashboard, layout, gbc, 1, 2, 1, 4,200,425);  // replace this one with List and DefaultListModel
 		a.addObjects(btnAddToCart, pCustomerDashboard, layout, gbc, 1, 6, 1, 1, 0, 10);
 
 		gbc.insets = new Insets(0, 0, 0, 0);
@@ -187,7 +195,7 @@ public class CustomerDashboard extends JFrame {
 				dispose();
 			}
 			else if (e.getSource() == btnAddToCart) {
-				// Add the selected item to the cart
+				addToCart();
 			}
 			else if (e.getSource() == btnCancelOrder) {
 				// Cancel the order
@@ -196,11 +204,59 @@ public class CustomerDashboard extends JFrame {
 				// Place the order
 			}
 			else if (e.getSource() == btnSort) {
-				// Sort the menu items
+				menuSort();
 			}
 			else if (e.getSource() == btnSearch) {
 				// Search for menu items
 			}
 		}
 	}
+
+	//Add to cart
+	public void addToCart() {
+		MenuItem selectedMenuItem = menuListDisplay.getSelectedValue();
+
+		menuModel.removeElement(selectedMenuItem);
+		try {
+			cartDoc.insertString(cartDoc.getLength(), selectedMenuItem.toString() + "\n", null);	
+		} 
+		catch (Exception e) {
+			System.out.println("Error adding to cart");
+		}
+	}
+
+	//Cancel order
+	public void cancelOrder() {
+		String selected = cartPane.getSelectedText();
+	}
+
+	public void menuSort() {
+        String compareFilter = sortByDropDown.getSelectedItem().toString();
+        Customer.CompareBy compare;
+        
+        if(compareFilter.equals("First Name")) {
+            compare = Customer.CompareBy.FIRST_NAME;
+        }
+        else if(compareFilter.equals("Last Name")) {
+            compare = Customer.CompareBy.LAST_NAME;
+        }
+        else if(compareFilter.equals("Email")) {
+            compare = Customer.CompareBy.EMAIL;
+        }
+        else {
+            compare = Customer.CompareBy.USERNAME;
+        }
+
+        Customer.setCompareBy(compare, sortByDropDown.getSelectedItem().toString().equals("Ascending"));
+
+            List<MenuItem> menuList = Collections.list(menuModel.elements());
+
+            Collections.sort(menuList);
+
+            menuModel.clear();
+
+            for(MenuItem menuItem : menuList) {
+                menuModel.addElement(menuItem);
+            }
+    }
 }

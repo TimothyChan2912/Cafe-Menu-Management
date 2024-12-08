@@ -13,8 +13,21 @@ public class DinerMenuItem implements MenuItem, Serializable  {
     private int count;
     private boolean available;
     private boolean current;
+
+    private static CompareBy compareByType = CompareBy.TITLE;
+    private static boolean ascendingType = true;
     
     private ArrayList<MenuItem> menuItems = new ArrayList<>(); // Store menu items
+
+    public DinerMenuItem(String title, String itemID, String description, float price, int count, boolean current) {
+        this.title = title;
+        this.itemID = itemID;
+        this.description = description;
+        this.price = price;
+        this.count = count;
+        this.current = current;
+        this.available = count > 0 && current;
+    }
 
     //getters
     @Override
@@ -63,6 +76,11 @@ public class DinerMenuItem implements MenuItem, Serializable  {
     public void setCurrent(boolean current) {
         this.current = current;
     }
+
+     @Override
+    public String toString () {
+        return this.title + ", " + this.price;
+    }
     
     //other methods
     @Override
@@ -84,8 +102,45 @@ public class DinerMenuItem implements MenuItem, Serializable  {
         return menuItems.iterator();
     }
 
-    public int compareTo (MenuItem m) {
-        return this.compareTo(m);
+    enum CompareBy {
+        TITLE,
+        ITEM_ID,
+        DESCRIPTION, 
+        PRICE
+    };
+
+
+    public static void setCompareBy (CompareBy compareBy, boolean ascending) {
+        compareByType = compareBy;
+        ascendingType = ascending;
+    }
+
+    @Override
+    public int compareTo (MenuItem o) {
+        int result = 0;
+        switch(compareByType) {
+            case TITLE:
+                result = this.title.compareTo(o.getTitle());
+                break;
+            case ITEM_ID:
+                result = this.itemID.compareTo(o.getItemID());
+                break;
+            case DESCRIPTION:
+                result = this.description.compareTo(o.getDescription());
+                break;
+            case PRICE:
+                if(price > o.getPrice()) {
+                    result = 1;
+                } else if(price < o.getPrice()) {
+                    result = -1;
+                }
+                break;
+        }
+        if(!ascendingType) {
+            result = -result;
+        }
+
+        return result;
     }
 }
 

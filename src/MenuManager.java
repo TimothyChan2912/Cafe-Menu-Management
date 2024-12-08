@@ -1,12 +1,15 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 import javax.swing.*;
 	
 public class MenuManager {
-	private List<PancakeMenuItem> pancakeMenuList;
-	private List<DinerMenuItem> dinerMenuList;
+	public List<MenuItem> menuList;
 
 	private final int FRAME_WIDTH = 1000;
 	private final int FRAME_HEIGHT = 200;
@@ -37,10 +40,36 @@ public class MenuManager {
     private AddObjects a = new AddObjects();
 
 	public MenuManager () {
+        menuList = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/menuData.txt"))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(";");
+
+                if (parts.length == 7) {
+                    String type = parts[0];
+                    String title = parts[1];
+                    String itemID = parts[2];
+                    String description = parts[3];
+                    float price = Float.parseFloat(parts[4]);
+                    int count = Integer.parseInt(parts[5]);
+                    boolean available = Boolean.parseBoolean(parts[6]);
+
+                    if (type.equals("Pancake")) {
+                        menuList.add(new PancakeMenuItem(title, itemID, description, price, count, available));
+                    } else if (type.equals("Diner")) {
+                        menuList.add(new DinerMenuItem(title, itemID, description, price, count, available));
+                    }
+                } else {
+                    System.err.println("Invalid line format: " + line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
-
-
-
 
     //Menu Add
     private GridBagLayout addLayout = new GridBagLayout();

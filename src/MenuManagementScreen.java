@@ -75,11 +75,6 @@ public class MenuManagementScreen extends JFrame {
 			sortByDropDown.addItem("ID");
 			sortByDropDown.addItem("Description");
         	sortByDropDown.addItem("Price");
-			sortByDropDown.addItem("Count");
-			sortByDropDown.addItem("Menu Type");
-			sortByDropDown.addItem("Current");
-			sortByDropDown.addItem("Available");
-        	
 
 			breakfastLunch = new JCheckBox("Breakfast/Lunch");
 			dinner = new JCheckBox("Dinner");
@@ -102,6 +97,15 @@ public class MenuManagementScreen extends JFrame {
 
 			inactiveMenuListDisplay = new JList<MenuItem>(inactiveModel);
 			activeMenuListDisplay = new JList<MenuItem>(activeModel);
+
+			for(MenuItem menuItem : menuManager.menuList) {
+				if(menuItem.isCurrent()) {
+                    activeModel.addElement(menuItem);
+                } else {
+                	inactiveModel.addElement(menuItem);
+				}
+            }
+
 
 			inactiveMenuListDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			inactiveMenuListDisplay.addListSelectionListener(e -> {

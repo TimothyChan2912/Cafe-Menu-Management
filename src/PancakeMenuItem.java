@@ -95,5 +95,10 @@ public class PancakeMenuItem implements MenuItem, Serializable {
     public int compareTo (MenuItem m) {
         return this.compareTo(m);
     }
+
+    @Override
+    public String toString () {
+        return this.title + ", " + this.price;
+    }
 }
 
