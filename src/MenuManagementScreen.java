@@ -228,8 +228,7 @@ public class MenuManagementScreen extends JFrame {
             } else if(e.getSource() == btnDelete) {
                 menuManager.delete(selectedItem);
             } else if(e.getSource() == btnSort) {
-				pancakeMenuSort();
-                dinerMenuSort();
+                menuSort();
             } else if (e.getSource() == btnLogout) {
                 new CafeOnlineOrderSystemGUI();
 				dispose();
@@ -242,80 +241,40 @@ public class MenuManagementScreen extends JFrame {
         }
     }
 
-	public void dinerMenuSort() {
+	public void menuSort() {
         String compareFilter = sortByDropDown.getSelectedItem().toString();
-        sortByDropDown.getSelectedItem().getClass();
-		DinerMenuItem.CompareBy compare;
-		
+        MenuItem.CompareBy compare;
         
         if(compareFilter.equals("Title")) {
-            compare = DinerMenuItem.CompareBy.TITLE;
+            compare = MenuItem.CompareBy.TITLE;
         }
         else if(compareFilter.equals("ID")) {
-            compare = DinerMenuItem.CompareBy.ITEM_ID;
+            compare = MenuItem.CompareBy.ITEM_ID;
         }
         else if(compareFilter.equals("Description")) {
-            compare = DinerMenuItem.CompareBy.DESCRIPTION;
+            compare = MenuItem.CompareBy.DESCRIPTION;
         }
         else {
-            compare = DinerMenuItem.CompareBy.PRICE;
+            compare = MenuItem.CompareBy.PRICE;
         }
 
-        DinerMenuItem.setCompareBy(compare, sortOrderDropDown.getSelectedItem().toString().equals("Ascending"));
+		DinerMenuItem.setCompareBy(compare, sortOrderDropDown.getSelectedItem().toString().equals("Ascending"));
+		PancakeMenuItem.setCompareBy(compare, sortOrderDropDown.getSelectedItem().toString().equals("Ascending"));
 
-            List<MenuItem> inactiveList = Collections.list(inactiveModel.elements());
             List<MenuItem> activeList = Collections.list(activeModel.elements());
-
-            Collections.sort(inactiveList);
-            Collections.sort(activeList);
-
-            inactiveModel.clear();
-            activeModel.clear();
-
-            for(MenuItem item : inactiveList) {
-                inactiveModel.addElement(item);
-            }
-
-            for(MenuItem item : activeList) {
-                activeModel.addElement(item);
-            }
-    }
-
-	public void pancakeMenuSort() {
-        String compareFilter = sortByDropDown.getSelectedItem().toString();
-		PancakeMenuItem.CompareBy compare;
-		
-        
-        if(compareFilter.equals("Title")) {
-            compare = PancakeMenuItem.CompareBy.TITLE;
-        }
-        else if(compareFilter.equals("ID")) {
-            compare = PancakeMenuItem.CompareBy.ITEM_ID;
-        }
-        else if(compareFilter.equals("Description")) {
-            compare = PancakeMenuItem.CompareBy.DESCRIPTION;
-        }
-        else {
-            compare = PancakeMenuItem.CompareBy.PRICE;
-        }
-
-        PancakeMenuItem.setCompareBy(compare, sortOrderDropDown.getSelectedItem().toString().equals("Ascending"));
-
             List<MenuItem> inactiveList = Collections.list(inactiveModel.elements());
-            List<MenuItem> activeList = Collections.list(activeModel.elements());
 
-            Collections.sort(inactiveList);
             Collections.sort(activeList);
+            Collections.sort(inactiveList);
 
-            inactiveModel.clear();
             activeModel.clear();
+            inactiveModel.clear();
 
-            for(MenuItem item : inactiveList) {
-                inactiveModel.addElement(item);
+            for(MenuItem activeItem : activeList) {
+                activeModel.addElement(activeItem);
             }
-
-            for(MenuItem item : activeList) {
-                activeModel.addElement(item);
+            for(MenuItem inactiveItem : inactiveList) {
+                inactiveModel.addElement(inactiveItem);
             }
     }
 

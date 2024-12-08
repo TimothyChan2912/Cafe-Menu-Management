@@ -128,13 +128,6 @@ public class Customer implements User, Serializable {
         return this.lastName + ", " + this.firstName;
     }
 
-    enum CompareBy {
-        FIRST_NAME, 
-        LAST_NAME, 
-        EMAIL, 
-        USERNAME
-    };
-
     public static void setCompareBy (CompareBy compareBy, boolean ascending) {
         compareByType = compareBy;
         ascendingType = ascending;

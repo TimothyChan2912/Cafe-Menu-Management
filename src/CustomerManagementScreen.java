@@ -234,38 +234,38 @@ public class CustomerManagementScreen extends JFrame {
 
     public void customerSort() {
         String compareFilter = filterCriteria.getSelectedItem().toString();
-        Customer.CompareBy compare;
+        User.CompareBy compare;
         
-        if(compareFilter.equals("First Name")) {
-            compare = Customer.CompareBy.FIRST_NAME;
+        if(compareFilter.equals("Title")) {
+            compare = User.CompareBy.FIRST_NAME;
         }
-        else if(compareFilter.equals("Last Name")) {
-            compare = Customer.CompareBy.LAST_NAME;
+        else if(compareFilter.equals("ID")) {
+            compare = User.CompareBy.LAST_NAME;
         }
-        else if(compareFilter.equals("Email")) {
-            compare = Customer.CompareBy.EMAIL;
+        else if(compareFilter.equals("Description")) {
+            compare = User.CompareBy.EMAIL;
         }
         else {
-            compare = Customer.CompareBy.USERNAME;
+            compare = User.CompareBy.USERNAME;
         }
 
-        Customer.setCompareBy(compare, filterOrder.getSelectedItem().toString().equals("Ascending"));
+		Admin.setCompareBy(compare, filterOrder.getSelectedItem().toString().equals("Ascending"));
+		Customer.setCompareBy(compare, filterOrder.getSelectedItem().toString().equals("Ascending"));
 
-            List<User> inactiveList = Collections.list(inactiveModel.elements());
             List<User> activeList = Collections.list(activeModel.elements());
+            List<User> inactiveList = Collections.list(inactiveModel.elements());
 
-            Collections.sort(inactiveList);
             Collections.sort(activeList);
+            Collections.sort(inactiveList);
 
-            inactiveModel.clear();
             activeModel.clear();
+            inactiveModel.clear();
 
-            for(User customer : inactiveList) {
-                inactiveModel.addElement(customer);
+            for(User activeUser : activeList) {
+                activeModel.addElement(activeUser);
             }
-
-            for(User customer : activeList) {
-                activeModel.addElement(customer);
+            for(User inactiveUser : inactiveList) {
+                inactiveModel.addElement(inactiveUser);
             }
     }
 

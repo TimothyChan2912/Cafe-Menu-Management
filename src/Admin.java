@@ -14,6 +14,9 @@ public class Admin implements User, Serializable {
     private List<String> orderedItems;
     private static final int MAX_ORDER_LIMIT = 10;
 
+    private static CompareBy compareByType = CompareBy.FIRST_NAME;
+    private static boolean ascendingType = true;
+
     public Admin(String firstName, String lastName, String email, String userName, String password, boolean isActive) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -110,9 +113,33 @@ public class Admin implements User, Serializable {
         return "Name: " + this.firstName + " " + this.lastName + "\nEmail: " + this.email + "\nUsername: " + this.userName;
     }
 
+    public static void setCompareBy (CompareBy compareBy, boolean ascending) {
+        compareByType = compareBy;
+        ascendingType = ascending;
+    }
+
     @Override
     public int compareTo (User o) {
-        return this.compareTo(o);
+        int result = 0;
+        switch(compareByType) {
+            case FIRST_NAME:
+                result = this.firstName.compareTo(o.getFirstName());
+                break;
+            case LAST_NAME:
+                result = this.lastName.compareTo(o.getLastName());
+                break;
+            case EMAIL:
+                result = this.email.compareTo(o.getEmail());
+                break;
+            case USERNAME:
+                result = this.userName.compareTo(o.getUserName());
+                break;
+        }
+        if(!ascendingType) {
+            result = -result;
+        }
+
+        return result;
     }
 
     @Override

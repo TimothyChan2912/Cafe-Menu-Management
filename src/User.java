@@ -27,4 +27,11 @@ public interface User extends Comparable<User>, Serializable {
         // Implement a basic structure, each subclass will have its own logic
         throw new UnsupportedOperationException("fromDataString() must be implemented in the subclass.");
     }
+
+    enum CompareBy {
+        FIRST_NAME,
+        LAST_NAME,
+        EMAIL, 
+        USERNAME
+    };
 }
