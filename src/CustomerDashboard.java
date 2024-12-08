@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.util.Collections;
@@ -115,6 +117,62 @@ public class CustomerDashboard extends JFrame {
 
 		breakfastCheckbox = new JCheckBox("Breakfast/Lunch");
 		dinnerCheckbox = new JCheckBox("Dinner");
+
+		breakfastCheckbox.setSelected(true);
+		dinnerCheckbox.setSelected(true);
+
+		ItemListener itemListener = new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					menuModel.clear();
+					if(breakfastCheckbox.isSelected() && dinnerCheckbox.isSelected()) {
+						for(MenuItem menuItem : menuManager.menuList) {
+							if(menuItem.isCurrent()) {
+								menuModel.addElement(menuItem);
+							}
+						}
+					}
+					else if(breakfastCheckbox.isSelected()) {
+						for(MenuItem menuItem : menuManager.menuList) {
+							if(menuItem.isCurrent() && menuItem.getMenuType().equals("Pancake")) {
+								menuModel.addElement(menuItem);
+							}
+						}
+					}
+					else if(dinnerCheckbox.isSelected()) {
+						for(MenuItem menuItem : menuManager.menuList) {
+							if(menuItem.isCurrent() && menuItem.getMenuType().equals("Diner")) {
+								menuModel.addElement(menuItem);
+							}
+						}
+					}
+				} 
+				else if(e.getStateChange() == ItemEvent.DESELECTED) {
+					menuModel.clear();
+					if(!breakfastCheckbox.isSelected() && !dinnerCheckbox.isSelected()) {
+				
+					}
+					else if(breakfastCheckbox.isSelected()) {
+						for(MenuItem menuItem : menuManager.menuList) {
+							if(menuItem.isCurrent() && menuItem.getMenuType().equals("Pancake")) {
+								menuModel.addElement(menuItem);
+							}
+						}
+					}
+					else if(dinnerCheckbox.isSelected()) {
+						for(MenuItem menuItem : menuManager.menuList) {
+							if(menuItem.isCurrent() && menuItem.getMenuType().equals("Diner")) {
+								menuModel.addElement(menuItem);
+							}
+						}
+					}
+			}
+		}
+	};
+
+		breakfastCheckbox.addItemListener(itemListener);
+		dinnerCheckbox.addItemListener(itemListener);
 
 		BtnListener btnlistener = new BtnListener();
 
@@ -383,22 +441,23 @@ public class CustomerDashboard extends JFrame {
 
 	public void menuSort() {
         String compareFilter = sortByDropDown.getSelectedItem().toString();
-        Customer.CompareBy compare;
+        MenuItem.CompareBy compare;
         
-        if(compareFilter.equals("First Name")) {
-            compare = Customer.CompareBy.FIRST_NAME;
+        if(compareFilter.equals("Title")) {
+            compare = MenuItem.CompareBy.TITLE;
         }
-        else if(compareFilter.equals("Last Name")) {
-            compare = Customer.CompareBy.LAST_NAME;
+        else if(compareFilter.equals("ID")) {
+            compare = MenuItem.CompareBy.ITEM_ID;
         }
-        else if(compareFilter.equals("Email")) {
-            compare = Customer.CompareBy.EMAIL;
+        else if(compareFilter.equals("Description")) {
+            compare = MenuItem.CompareBy.DESCRIPTION;
         }
         else {
-            compare = Customer.CompareBy.USERNAME;
+            compare = MenuItem.CompareBy.PRICE;
         }
 
-        Customer.setCompareBy(compare, sortByDropDown.getSelectedItem().toString().equals("Ascending"));
+		DinerMenuItem.setCompareBy(compare, sortOrderDropDown.getSelectedItem().toString().equals("Ascending"));
+		PancakeMenuItem.setCompareBy(compare, sortOrderDropDown.getSelectedItem().toString().equals("Ascending"));
 
             List<MenuItem> menuList = Collections.list(menuModel.elements());
 

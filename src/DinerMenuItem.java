@@ -102,14 +102,6 @@ public class DinerMenuItem implements MenuItem, Serializable  {
         return menuItems.iterator();
     }
 
-    enum CompareBy {
-        TITLE,
-        ITEM_ID,
-        DESCRIPTION, 
-        PRICE
-    };
-
-
     public static void setCompareBy (CompareBy compareBy, boolean ascending) {
         compareByType = compareBy;
         ascendingType = ascending;

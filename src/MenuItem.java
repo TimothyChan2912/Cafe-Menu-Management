@@ -21,6 +21,12 @@ public interface MenuItem extends Comparable<MenuItem>, Serializable{
     Iterator<MenuItem> createIterator();
     
     String getMenuType();
-    
+
+    enum CompareBy {
+        TITLE,
+        ITEM_ID,
+        DESCRIPTION, 
+        PRICE
+    };
 }
 	
