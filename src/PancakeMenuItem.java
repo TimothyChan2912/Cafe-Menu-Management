@@ -138,7 +138,7 @@ public class PancakeMenuItem implements MenuItem, Serializable {
 
     @Override
     public String toString () {
-        return this.title + ", " + this.price;
+        return this.title + ", $" + this.price;
     }
 }
 

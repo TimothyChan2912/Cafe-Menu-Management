@@ -2,13 +2,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class CustomerDashboard extends JFrame {
 	private final int FRAME_WIDTH = 1000;
@@ -69,6 +69,12 @@ public class CustomerDashboard extends JFrame {
 	private GridBagLayout layout = new GridBagLayout();
     private GridBagConstraints gbc = new GridBagConstraints();
     private AddObjects a = new AddObjects();
+
+	private double subTotal = 0;
+	private double tipTotal = 0;
+	private double taxTotal = 0;
+	private double billTotal = 0;
+
 
    	public CustomerDashboard (User currentUser) {
 		this.currentUser = currentUser;
@@ -166,6 +172,18 @@ public class CustomerDashboard extends JFrame {
 		tipGroup.add(tenPercentButton);
 		tipGroup.add(fifteenPercentButton);
 		tipGroup.add(twentyPercentButton);
+
+		noTipButton.setSelected(true);
+
+		ActionListener actionListener = e -> {
+			changeTotal();
+		};
+
+		noTipButton.addActionListener(actionListener);
+		tenPercentButton.addActionListener(actionListener);
+		fifteenPercentButton.addActionListener(actionListener);
+		twentyPercentButton.addActionListener(actionListener);
+
 		JPanel pTip = new JPanel();
 		pTip.setLayout(new FlowLayout());
 		pTip.add(noTipButton);
@@ -224,7 +242,7 @@ public class CustomerDashboard extends JFrame {
 				addToCart();
 			}
 			else if (e.getSource() == btnCancelOrder) {
-				// Cancel the order
+				cancelOrder();
 			}
 			else if (e.getSource() == btnPlaceOrder) {
 				order();
@@ -235,17 +253,18 @@ public class CustomerDashboard extends JFrame {
 			else if (e.getSource() == btnSearch) {
 				// Search for menu items
 			}
-			else if(e.getSource() == btnInfoOk) {
-				dispose();
-			}
 		}
 	}
 
 	//Add to cart
 	public void addToCart() {
 		MenuItem selectedMenuItem = menuListDisplay.getSelectedValue();
+		if(selectedMenuItem == null) {
+			JOptionPane.showMessageDialog(this, "Please select an item to add to cart");
+			return;
+		}
 
-		menuModel.removeElement(selectedMenuItem);
+		// menuModel.removeElement(selectedMenuItem);
 		try {
 			cartDoc.insertString(cartDoc.getLength(), selectedMenuItem.toString() + "\n", null);	
 		} 
@@ -256,14 +275,110 @@ public class CustomerDashboard extends JFrame {
 
 	public void order() {
 		ArrayList<MenuItem> cartItems = new ArrayList<MenuItem>();
-		int billTotal = 0;
+		double subTotal = 0;
 
-		
+		if(cartPane.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(this, "Please add items to cart");
+			return;
+		}
+
+		Element root = cartDoc.getDefaultRootElement();
+		for(int i = 0; i < root.getElementCount(); i++) {
+			Element line = root.getElement(i);
+
+			int start = line.getStartOffset();
+			int end = line.getEndOffset();
+
+			try {
+				String text = cartDoc.getText(start, end - start).trim();
+
+				for(MenuItem menuItem : menuManager.menuList) {
+					if(menuItem.toString().equals(text)) {
+						cartItems.add(menuItem);
+						subTotal += menuItem.getPrice();
+					}
+				}
+			}
+			catch (Exception e) {
+				System.out.println("Error ordering");
+			}
+		}
+
+		if(cartItems.size() > 10) {
+			JOptionPane.showMessageDialog(this, "You can only order 10 items at a time");
+			return;
+		}
+
+		cartPane.setText("");
+		this.subTotal += subTotal;
+
+		if(noTipButton.isSelected()) {
+			tipTotal = 0;
+		}
+		else if(tenPercentButton.isSelected()) {
+			tipTotal = this.billTotal*0.10;
+		}
+		else if(fifteenPercentButton.isSelected()) {
+			tipTotal = this.billTotal*0.15;
+		}
+		else if(twentyPercentButton.isSelected()) {
+			tipTotal = this.billTotal*0.20;
+		}
+
+		taxTotal = subTotal*0.0938;
+		this.billTotal = tipTotal + subTotal + taxTotal;
+
+		try {
+			for(MenuItem menuItem : cartItems) {
+				billDoc.insertString(billDoc.getLength(), menuItem.toString() + "\n", null);
+			}
+			billDoc.insertString(billDoc.getLength(), "Subtotal: $" + String.format("%.2f", this.subTotal) + "\n", null);
+			billDoc.insertString(billDoc.getLength(), "Tax: $" + String.format("%.2f", taxTotal) + "\n", null);
+			billDoc.insertString(billDoc.getLength(), "Tip: $" + String.format("%.2f", tipTotal) + "\n", null);
+			billDoc.insertString(billDoc.getLength(), "Total: $" + String.format("%.2f", billTotal) + "\n", null);
+		}
+		catch (Exception e) {
+			System.out.println("Error adding to bill");
+		}
 	}
 
 	//Cancel order
 	public void cancelOrder() {
-		String selected = cartPane.getSelectedText();
+		cartPane.setText("");
+	}
+
+	public void changeTotal() {
+		double tip = 0;
+
+		if(noTipButton.isSelected()) {
+			tipTotal = 0;
+		}
+		else if(tenPercentButton.isSelected()) {
+			tipTotal = this.billTotal*0.10;
+		}
+		else if(fifteenPercentButton.isSelected()) {
+			tipTotal = this.billTotal*0.15;
+		}
+		else if(twentyPercentButton.isSelected()) {
+			tipTotal = this.billTotal*0.20;
+		}
+
+		Element root = billDoc.getDefaultRootElement();
+
+		Element tipLine = root.getElement(root.getElementCount() - 3);
+		int startTip = tipLine.getStartOffset();
+		int endTip = billDoc.getLength() - startTip;
+
+		billTotal = subTotal + tipTotal + taxTotal;
+
+		try {
+			billDoc.remove(startTip, endTip);
+			billDoc.insertString(billDoc.getLength(), "Tip: $" + String.format("%.2f", tipTotal) + "\n", null);
+			billDoc.insertString(billDoc.getLength(), "Total: $" + String.format("%.2f", billTotal) + "\n", null);
+		}
+		catch (BadLocationException e) {
+			System.out.println("Error changing total: " + e.getMessage());
+		}
 	}
 
 	public void menuSort() {
@@ -298,33 +413,12 @@ public class CustomerDashboard extends JFrame {
 
 	public void menuItemDisplayInfo(int index) {
 		MenuItem menuItem = menuModel.getElementAt(index);
+		String displayInfo = "Title: " + menuItem.getTitle() + "\n" +
+							"Description: " + menuItem.getDescription() + "\n" +
+							"Item ID: " + menuItem.getItemID() + "\n" +
+							"Price: $" + menuItem.getPrice() + "\n" +
+							"Count: " + menuItem.getCount() + "\n";
 
-		JFrame menuItemFrame = new JFrame();
-		btnInfoOk = new JButton("OK");
-
-		BtnListener btnlistener = new BtnListener();
-		btnInfoOk.addActionListener(btnlistener);
-
-		infoDisplayTitle = new JLabel("Title: " + menuItem.getTitle());
-		infoDisplayDescription = new JLabel("Description: " + menuItem.getDescription());
-		infoDisplayItemId = new JLabel("Item ID: " + menuItem.getItemID());
-		infoDisplayPrice = new JLabel("Price: " + menuItem.getPrice());
-		infoDisplayCount = new JLabel("Count: " + menuItem.getCount());
-		
-		JPanel pMenuItemInfo = new JPanel();
-		pMenuItemInfo.setLayout(new GridLayout(6, 0));
-
-		pMenuItemInfo.add(infoDisplayTitle);
-		pMenuItemInfo.add(infoDisplayDescription);
-		pMenuItemInfo.add(infoDisplayItemId);
-		pMenuItemInfo.add(infoDisplayPrice);
-		pMenuItemInfo.add(infoDisplayCount);
-		pMenuItemInfo.add(btnInfoOk);
-
-		menuItemFrame.add(pMenuItemInfo);
-		menuItemFrame.setTitle("Item Details");
-		menuItemFrame.setSize(FRAME_WIDTH_INFO, FRAME_HEIGHT_INFO);
-		menuItemFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		menuItemFrame.setVisible(true);
+		JOptionPane.showMessageDialog(null, displayInfo, "Item Details", JOptionPane.INFORMATION_MESSAGE);
 	}
 }
