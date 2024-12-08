@@ -206,7 +206,7 @@ public class MenuManagementScreen extends JFrame {
             } else if(e.getSource() == btnAdd) {
                 menuManager.add();
             } else if(e.getSource() == btnEdit) {
-                menuManager.edit();
+                menuManager.edit(selectedItem, selectedItem.isCurrent());
             } else if(e.getSource() == btnDelete) {
                 menuManager.delete(selectedItem);
             } else if(e.getSource() == btnSort) {

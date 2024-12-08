@@ -97,8 +97,10 @@ public class UserManager {
 
         gbc.ipady = 50;
 
-        a.addObjects(addBtnOk, pAdd, addLayout, gbc, 0, 6, 1, 1, 50, 25);
-        a.addObjects(addBtnCancel, pAdd, addLayout, gbc, 1, 6, 3, 1, 50, 25);
+        JPanel pButtons = new JPanel();
+        pButtons.add(addBtnOk);
+        pButtons.add(addBtnCancel);
+        a.addObjects(pButtons, pAdd, addLayout, gbc, 0, 1, 13, 1);
 
         fAdd.add(pAdd);
         fAdd.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -203,8 +205,10 @@ public class UserManager {
 
         gbc.ipady = 50;
 
-        a.addObjects(editBtnOk, pEdit, editLayout, gbc, 0, 6, 1, 1, 50, 25);
-        a.addObjects(editBtnCancel, pEdit, editLayout, gbc, 1, 6, 3, 1, 50, 25);
+        JPanel pButtons = new JPanel();
+        pButtons.add(editBtnOk);
+        pButtons.add(editBtnCancel);
+        a.addObjects(pButtons, pEdit, editLayout, gbc, 0, 1, 13, 1);
 
         fEdit.add(pEdit);
         fEdit.setSize(FRAME_WIDTH, FRAME_HEIGHT);

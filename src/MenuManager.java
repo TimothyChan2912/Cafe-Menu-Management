@@ -28,10 +28,10 @@ public class MenuManager {
     private JTextField itemIDField;
     private JTextField itemPriceField;
     private JTextField itemCountField;
+
+    private ButtonGroup statusCheck;
     private JRadioButton current;
     private JRadioButton offSeason;
-
-    private JButton btnCancel;
 
 	private JFrame fAdd;
 	private JFrame fEdit;
@@ -77,9 +77,10 @@ public class MenuManager {
     //Menu Add
     private GridBagLayout addLayout = new GridBagLayout();
     private JButton addBtnOk;
+    private JButton addBtnCancel;
 
 	public void add() {
-        fAdd = new JFrame("Enter User Details");
+        fAdd = new JFrame("Enter Item Details");
 		menuType = new JLabel("Menu Type:");
         title = new JLabel("Title:");
         description = new JLabel("Description:");
@@ -91,44 +92,51 @@ public class MenuManager {
         menuTypeDropDown = new JComboBox<String>();
         menuTypeDropDown.addItem("Diner");
         menuTypeDropDown.addItem("Pancake");
-        itemTitleField = new JTextField();
-        itemDescriptionField = new JTextField();
-        itemIDField = new JTextField();
-        itemPriceField = new JTextField();
-        itemCountField = new JTextField();
+        itemTitleField = new JTextField(10);
+        itemDescriptionField = new JTextField(10);
+        itemIDField = new JTextField(10);
+        itemPriceField = new JTextField(10);
+        itemCountField = new JTextField(10);
+
+        statusCheck = new ButtonGroup();
         current = new JRadioButton("Current");
         offSeason = new JRadioButton("Off-Season");
-        current.setSelected(true);
+        statusCheck.add(current);
+        statusCheck.add(offSeason);
         
         BtnListener btnListener = new BtnListener();
         addBtnOk = new JButton("OK");
-        btnCancel = new JButton("Cancel");
+        addBtnCancel = new JButton("Cancel");
         addBtnOk.addActionListener(btnListener);
-        btnCancel.addActionListener(btnListener);
+        addBtnCancel.addActionListener(btnListener);
 
         JPanel pAdd = new JPanel();
         pAdd.setLayout(addLayout);
 
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
         a.addObjects(menuType, pAdd, addLayout, gbc, 0, 0, 1, 1);
         a.addObjects(menuTypeDropDown, pAdd, addLayout, gbc, 1, 0, 1, 1);
         a.addObjects(title, pAdd, addLayout, gbc, 2, 0, 1, 1);
-        a.addObjects(itemTitleField, pAdd, addLayout, gbc, 3, 0, 1, 1);
         a.addObjects(description, pAdd, addLayout, gbc, 4, 0, 1, 1);
-        a.addObjects(itemDescriptionField, pAdd, addLayout, gbc, 5, 0, 1, 1);
         a.addObjects(itemID, pAdd, addLayout, gbc, 6, 0, 1, 1);
-        a.addObjects(itemIDField, pAdd, addLayout, gbc, 7, 0, 1, 1);
         a.addObjects(price, pAdd, addLayout, gbc, 8, 0, 1, 1);
-        a.addObjects(itemPriceField, pAdd, addLayout, gbc, 9, 0, 1, 1);
         a.addObjects(count, pAdd, addLayout, gbc, 10, 0, 1, 1);
-        a.addObjects(itemCountField, pAdd, addLayout, gbc, 11, 0, 1, 1);
         a.addObjects(status, pAdd, addLayout, gbc, 12, 0, 1, 1);
         a.addObjects(current, pAdd, addLayout, gbc, 13, 0, 1, 1);
         a.addObjects(offSeason, pAdd, addLayout, gbc, 14, 0, 1, 1);
 
         JPanel pButtons = new JPanel();
         pButtons.add(addBtnOk);
-        pButtons.add(btnCancel);
+        pButtons.add(addBtnCancel);
         a.addObjects(pButtons, pAdd, addLayout, gbc, 0, 1, 15, 1);
+
+        a.addObjects(itemTitleField, pAdd, addLayout, gbc, 3, 0, 1, 1,50,0);
+        a.addObjects(itemDescriptionField, pAdd, addLayout, gbc, 5, 0, 1, 1,50,0);
+        a.addObjects(itemIDField, pAdd, addLayout, gbc, 7, 0, 1, 1,50,0);
+        a.addObjects(itemPriceField, pAdd, addLayout, gbc, 9, 0, 1, 1,50,0);
+        a.addObjects(itemCountField, pAdd, addLayout, gbc, 11, 0, 1, 1,50,0);
+
 
 		fAdd.add(pAdd);
         fAdd.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -136,14 +144,52 @@ public class MenuManager {
         fAdd.setVisible(true);
 	}
 
+    public void addItem() {
+        String menuType = menuTypeDropDown.getSelectedItem().toString();
+        String title = itemTitleField.getText();
+        String description = itemDescriptionField.getText();
+        String id = itemIDField.getText();
+        String price = itemPriceField.getText();
+        String count = itemCountField.getText();
+        boolean isCurrent = current.isSelected();
+
+        if (isCurrent) {
+            if (menuType.equals("Diner")) {
+                DinerMenuItem activeDinerMenuItem = new DinerMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), true);
+                MenuManagementScreen.activeModel.addElement(activeDinerMenuItem);
+            } else {
+                PancakeMenuItem activePancakeMenuItem = new PancakeMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), true);
+                MenuManagementScreen.activeModel.addElement(activePancakeMenuItem);
+            }
+        } else {
+            if (menuType.equals("Diner")) {
+                DinerMenuItem inactiveDinerMenuItem = new DinerMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), false);
+                MenuManagementScreen.activeModel.addElement(inactiveDinerMenuItem);
+            } else {
+                PancakeMenuItem inactivePancakeMenuItem = new PancakeMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), false);
+                MenuManagementScreen.activeModel.addElement(inactivePancakeMenuItem);
+            }
+        }  
+        fAdd.dispose();
+    }
+
     
     //Menu Edit
     private GridBagLayout editLayout = new GridBagLayout();
     private JButton editBtnOk;
+    private JButton editBtnCancel;
+    MenuItem item;
+    int itemIndex;
+    boolean isActive;
 
 
-	public void edit(/*selected item */) {
+	public void edit(MenuItem item, boolean isActive) {
         fEdit = new JFrame("Update Item Details");
+
+        this.item = item;
+        itemIndex = MenuManagementScreen.activeModel.indexOf(item);
+        this.isActive = isActive;
+
 		menuType = new JLabel("Menu Type:");
         title = new JLabel("Title:");
         description = new JLabel("Description:");
@@ -160,45 +206,94 @@ public class MenuManager {
         itemIDField = new JTextField();
         itemPriceField = new JTextField();
         itemCountField = new JTextField();
+        
+        statusCheck = new ButtonGroup();
         current = new JRadioButton("Current");
         offSeason = new JRadioButton("Off-Season");
-        current.setSelected(true);
+        statusCheck.add(current);
+        statusCheck.add(offSeason);
         
         BtnListener btnListener = new BtnListener();
         editBtnOk = new JButton("OK");
-        btnCancel = new JButton("Cancel");
+        editBtnCancel = new JButton("Cancel");
         editBtnOk.addActionListener(btnListener);
-        btnCancel.addActionListener(btnListener);
+        editBtnCancel.addActionListener(btnListener);
 
         JPanel pEdit = new JPanel();
         pEdit.setLayout(editLayout);
 
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
         a.addObjects(menuType, pEdit, editLayout, gbc, 0, 0, 1, 1);
         a.addObjects(menuTypeDropDown, pEdit, editLayout, gbc, 1, 0, 1, 1);
         a.addObjects(title, pEdit, editLayout, gbc, 2, 0, 1, 1);
-        a.addObjects(itemTitleField, pEdit, editLayout, gbc, 3, 0, 1, 1);
         a.addObjects(description, pEdit, editLayout, gbc, 4, 0, 1, 1);
-        a.addObjects(itemDescriptionField, pEdit, editLayout, gbc, 5, 0, 1, 1);
         a.addObjects(itemID, pEdit, editLayout, gbc, 6, 0, 1, 1);
-        a.addObjects(itemIDField, pEdit, editLayout, gbc, 7, 0, 1, 1);
         a.addObjects(price, pEdit, editLayout, gbc, 8, 0, 1, 1);
-        a.addObjects(itemPriceField, pEdit, editLayout, gbc, 9, 0, 1, 1);
         a.addObjects(count, pEdit, editLayout, gbc, 10, 0, 1, 1);
-        a.addObjects(itemCountField, pEdit, editLayout, gbc, 11, 0, 1, 1);
         a.addObjects(status, pEdit, editLayout, gbc, 12, 0, 1, 1);
         a.addObjects(current, pEdit, editLayout, gbc, 13, 0, 1, 1);
         a.addObjects(offSeason, pEdit, editLayout, gbc, 14, 0, 1, 1);
         
         JPanel pButtons = new JPanel();
         pButtons.add(editBtnOk);
-        pButtons.add(btnCancel);
+        pButtons.add(editBtnCancel);
         a.addObjects(pButtons, pEdit, editLayout, gbc, 0, 1, 15, 1);
+
+        a.addObjects(itemTitleField, pEdit, editLayout, gbc, 3, 0, 1, 1,50,0);
+        a.addObjects(itemDescriptionField, pEdit, editLayout, gbc, 5, 0, 1, 1,50, 0);
+        a.addObjects(itemIDField, pEdit, editLayout, gbc, 7, 0, 1, 1,50,0);
+        a.addObjects(itemPriceField, pEdit, editLayout, gbc, 9, 0, 1, 1,50,0);
+        a.addObjects(itemCountField, pEdit, editLayout, gbc, 11, 0, 1, 1,50,0);
+
 
 		fEdit.add(pEdit);
         fEdit.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         fEdit.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fEdit.setVisible(true);
 	}
+
+    public void editItem() {
+        String menuType = menuTypeDropDown.getSelectedItem().toString();
+        String title = itemTitleField.getText();
+        String description = itemDescriptionField.getText();
+        String id = itemIDField.getText();
+        String price = itemPriceField.getText();
+        String count = itemCountField.getText();
+        boolean isCurrent = current.isSelected();
+
+        if (isCurrent) {
+            if(isCurrent != isActive) {
+                MenuManagementScreen.activeModel.addElement(item);
+                MenuManagementScreen.inactiveModel.removeElement(item);
+            }
+            else {
+                if (menuType.equals("Diner")) {
+                    DinerMenuItem activeDinerMenuItem = new DinerMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), true);
+                    MenuManagementScreen.activeModel.set(itemIndex, activeDinerMenuItem);
+                } else {
+                    PancakeMenuItem activePancakeMenuItem = new PancakeMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), true);
+                    MenuManagementScreen.activeModel.set(itemIndex, activePancakeMenuItem);
+                }
+            }
+        } 
+        else {
+            if(isCurrent != isActive) {
+                MenuManagementScreen.inactiveModel.addElement(item);
+                MenuManagementScreen.activeModel.removeElement(item);
+            }
+            else {
+                if (menuType.equals("Diner")) {
+                    DinerMenuItem activeDinerMenuItem = new DinerMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), false);
+                    MenuManagementScreen.activeModel.set(itemIndex, activeDinerMenuItem);
+                } else {
+                    PancakeMenuItem activePancakeMenuItem = new PancakeMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), false);
+                    MenuManagementScreen.activeModel.set(itemIndex, activePancakeMenuItem);
+                }
+            }
+        } 
+        fEdit.dispose(); 
+    }
 
 
 
@@ -250,13 +345,13 @@ public class MenuManager {
         activeMenuListDisplay = display;
 
         if(selectedItem.isCurrent()) {
-                    JOptionPane.showMessageDialog(fReactivate, "Selected customer should be Inactive", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(fReactivate, "Selected item should be Inactive", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
                 else if(selectedItem == null) {
-                    JOptionPane.showMessageDialog(fReactivate, "No customer selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(fReactivate, "No item selected", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
                 else {
-                    selectedItem.setAvailable(true);
+                    selectedItem.setCurrent(true);
                     activeModel.addElement(selectedItem);
                     inactiveModel.removeElement(selectedItem);
                     selectedItem = null;
@@ -275,13 +370,13 @@ public class MenuManager {
         inactiveMenuListDisplay = display;
         
         if(!selectedItem.isCurrent()) {
-                    JOptionPane.showMessageDialog(fDeactivate, "Selected customer should be Active", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(fDeactivate, "Selected item should be Active", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
                 else if(selectedItem == null) {
-                    JOptionPane.showMessageDialog(fDeactivate, "No customer selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(fDeactivate, "No item selected", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
                 else {
-                    selectedItem.setAvailable(true);
+                    selectedItem.setCurrent(false);
                     inactiveModel.addElement(selectedItem);
                     activeModel.removeElement(selectedItem);
                     selectedItem = null;
@@ -295,15 +390,30 @@ public class MenuManager {
 	public void search() {
 	}	
 
-	class BtnListener implements ActionListener {
+	//Buttons
+    class BtnListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource() == editBtnOk) {
-                fEdit.dispose();
-            } else if (e.getSource() == addBtnOk) {
+            if (e.getSource() == addBtnOk) {
+                addItem();
+            } else if (e.getSource() == editBtnOk) {
+                editItem();
+            } else if (e.getSource() == addBtnCancel) {
                 fAdd.dispose();
-            } else if (e.getSource() == btnCancel) {
-                fAdd.dispose();
+            } else if (e.getSource() == editBtnCancel) {
                 fEdit.dispose();
+            } else if (e.getSource() == btnYes) {
+                if(selectedItem != null) {
+                    if(MenuManagementScreen.inactiveModel.contains(selectedItem)) {
+                        MenuManagementScreen.inactiveModel.removeElement(selectedItem);
+                    } else {
+                        MenuManagementScreen.activeModel.removeElement(selectedItem);
+                    }
+                }
+                fDelete.dispose();
+            } 
+            else if (e.getSource() == btnNo) {
+                fDelete.dispose();
             }
         }
     }
