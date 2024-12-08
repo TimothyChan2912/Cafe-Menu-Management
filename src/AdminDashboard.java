@@ -65,7 +65,8 @@ public class AdminDashboard extends JFrame {
                 new MenuManagementScreen(admin);
                 dispose();
             } else if (e.getSource() == btnCustomerLogin) {
-                new LoginScreen();
+                System.out.println("Logging in as customer...");
+                new LoginScreen(true);
                 dispose();
             }
         }

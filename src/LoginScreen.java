@@ -18,12 +18,14 @@ public class LoginScreen extends JFrame {
 
     private String role;
     private int index;
+    private boolean adminAsCustomer;
 
     private GridBagLayout layout = new GridBagLayout();
     private GridBagConstraints gbc = new GridBagConstraints();
     private AddObjects a = new AddObjects();
 
-    public LoginScreen() {
+    public LoginScreen(boolean adminAsCustomer) {
+        this.adminAsCustomer = adminAsCustomer;
         btnLogin = new JButton("Login");
         btnLoginCancel = new JButton("Cancel");
 
@@ -91,14 +93,19 @@ public class LoginScreen extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnLogin) {
                 if(checkUsernameAndPassword()) {
-                    if(role.equals("admin")) {
-                        System.out.println("Launching CustomerDashboard for: " + SignupScreen.admins.get(index).getUserName());
+                    if(role.equals("admin") && !adminAsCustomer) {
+                        System.out.println("Launching AdminDashboard for: " + SignupScreen.admins.get(index).getUserName());
                         new AdminDashboard(SignupScreen.admins.get(index));
                         dispose();
                     }
-                    else if(role.equals("customer")) {
-                        System.out.println("Launching CustomerDashboard for: " + SignupScreen.customers.get(index).getUserName());
-                        new CustomerDashboard(SignupScreen.customers.get(index));
+                    else if(role.equals("customer") || adminAsCustomer) {
+                        if (!adminAsCustomer) {
+                            System.out.println("Launching CustomerDashboard for: " + SignupScreen.customers.get(index).getUserName());
+                            new CustomerDashboard(SignupScreen.customers.get(index));
+                        } else {
+                            System.out.println("Launching CustomerDashboard for: " + SignupScreen.admins.get(index).getUserName());
+                            new CustomerDashboard(SignupScreen.admins.get(index));
+                        }
                         dispose();
                     }
                 }

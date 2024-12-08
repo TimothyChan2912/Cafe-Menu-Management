@@ -65,7 +65,7 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
     class BtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
            if(e.getSource() == btnLogin) {
-               new LoginScreen();
+               new LoginScreen(false);
                dispose();
            } 
            else if(e.getSource() == btnSignup) {
