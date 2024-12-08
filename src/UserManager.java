@@ -10,6 +10,8 @@ public class UserManager {
     private JFrame fAdd;
     private JFrame fEdit;
     private JFrame fDelete;
+    private JFrame fReactivate;
+    private JFrame fDeactivate;
 
     private JLabel userType;
     private JLabel firstName;
@@ -279,6 +281,59 @@ public class UserManager {
         fDelete.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         fDelete.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fDelete.setVisible(true);
+    }
+
+
+
+    //User Reactivate
+    private JList<Customer> activeCustomerListDisplay;
+    public static DefaultListModel<Customer> inactiveModel;
+    public static DefaultListModel<Customer> activeModel;
+    public void reactivate (Customer customer, DefaultListModel<Customer> active, DefaultListModel<Customer> inactive, JList<Customer> display) {
+        fReactivate = new JFrame();
+        selectedCustomer = customer;
+        activeModel = active;
+        inactiveModel = inactive;
+        activeCustomerListDisplay = display;
+
+        if(selectedCustomer.isActive()) {
+                    JOptionPane.showMessageDialog(fReactivate, "Selected customer should be Inactive", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else if(selectedCustomer == null) {
+                    JOptionPane.showMessageDialog(fReactivate, "No customer selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    selectedCustomer.setActive(true);
+                    activeModel.addElement(selectedCustomer);
+                    inactiveModel.removeElement(selectedCustomer);
+                    selectedCustomer = null;
+                    activeCustomerListDisplay.clearSelection();
+                }
+    }
+
+
+    //User deactivate
+    private JList<Customer> inactiveCustomerListDisplay;
+    public void deactivate (Customer customer, DefaultListModel<Customer> active, DefaultListModel<Customer> inactive, JList<Customer> display) {
+        fDeactivate = new JFrame();
+        selectedCustomer = customer;
+        activeModel = active;
+        inactiveModel = inactive;
+        inactiveCustomerListDisplay = display;
+
+        if(!selectedCustomer.isActive()) {
+                    JOptionPane.showMessageDialog(fDeactivate, "Selected customer should be Active", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else if(selectedCustomer == null) {
+                    JOptionPane.showMessageDialog(fDeactivate, "No customer selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    selectedCustomer.setActive(false);
+                    inactiveModel.addElement(selectedCustomer);
+                    activeModel.removeElement(selectedCustomer);
+                    selectedCustomer = null;
+                    inactiveCustomerListDisplay.clearSelection();
+                }
     }
 
 

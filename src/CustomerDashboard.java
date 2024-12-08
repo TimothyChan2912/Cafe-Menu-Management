@@ -1,14 +1,21 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.text.*;
+import java.util.ArrayList;
 
 public class CustomerDashboard extends JFrame {
 	private final int FRAME_WIDTH = 1000;
 	private final int FRAME_HEIGHT = 1000;
+
+	private final int FRAME_WIDTH_INFO = 700;
+	private final int FRAME_HEIGHT_INFO = 300;
 
 	private UserManager userManager;
 	private User currentUser; // The user who is currently logged in
@@ -40,12 +47,20 @@ public class CustomerDashboard extends JFrame {
 	private JButton btnSort;
 	private JButton btnSearch;
 
+	private JButton btnInfoOk;
+
 	private JLabel cartLabel;
 	private JLabel billLabel;
 	private JLabel menuLabel;
 	private JLabel userInfo;
 	private JLabel sortOrder;
 	private JLabel searchSortBy;
+
+	private JLabel infoDisplayTitle;
+	private JLabel infoDisplayDescription;
+	private JLabel infoDisplayItemId;
+	private JLabel infoDisplayPrice;
+	private JLabel infoDisplayCount;
 
 	private JComboBox<String> sortOrderDropDown;
 	private JComboBox<String> sortByDropDown;
@@ -96,6 +111,7 @@ public class CustomerDashboard extends JFrame {
 		dinnerCheckbox = new JCheckBox("Dinner");
 
 		BtnListener btnlistener = new BtnListener();
+
         btnAddToCart.addActionListener(btnlistener);
         btnCancelOrder.addActionListener(btnlistener);
         btnPlaceOrder.addActionListener(btnlistener);
@@ -110,13 +126,23 @@ public class CustomerDashboard extends JFrame {
 		cartPane = new JTextPane(cartDoc);
 		billPane = new JTextPane(billDoc);
 
-		JScrollPane spMenu = new JScrollPane(menuModel);
+		JScrollPane spMenu = new JScrollPane();
 		menuListDisplay = new JList<MenuItem>(menuModel);
 		for(MenuItem menuItem : menuManager.menuList) {
 			if(menuItem.isCurrent()) {
                 menuModel.addElement(menuItem);
             }
         }
+
+		menuListDisplay.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					menuItemDisplayInfo(menuListDisplay.locationToIndex(e.getPoint()));
+				}
+			}
+		});
+
+		spMenu.getViewport().setView(menuListDisplay);
 
 		JPanel pCustomerDashboard = new JPanel();
         pCustomerDashboard.setLayout(layout);
@@ -201,13 +227,16 @@ public class CustomerDashboard extends JFrame {
 				// Cancel the order
 			}
 			else if (e.getSource() == btnPlaceOrder) {
-				// Place the order
+				order();
 			}
 			else if (e.getSource() == btnSort) {
 				menuSort();
 			}
 			else if (e.getSource() == btnSearch) {
 				// Search for menu items
+			}
+			else if(e.getSource() == btnInfoOk) {
+				dispose();
 			}
 		}
 	}
@@ -223,6 +252,13 @@ public class CustomerDashboard extends JFrame {
 		catch (Exception e) {
 			System.out.println("Error adding to cart");
 		}
+	}
+
+	public void order() {
+		ArrayList<MenuItem> cartItems = new ArrayList<MenuItem>();
+		int billTotal = 0;
+
+		
 	}
 
 	//Cancel order
@@ -259,4 +295,36 @@ public class CustomerDashboard extends JFrame {
                 menuModel.addElement(menuItem);
             }
     }
+
+	public void menuItemDisplayInfo(int index) {
+		MenuItem menuItem = menuModel.getElementAt(index);
+
+		JFrame menuItemFrame = new JFrame();
+		btnInfoOk = new JButton("OK");
+
+		BtnListener btnlistener = new BtnListener();
+		btnInfoOk.addActionListener(btnlistener);
+
+		infoDisplayTitle = new JLabel("Title: " + menuItem.getTitle());
+		infoDisplayDescription = new JLabel("Description: " + menuItem.getDescription());
+		infoDisplayItemId = new JLabel("Item ID: " + menuItem.getItemID());
+		infoDisplayPrice = new JLabel("Price: " + menuItem.getPrice());
+		infoDisplayCount = new JLabel("Count: " + menuItem.getCount());
+		
+		JPanel pMenuItemInfo = new JPanel();
+		pMenuItemInfo.setLayout(new GridLayout(6, 0));
+
+		pMenuItemInfo.add(infoDisplayTitle);
+		pMenuItemInfo.add(infoDisplayDescription);
+		pMenuItemInfo.add(infoDisplayItemId);
+		pMenuItemInfo.add(infoDisplayPrice);
+		pMenuItemInfo.add(infoDisplayCount);
+		pMenuItemInfo.add(btnInfoOk);
+
+		menuItemFrame.add(pMenuItemInfo);
+		menuItemFrame.setTitle("Item Details");
+		menuItemFrame.setSize(FRAME_WIDTH_INFO, FRAME_HEIGHT_INFO);
+		menuItemFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menuItemFrame.setVisible(true);
+	}
 }

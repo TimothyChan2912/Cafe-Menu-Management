@@ -2,6 +2,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.util.*;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class MenuManagementScreen extends JFrame {
 		private final int FRAME_WIDTH = 1000;
@@ -30,6 +33,8 @@ public class MenuManagementScreen extends JFrame {
 
 		private JCheckBox breakfastLunch;
 		private JCheckBox dinner;
+
+		private JFrame frame = new JFrame();
 
 		private JTextField searchField;
 
@@ -195,26 +200,162 @@ public class MenuManagementScreen extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             if(e.getSource() == btnReactivate) {
-                menuManager.reactivate();
+                menuManager.reactivate(selectedItem, activeModel, inactiveModel, activeMenuListDisplay);
             } else if(e.getSource() == btnDeactivate) {
-                menuManager.deactivate();
+                menuManager.deactivate(selectedItem, activeModel, inactiveModel, inactiveMenuListDisplay);
             } else if(e.getSource() == btnAdd) {
                 menuManager.add();
             } else if(e.getSource() == btnEdit) {
                 menuManager.edit();
             } else if(e.getSource() == btnDelete) {
-                menuManager.delete();
+                menuManager.delete(selectedItem);
             } else if(e.getSource() == btnSort) {
-                // Sort customers
+				pancakeMenuSort();
+                dinerMenuSort();
             } else if (e.getSource() == btnLogout) {
                 new CafeOnlineOrderSystemGUI();
 				dispose();
             } else if(e.getSource() == btnSearch) {
-                // Search customers
+                menuSearch();
             } else if (e.getSource() == btnBack) {
 				new AdminDashboard(admin);
 				dispose();
 			}
         }
+    }
+
+	public void dinerMenuSort() {
+        String compareFilter = sortByDropDown.getSelectedItem().toString();
+        sortByDropDown.getSelectedItem().getClass();
+		DinerMenuItem.CompareBy compare;
+		
+        
+        if(compareFilter.equals("Title")) {
+            compare = DinerMenuItem.CompareBy.TITLE;
+        }
+        else if(compareFilter.equals("ID")) {
+            compare = DinerMenuItem.CompareBy.ITEM_ID;
+        }
+        else if(compareFilter.equals("Description")) {
+            compare = DinerMenuItem.CompareBy.DESCRIPTION;
+        }
+        else {
+            compare = DinerMenuItem.CompareBy.PRICE;
+        }
+
+        DinerMenuItem.setCompareBy(compare, sortOrderDropDown.getSelectedItem().toString().equals("Ascending"));
+
+            List<MenuItem> inactiveList = Collections.list(inactiveModel.elements());
+            List<MenuItem> activeList = Collections.list(activeModel.elements());
+
+            Collections.sort(inactiveList);
+            Collections.sort(activeList);
+
+            inactiveModel.clear();
+            activeModel.clear();
+
+            for(MenuItem item : inactiveList) {
+                inactiveModel.addElement(item);
+            }
+
+            for(MenuItem item : activeList) {
+                activeModel.addElement(item);
+            }
+    }
+
+	public void pancakeMenuSort() {
+        String compareFilter = sortByDropDown.getSelectedItem().toString();
+		PancakeMenuItem.CompareBy compare;
+		
+        
+        if(compareFilter.equals("Title")) {
+            compare = PancakeMenuItem.CompareBy.TITLE;
+        }
+        else if(compareFilter.equals("ID")) {
+            compare = PancakeMenuItem.CompareBy.ITEM_ID;
+        }
+        else if(compareFilter.equals("Description")) {
+            compare = PancakeMenuItem.CompareBy.DESCRIPTION;
+        }
+        else {
+            compare = PancakeMenuItem.CompareBy.PRICE;
+        }
+
+        PancakeMenuItem.setCompareBy(compare, sortOrderDropDown.getSelectedItem().toString().equals("Ascending"));
+
+            List<MenuItem> inactiveList = Collections.list(inactiveModel.elements());
+            List<MenuItem> activeList = Collections.list(activeModel.elements());
+
+            Collections.sort(inactiveList);
+            Collections.sort(activeList);
+
+            inactiveModel.clear();
+            activeModel.clear();
+
+            for(MenuItem item : inactiveList) {
+                inactiveModel.addElement(item);
+            }
+
+            for(MenuItem item : activeList) {
+                activeModel.addElement(item);
+            }
+    }
+
+    public void menuSearch() {
+        String regex = searchField.getText();
+
+        if(regex.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Please enter a search term", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String cri = sortByDropDown.getSelectedItem().toString();
+        Pattern pattern = null;
+
+        try {
+            pattern = Pattern.compile(regex);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(frame, "Invalid search term", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        List<MenuItem> inactiveList = Collections.list(inactiveModel.elements());
+        List<MenuItem> activeList = Collections.list(activeModel.elements());
+
+        inactiveModel.clear();
+        activeModel.clear();
+
+        for(MenuItem item : extractHelper(pattern, cri, inactiveList)) {
+            inactiveModel.addElement(item);
+        }
+
+        for(MenuItem item : extractHelper(pattern, cri, activeList)) {
+            activeModel.addElement(item);
+        }
+    }
+
+    private List<MenuItem> extractHelper(Pattern pattern, String field, List<MenuItem> list) {
+        List<MenuItem> result = new ArrayList<MenuItem>();
+
+        for(MenuItem item: list) {
+            String name = item.toString();
+            if(field.equals("Title")) {
+                name = item.getTitle();
+            }
+            else if(field.equals("ID")) {
+                name = item.getItemID();
+            }
+            else if(field.equals("Description")) {
+                name = item.getDescription();
+            }
+            else if(field.equals("Price")) {
+                name = Float.toString(item.getPrice());
+            }
+
+            if(pattern.matcher(name).find()) {
+                result.add(item);
+            }
+        }
+        return result;
     }
 }

@@ -171,34 +171,10 @@ public class CustomerManagementScreen extends JFrame {
     class BtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnReactivate) {
-                if(selectedCustomer.isActive()) {
-                    JOptionPane.showMessageDialog(frame, "Selected customer should be Inactive", "Warning", JOptionPane.WARNING_MESSAGE);
-                }
-                else if(selectedCustomer == null) {
-                    JOptionPane.showMessageDialog(frame, "No customer selected", "Warning", JOptionPane.WARNING_MESSAGE);
-                }
-                else {
-                    selectedCustomer.setActive(true);
-                    activeModel.addElement(selectedCustomer);
-                    inactiveModel.removeElement(selectedCustomer);
-                    selectedCustomer = null;
-                    activeCustomerListDisplay.clearSelection();
-                }
+                userManager.reactivate(selectedCustomer, activeModel, inactiveModel, activeCustomerListDisplay);
             }
             else if(e.getSource() == btnInactivate) {
-                if(!selectedCustomer.isActive()) {
-                    JOptionPane.showMessageDialog(frame, "Selected customer should be Active", "Warning", JOptionPane.WARNING_MESSAGE);
-                }
-                else if(selectedCustomer == null) {
-                    JOptionPane.showMessageDialog(frame, "No customer selected", "Warning", JOptionPane.WARNING_MESSAGE);
-                }
-                else {
-                    selectedCustomer.setActive(false);
-                    inactiveModel.addElement(selectedCustomer);
-                    activeModel.removeElement(selectedCustomer);
-                    selectedCustomer = null;
-                    inactiveCustomerListDisplay.clearSelection();
-                }
+                userManager.deactivate(selectedCustomer, activeModel, inactiveModel, inactiveCustomerListDisplay);
             } 
             else if(e.getSource() == btnAdd) {
                 userManager.add();
@@ -218,7 +194,7 @@ public class CustomerManagementScreen extends JFrame {
                 new CafeOnlineOrderSystemGUI();
                 dispose();
             } else if (e.getSource() == btnSearch) {
-                CustomerSearch();
+                customerSearch();
             }
         }
     }
@@ -260,7 +236,7 @@ public class CustomerManagementScreen extends JFrame {
             }
     }
 
-    public void CustomerSearch() {
+    public void customerSearch() {
         String regex = searchField.getText();
 
         if(regex.isEmpty()) {

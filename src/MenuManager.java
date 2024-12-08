@@ -35,6 +35,9 @@ public class MenuManager {
 
 	private JFrame fAdd;
 	private JFrame fEdit;
+    private JFrame fDelete;
+    private JFrame fReactivate;
+    private JFrame fDeactivate;
 
     private GridBagConstraints gbc = new GridBagConstraints();
     private AddObjects a = new AddObjects();
@@ -197,14 +200,94 @@ public class MenuManager {
         fEdit.setVisible(true);
 	}
 
-	public void delete(/*selected item */) {
-	}
 
-	public void reactivate() {
-	}
 
-	public void deactivate() {
-	}
+    //Menu Delete
+	private MenuItem selectedItem;
+    private JButton btnYes;
+    private JButton btnNo;
+    private JLabel delete;
+    private GridBagLayout deleteLayout = new GridBagLayout();
+
+    public void delete(MenuItem item) {
+        fDelete = new JFrame("Confirm Deletion");
+        selectedItem = item;
+
+        btnYes = new JButton("Yes");
+        btnNo = new JButton("No");
+
+        BtnListener btnlistener = new BtnListener();
+        btnYes.addActionListener(btnlistener);
+        btnNo.addActionListener(btnlistener);
+
+        delete = new JLabel("Are you sure you want to delete the selected user?");
+
+        JPanel pDelete = new JPanel();
+        pDelete.setLayout(deleteLayout);
+
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        a.addObjects(delete, pDelete, deleteLayout, gbc, 0, 0, 1, 1, 50, 50);
+
+        a.addObjects(btnYes, pDelete, deleteLayout, gbc, 0, 1, 1, 1, 25, 25);
+        a.addObjects(btnNo, pDelete, deleteLayout, gbc, 1, 1, 1, 1, 25, 25);
+
+        fDelete.add(pDelete);
+        fDelete.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        fDelete.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fDelete.setVisible(true);
+    }
+
+	//Menu Reactivate
+    private JList<MenuItem> activeMenuListDisplay;
+    public static DefaultListModel<MenuItem> inactiveModel;
+    public static DefaultListModel<MenuItem> activeModel;
+    public void reactivate (MenuItem item, DefaultListModel<MenuItem> active, DefaultListModel<MenuItem> inactive, JList<MenuItem> display) {
+        fReactivate = new JFrame();
+        selectedItem = item;
+        activeModel = active;
+        inactiveModel = inactive;
+        activeMenuListDisplay = display;
+
+        if(selectedItem.isCurrent()) {
+                    JOptionPane.showMessageDialog(fReactivate, "Selected customer should be Inactive", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else if(selectedItem == null) {
+                    JOptionPane.showMessageDialog(fReactivate, "No customer selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    selectedItem.setAvailable(true);
+                    activeModel.addElement(selectedItem);
+                    inactiveModel.removeElement(selectedItem);
+                    selectedItem = null;
+                    activeMenuListDisplay.clearSelection();
+                }
+    }
+
+
+    //Menu deactivate
+    private JList<MenuItem> inactiveMenuListDisplay;
+    public void deactivate (MenuItem item, DefaultListModel<MenuItem> active, DefaultListModel<MenuItem> inactive, JList<MenuItem> display) {
+        fDeactivate = new JFrame();
+        selectedItem = item;
+        activeModel = active;
+        inactiveModel = inactive;
+        inactiveMenuListDisplay = display;
+        
+        if(!selectedItem.isCurrent()) {
+                    JOptionPane.showMessageDialog(fDeactivate, "Selected customer should be Active", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else if(selectedItem == null) {
+                    JOptionPane.showMessageDialog(fDeactivate, "No customer selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    selectedItem.setAvailable(true);
+                    inactiveModel.addElement(selectedItem);
+                    activeModel.removeElement(selectedItem);
+                    selectedItem = null;
+                    inactiveMenuListDisplay.clearSelection();
+                }
+    }
 
 	public void sort() {
 	}
