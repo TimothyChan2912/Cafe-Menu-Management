@@ -84,9 +84,9 @@ public class CustomerDashboard extends JFrame {
 		System.out.println("Initializing CustomerDashboard for user: " + currentUser.getUserName());
 
 		userInfo = new JLabel(currentUser.getFirstName() + " " + currentUser.getLastName() + ": " + currentUser.getUserName());
-		cartLabel = new JLabel("Cart");
-		billLabel = new JLabel("Bill");
-		menuLabel = new JLabel("Cafe Menu");
+		cartLabel = new JLabel("");
+		billLabel = new JLabel("");
+		menuLabel = new JLabel("");
 		sortOrder = new JLabel("Sort Order:");
 		searchSortBy = new JLabel("Search/Sort By:");
 			
@@ -198,6 +198,15 @@ public class CustomerDashboard extends JFrame {
                 menuModel.addElement(menuItem);
             }
         }
+		menuListDisplay.setFixedCellWidth(275);
+		menuListDisplay.setFixedCellHeight(25);
+		spMenu.getViewport().setView(menuListDisplay);
+
+		JScrollPane spBill = new JScrollPane();
+		spBill.getViewport().setView(billPane);
+		JScrollPane spCart = new JScrollPane();
+		spCart.getViewport().setView(cartPane);
+		
 
 		menuListDisplay.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -207,9 +216,7 @@ public class CustomerDashboard extends JFrame {
 			}
 		});
 
-		spMenu.getViewport().setView(menuListDisplay);
-
-		JPanel pCustomerDashboard = new JPanel();
+		ImagePanel pCustomerDashboard = new ImagePanel("src/resources/customerDashboardScreen.jpg");
         pCustomerDashboard.setLayout(layout);
 
     	gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -219,12 +226,13 @@ public class CustomerDashboard extends JFrame {
 		pCheckboxes.setLayout(new GridLayout(0, 2));
 		pCheckboxes.add(breakfastCheckbox);
 		pCheckboxes.add(dinnerCheckbox);
+		pCheckboxes.setOpaque(false);
 
 		JPanel pUserInfo = new JPanel();
 		pUserInfo.setLayout(new GridLayout(0, 2));
 		pUserInfo.add(userInfo);
 		pUserInfo.add(btnLogout);
-		//pUserInfo.add(btnBack);
+		pUserInfo.setOpaque(false);
 
 		tipGroup = new ButtonGroup();
 		tipGroup.add(noTipButton);
@@ -249,14 +257,16 @@ public class CustomerDashboard extends JFrame {
 		pTip.add(tenPercentButton);
 		pTip.add(fifteenPercentButton);
 		pTip.add(twentyPercentButton);
+		pTip.setOpaque(false);
 		
 		JPanel pActionButtons = new JPanel();
 		pActionButtons.setLayout(new GridLayout(0, 2));
 		pActionButtons.add(btnPlaceOrder);
 		pActionButtons.add(btnCancelOrder);
+		pActionButtons.setOpaque(false);
 
 		JPanel pSearchSort = new JPanel();
-		pSearchSort.setLayout(new FlowLayout());
+		pSearchSort.setLayout(new GridLayout(0,7));
 		pSearchSort.add(sortOrder);
 		pSearchSort.add(sortOrderDropDown);
 		pSearchSort.add(searchSortBy);
@@ -264,20 +274,23 @@ public class CustomerDashboard extends JFrame {
 		pSearchSort.add(btnSort);
 		pSearchSort.add(searchField);
 		pSearchSort.add(btnSearch);
+		pSearchSort.setOpaque(false);
 
 		gbc.insets = new Insets(0, 0, 0, 10);
 		a.addObjects(pCheckboxes, pCustomerDashboard, layout, gbc, 0, 0, 1, 1, 0, 10);
 		a.addObjects(cartLabel, pCustomerDashboard, layout, gbc, 0, 1, 1, 1, 200, 50);
-		a.addObjects(cartPane, pCustomerDashboard, layout, gbc, 0, 2, 1, 1, 200, 150);
+		a.addObjects(spCart, pCustomerDashboard, layout, gbc, 0, 2, 1, 1, 200, 150);
 		a.addObjects(billLabel, pCustomerDashboard, layout, gbc, 0, 3, 1, 1, 0, 50);
-		a.addObjects(billPane, pCustomerDashboard, layout, gbc, 0, 4, 1, 1, 200, 150);
+		gbc.insets = new Insets(20, 0, 0, 0);
+		a.addObjects(spBill, pCustomerDashboard, layout, gbc, 0, 4, 1, 1, 200, 150);
+		gbc.insets = new Insets(0, 0, 0, 10);
 		a.addObjects(pTip, pCustomerDashboard, layout, gbc, 0, 5, 1, 1, 0, 10);
 		a.addObjects(pActionButtons, pCustomerDashboard, layout, gbc, 0, 6, 1, 1, 0, 10);
 
 		gbc.insets = new Insets(0, 10, 0, 0);
 		a.addObjects(pUserInfo, pCustomerDashboard, layout, gbc, 1, 0, 1, 1, 0, 10);
 		a.addObjects(menuLabel, pCustomerDashboard, layout, gbc, 1, 1, 1, 1,200, 50);
-		a.addObjects(spMenu, pCustomerDashboard, layout, gbc, 1, 2, 1, 4,200,425);  // replace this one with List and DefaultListModel
+		a.addObjects(spMenu, pCustomerDashboard, layout, gbc, 1, 2, 1, 4,325,415);  // replace this one with List and DefaultListModel
 		a.addObjects(btnAddToCart, pCustomerDashboard, layout, gbc, 1, 6, 1, 1, 0, 10);
 
 		gbc.insets = new Insets(0, 0, 0, 0);
