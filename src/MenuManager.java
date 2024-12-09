@@ -44,8 +44,6 @@ public class MenuManager {
 
 	public MenuManager () {
         menuList = cafe.readMenu();
-
-        
 	}
 
     //Menu Add

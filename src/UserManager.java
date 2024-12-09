@@ -45,8 +45,6 @@ public class UserManager {
 
 	public UserManager () {
         userList = cafe.readUsers();
-
-        
 	}
 
 
