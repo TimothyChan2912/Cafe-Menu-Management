@@ -103,8 +103,6 @@ public class MenuManager {
         pButtons.add(addBtnCancel);
         a.addObjects(pButtons, pAdd, addLayout, gbc, 0, 1, 15, 1);
 
-        gbc.insets = new Insets(0, 25, 0, 25);
-        gbc.ipadx = 45;
         a.addObjects(itemTitleField, pAdd, addLayout, gbc, 3, 0, 1, 1);
         a.addObjects(itemDescriptionField, pAdd, addLayout, gbc, 5, 0, 1, 1);
         a.addObjects(itemIDField, pAdd, addLayout, gbc, 7, 0, 1, 1);
@@ -216,11 +214,11 @@ public class MenuManager {
         pButtons.add(editBtnCancel);
         a.addObjects(pButtons, pEdit, editLayout, gbc, 0, 1, 15, 1);
 
-        a.addObjects(itemTitleField, pEdit, editLayout, gbc, 3, 0, 1, 1,50,0);
-        a.addObjects(itemDescriptionField, pEdit, editLayout, gbc, 5, 0, 1, 1,50, 0);
-        a.addObjects(itemIDField, pEdit, editLayout, gbc, 7, 0, 1, 1,50,0);
-        a.addObjects(itemPriceField, pEdit, editLayout, gbc, 9, 0, 1, 1,50,0);
-        a.addObjects(itemCountField, pEdit, editLayout, gbc, 11, 0, 1, 1,50,0);
+        a.addObjects(itemTitleField, pEdit, editLayout, gbc, 3, 0, 1, 1);
+        a.addObjects(itemDescriptionField, pEdit, editLayout, gbc, 5, 0, 1, 1);
+        a.addObjects(itemIDField, pEdit, editLayout, gbc, 7, 0, 1, 1);
+        a.addObjects(itemPriceField, pEdit, editLayout, gbc, 9, 0, 1, 1);
+        a.addObjects(itemCountField, pEdit, editLayout, gbc, 11, 0, 1, 1);
 
 
 		fEdit.add(pEdit);
