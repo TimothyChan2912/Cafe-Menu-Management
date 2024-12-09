@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class CustomerDashboard extends JFrame {
 	private final int FRAME_WIDTH = 1000;
-	private final int FRAME_HEIGHT = 1000;
+	private final int FRAME_HEIGHT = 800;
 
 	private final int FRAME_WIDTH_INFO = 700;
 	private final int FRAME_HEIGHT_INFO = 300;
@@ -281,7 +281,7 @@ public class CustomerDashboard extends JFrame {
 		a.addObjects(cartLabel, pCustomerDashboard, layout, gbc, 0, 1, 1, 1, 200, 50);
 		a.addObjects(spCart, pCustomerDashboard, layout, gbc, 0, 2, 1, 1, 200, 150);
 		a.addObjects(billLabel, pCustomerDashboard, layout, gbc, 0, 3, 1, 1, 0, 50);
-		gbc.insets = new Insets(20, 0, 0, 0);
+		gbc.insets = new Insets(20, 0, 0, 10);
 		a.addObjects(spBill, pCustomerDashboard, layout, gbc, 0, 4, 1, 1, 200, 150);
 		gbc.insets = new Insets(0, 0, 0, 10);
 		a.addObjects(pTip, pCustomerDashboard, layout, gbc, 0, 5, 1, 1, 0, 10);
@@ -290,7 +290,7 @@ public class CustomerDashboard extends JFrame {
 		gbc.insets = new Insets(0, 10, 0, 0);
 		a.addObjects(pUserInfo, pCustomerDashboard, layout, gbc, 1, 0, 1, 1, 0, 10);
 		a.addObjects(menuLabel, pCustomerDashboard, layout, gbc, 1, 1, 1, 1,200, 50);
-		a.addObjects(spMenu, pCustomerDashboard, layout, gbc, 1, 2, 1, 4,325,415);  // replace this one with List and DefaultListModel
+		a.addObjects(spMenu, pCustomerDashboard, layout, gbc, 1, 2, 1, 4,325,415);
 		a.addObjects(btnAddToCart, pCustomerDashboard, layout, gbc, 1, 6, 1, 1, 0, 10);
 
 		gbc.insets = new Insets(0, 0, 0, 0);
@@ -302,6 +302,7 @@ public class CustomerDashboard extends JFrame {
     	this.setSize(FRAME_WIDTH, FRAME_HEIGHT); // Set appropriate size
     	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	this.setVisible(true);
+		this.setResizable(false);
 	}
 
 	class BtnListener implements ActionListener {

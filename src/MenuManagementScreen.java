@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class MenuManagementScreen extends JFrame {
 		private final int FRAME_WIDTH = 1000;
-		private final int FRAME_HEIGHT = 1000;
+		private final int FRAME_HEIGHT = 800;
 
 		private Admin admin;
 
@@ -193,7 +193,7 @@ public class MenuManagementScreen extends JFrame {
 			pSearchSort.add(btnSearch);
 			pSearchSort.setOpaque(false);
 
-			gbc.insets = new Insets(30, 0, 0, 0);
+			gbc.insets = new Insets(45, 0, 0, 0);
 			a.addObjects(pCheckboxes, pAdminMenuManager, layout, gbc, 0, 0, 1, 1, 0, 10);
 			a.addObjects(pAdminInfo, pAdminMenuManager, layout, gbc, 1, 0, 1, 1, 0, 10);
 			gbc.insets = new Insets(0, 0, 0, 0);
@@ -211,6 +211,7 @@ public class MenuManagementScreen extends JFrame {
         	this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         	this.setVisible(true);
+			this.setResizable(false);
 		}
 
 

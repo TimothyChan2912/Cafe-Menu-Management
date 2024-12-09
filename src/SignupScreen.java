@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class SignupScreen extends JFrame{
     private final int FRAME_WIDTH = 1000;
-    private final int FRAME_HEIGHT = 1000;
+    private final int FRAME_HEIGHT = 800;
 
     private JLabel signupFirstName;
     private JLabel signupLastName;
@@ -90,6 +90,7 @@ public class SignupScreen extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setVisible(true);
+        this.setResizable(false);
     }
 
 	public ArrayList<Customer> getCustomers() {
