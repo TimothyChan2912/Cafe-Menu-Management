@@ -18,10 +18,3 @@ Customer;Aisha;Lucas;aishlucas@hotmail.com;aisha7757;Password1!;true
 Admin;Veda;Bandi;vedasahithi.bandi@sjsu.edu;veda8338;Password1!;true
 Customer;Jane;Doe;janedoe@gmail.com;jane8136;Password1!;true
 Customer;Cleo;Higgins;cleohiggins@gmail.com;cleo1979;Password1!;true
-Customer;Albert;Jr.;123;Albert3431;ALbertRU!es;false
-Customer;tim;c;c;tim2523;c;true
-Customer;tim;c;c;tim6086;c;true
-Customer;tim;c;c;tim9319;c;true
-Customer;tim;c;c;tim5296;c;true
-Customer;tim;c;c;tim8318;c;true
-Customer;tim;c;c;tim9077;c;true
