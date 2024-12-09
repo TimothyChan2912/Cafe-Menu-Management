@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 	
 public class MenuManager {
-	public List<MenuItem> menuList;
+	public static List<MenuItem> menuList;
 
 	private final int FRAME_WIDTH = 1000;
 	private final int FRAME_HEIGHT = 200;

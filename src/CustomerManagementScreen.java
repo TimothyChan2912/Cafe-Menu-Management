@@ -237,13 +237,13 @@ public class CustomerManagementScreen extends JFrame {
         String compareFilter = filterCriteria.getSelectedItem().toString();
         User.CompareBy compare;
         
-        if(compareFilter.equals("Title")) {
+        if(compareFilter.equals("First Name")) {
             compare = User.CompareBy.FIRST_NAME;
         }
-        else if(compareFilter.equals("ID")) {
+        else if(compareFilter.equals("Last Name")) {
             compare = User.CompareBy.LAST_NAME;
         }
-        else if(compareFilter.equals("Description")) {
+        else if(compareFilter.equals("Email")) {
             compare = User.CompareBy.EMAIL;
         }
         else {

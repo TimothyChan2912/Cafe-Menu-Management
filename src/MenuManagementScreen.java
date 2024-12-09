@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class MenuManagementScreen extends JFrame {
 		private final int FRAME_WIDTH = 1000;
@@ -85,6 +87,82 @@ public class MenuManagementScreen extends JFrame {
 
 			breakfastLunch = new JCheckBox("Breakfast/Lunch");
 			dinner = new JCheckBox("Dinner");
+
+			breakfastLunch.setSelected(true);
+			dinner.setSelected(true);
+
+			ItemListener itemListener = new ItemListener() {
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					if (e.getStateChange() == ItemEvent.SELECTED) {
+						inactiveModel.clear();
+						activeModel.clear();
+						if (breakfastLunch.isSelected() && dinner.isSelected()) {
+							for (MenuItem menuItem : menuManager.menuList) {
+								if (menuItem.isCurrent()) {
+									activeModel.addElement(menuItem);
+								} 
+								else {
+									inactiveModel.addElement(menuItem);
+								}
+							}
+						} else if (breakfastLunch.isSelected()) {
+							for (MenuItem menuItem : menuManager.menuList) {
+								if (menuItem.getMenuType().equals("Pancake")) {
+									if (menuItem.isCurrent()) {
+										activeModel.addElement(menuItem);
+									} 
+									else {
+										inactiveModel.addElement(menuItem);
+									}
+								}
+							}
+						} else if (dinner.isSelected()) {
+							for (MenuItem menuItem : menuManager.menuList) {
+								if (menuItem.getMenuType().equals("Diner")) {
+									if (menuItem.isCurrent()) {
+										activeModel.addElement(menuItem);
+									} 
+									else {
+										inactiveModel.addElement(menuItem);
+									}
+								}
+							}
+						}
+					} else if (e.getStateChange() == ItemEvent.DESELECTED) {
+						activeModel.clear();
+						inactiveModel.clear();
+						if (!breakfastLunch.isSelected() && !dinner.isSelected()) {
+
+						} else if (breakfastLunch.isSelected()) {
+							for (MenuItem menuItem : menuManager.menuList) {
+								if (menuItem.getMenuType().equals("Pancake")) {
+									if (menuItem.isCurrent()) {
+										activeModel.addElement(menuItem);
+									} 
+									else {
+										inactiveModel.addElement(menuItem);
+									}
+								}
+							}
+						} else if (dinner.isSelected()) {
+							for (MenuItem menuItem : menuManager.menuList) {
+								if (menuItem.getMenuType().equals("Diner")) {
+									if (menuItem.isCurrent()) {
+										activeModel.addElement(menuItem);
+									} 
+									else {
+										inactiveModel.addElement(menuItem);
+									}
+								}
+							}
+						}
+					}
+				}
+			};
+
+			breakfastLunch.addItemListener(itemListener);
+			dinner.addItemListener(itemListener);
 
 			BtnListener btnlistener = new BtnListener();
         	btnReactivate.addActionListener(btnlistener);

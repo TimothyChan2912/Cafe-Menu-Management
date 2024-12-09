@@ -70,25 +70,7 @@ public enum cafe {
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(";");
 
-                if (parts.length == 7) {
-                    String type = parts[0];
-                    String firstName = parts[1];
-                    String lastName = parts[2];
-                    String email = parts[3];
-                    String username = parts[4];
-                    String password = parts[5];
-                    boolean active = Boolean.parseBoolean(parts[6]);
-
-                    if (type.equals("Admin")) {
-                        userList.add(new Admin(firstName, lastName, email, username, password, active));
-                    } else if (type.equals("Customer")) {
-                        userList.add(new Customer(firstName, lastName, email, username, password, active));
-                    }
-                } else {
-                    System.err.println("Invalid line format: " + line);
-                }
-
-                if (parts.length > 7) {
+                if (parts.length >= 7) {
                     String type = parts[0];
                     String firstName = parts[1];
                     String lastName = parts[2];
