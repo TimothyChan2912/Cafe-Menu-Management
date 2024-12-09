@@ -13,7 +13,7 @@ import javax.swing.*;
 public class UserManager {
     public List<User> userList;
 
-	private final int FRAME_WIDTH = 1000;
+	private final int FRAME_WIDTH = 1600;
     private final int FRAME_HEIGHT = 200;
 
     private JFrame fAdd;

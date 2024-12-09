@@ -11,7 +11,7 @@ import javax.swing.*;
 public class MenuManager {
 	public static List<MenuItem> menuList;
 
-	private final int FRAME_WIDTH = 1000;
+	private final int FRAME_WIDTH = 1600;
 	private final int FRAME_HEIGHT = 200;
 
     private JLabel menuType;
@@ -177,11 +177,11 @@ public class MenuManager {
         menuTypeDropDown = new JComboBox<String>();
         menuTypeDropDown.addItem("Diner");
         menuTypeDropDown.addItem("Pancake");
-        itemTitleField = new JTextField();              // make sure these are initialized with the current item's info
-        itemDescriptionField = new JTextField();
-        itemIDField = new JTextField();
-        itemPriceField = new JTextField();
-        itemCountField = new JTextField();
+        itemTitleField = new JTextField(item.getTitle());              // make sure these are initialized with the current item's info
+        itemDescriptionField = new JTextField(item.getDescription());
+        itemIDField = new JTextField(item.getItemID());
+        itemPriceField = new JTextField(Float.toString(item.getPrice()));
+        itemCountField = new JTextField(item.getCount());
         
         statusCheck = new ButtonGroup();
         current = new JRadioButton("Current");
