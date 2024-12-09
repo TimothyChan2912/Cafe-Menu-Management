@@ -297,15 +297,40 @@ public class MenuManagementScreen extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             if(e.getSource() == btnReactivate) {
-                menuManager.reactivate(selectedItem, activeModel, inactiveModel, activeMenuListDisplay);
+				if(selectedItem == null) {
+					JOptionPane.showMessageDialog(frame, "Please select an item to reactivate", "Warning", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				else {
+					menuManager.reactivate(selectedItem, activeModel, inactiveModel, activeMenuListDisplay);
+				}
             } else if(e.getSource() == btnDeactivate) {
-                menuManager.deactivate(selectedItem, activeModel, inactiveModel, inactiveMenuListDisplay);
-            } else if(e.getSource() == btnAdd) {
+				if(selectedItem == null) {
+					JOptionPane.showMessageDialog(frame, "Please select an item to deactivate", "Warning", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				else {
+                	menuManager.deactivate(selectedItem, activeModel, inactiveModel, inactiveMenuListDisplay);
+				}
+			} 
+			else if(e.getSource() == btnAdd) {
                 menuManager.add();
             } else if(e.getSource() == btnEdit) {
-                menuManager.edit(selectedItem, selectedItem.isCurrent());
+				if(selectedItem == null) {
+					JOptionPane.showMessageDialog(frame, "Please select an item to delete", "Warning", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				else {
+					menuManager.edit(selectedItem, selectedItem.isCurrent());
+				}
             } else if(e.getSource() == btnDelete) {
-                menuManager.delete(selectedItem);
+				if(selectedItem == null) {
+					JOptionPane.showMessageDialog(frame, "Please select an item to delete", "Warning", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				else {
+					menuManager.delete(selectedItem);
+				}
             } else if(e.getSource() == btnSort) {
                 menuSort();
             } else if (e.getSource() == btnLogout) {

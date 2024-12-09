@@ -206,19 +206,43 @@ public class CustomerManagementScreen extends JFrame {
     class BtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnReactivate) {
-                userManager.reactivate(selectedCustomer, activeModel, inactiveModel, activeCustomerListDisplay);
+                if(inactiveCustomerListDisplay.isSelectionEmpty() && activeCustomerListDisplay.isSelectionEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Please select a customer to reactivate");
+                    return;
+                }
+                else {
+                    userManager.reactivate(selectedCustomer, activeModel, inactiveModel, activeCustomerListDisplay);
+                }
             }
             else if(e.getSource() == btnInactivate) {
-                userManager.deactivate(selectedCustomer, activeModel, inactiveModel, inactiveCustomerListDisplay);
+                if(inactiveCustomerListDisplay.isSelectionEmpty() && activeCustomerListDisplay.isSelectionEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Please select a customer to inactivate");
+                    return;
+                }
+                else {
+                    userManager.deactivate(selectedCustomer, activeModel, inactiveModel, inactiveCustomerListDisplay);
+                }
             } 
             else if(e.getSource() == btnAdd) {
                 userManager.add();
             } 
             else if(e.getSource() == btnEdit) {
-                userManager.edit(selectedCustomer, selectedCustomer.isActive());
+                if(inactiveCustomerListDisplay.isSelectionEmpty() && activeCustomerListDisplay.isSelectionEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Please select a customer to edit");
+                    return;
+                }
+                else {
+                    userManager.edit(selectedCustomer, selectedCustomer.isActive());
+                }
             } 
             else if(e.getSource() == btnDelete) {
-                userManager.delete(selectedCustomer);
+                if(inactiveCustomerListDisplay.isSelectionEmpty() && activeCustomerListDisplay.isSelectionEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Please select a customer to delete");
+                    return;
+                }
+                else {
+                    userManager.delete(selectedCustomer);
+                }
             } 
             else if(e.getSource() == btnSort) {
                 customerSort();

@@ -10,17 +10,12 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CustomerDashboard extends JFrame {
 	private final int FRAME_WIDTH = 1000;
 	private final int FRAME_HEIGHT = 800;
 
-	private final int FRAME_WIDTH_INFO = 700;
-	private final int FRAME_HEIGHT_INFO = 300;
-
-	private UserManager userManager;
 	private User currentUser; // The user who is currently logged in
 	MenuManager menuManager = new MenuManager();
 
@@ -50,7 +45,6 @@ public class CustomerDashboard extends JFrame {
 	private JButton btnSort;
 	private JButton btnSearch;
 
-	private JButton btnInfoOk;
 
 	private JLabel cartLabel;
 	private JLabel billLabel;
@@ -58,12 +52,6 @@ public class CustomerDashboard extends JFrame {
 	private JLabel userInfo;
 	private JLabel sortOrder;
 	private JLabel searchSortBy;
-
-	private JLabel infoDisplayTitle;
-	private JLabel infoDisplayDescription;
-	private JLabel infoDisplayItemId;
-	private JLabel infoDisplayPrice;
-	private JLabel infoDisplayCount;
 
 	private JComboBox<String> sortOrderDropDown;
 	private JComboBox<String> sortByDropDown;
