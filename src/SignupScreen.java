@@ -136,17 +136,22 @@ public class SignupScreen extends JFrame{
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == btnSignupSubmit) {
-				SignupClick();
-				if(getRole().equals("Customer")) {
-					customers.add(new Customer(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
-                    System.out.println("New customer added: " + getFirstName() + " " + getLastName());
-					JOptionPane.showMessageDialog(frame, "Signup Successful! Your username is " + username, "Success!", JOptionPane.INFORMATION_MESSAGE);
-				}
-				else {
-					admins.add(new Admin(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
-                    System.out.println("New admin added: " + getFirstName() + " " + getLastName());
-                    JOptionPane.showMessageDialog(frame, "Signup Successful! Your username is " + username, "Success!", JOptionPane.INFORMATION_MESSAGE);
-				}
+                if(getFirstName().equals("") || getLastName().equals("") || getEmail().equals("") || getPassword().equals("")) {
+                    JOptionPane.showMessageDialog(frame, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    SignupClick();
+                    if(getRole().equals("Customer")) {
+                        customers.add(new Customer(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
+                        System.out.println("New customer added: " + getFirstName() + " " + getLastName());
+                        JOptionPane.showMessageDialog(frame, "Signup Successful! Your username is " + username, "Success!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else {
+                        admins.add(new Admin(getFirstName(), getLastName(), getEmail(), username, getPassword(), true));
+                        System.out.println("New admin added: " + getFirstName() + " " + getLastName());
+                        JOptionPane.showMessageDialog(frame, "Signup Successful! Your username is " + username, "Success!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
             }
             if(e.getSource() == btnSignupBack) {
                 new CafeOnlineOrderSystemGUI();

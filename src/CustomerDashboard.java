@@ -207,6 +207,8 @@ public class CustomerDashboard extends JFrame {
 		JScrollPane spCart = new JScrollPane();
 		spCart.getViewport().setView(cartPane);
 		
+		cartPane.setEditable(false);
+		billPane.setEditable(false);
 
 		menuListDisplay.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -377,11 +379,22 @@ public class CustomerDashboard extends JFrame {
 			}
 		}
 
-		if(cartItems.size() > 10) {
+		if (cartItems.size() > 10) {
 			JOptionPane.showMessageDialog(this, "You can only order 10 items at a time");
 			return;
 		}
+		
+		Customer currentCustomer = (Customer) currentUser;
 
+		ArrayList<String> orderedItems = new ArrayList<String>();
+		orderedItems.addAll(currentCustomer.getOrderedItems());
+
+		for(MenuItem menuItem : cartItems) {
+			orderedItems.add(menuItem.getItemID());
+		}
+		
+		currentCustomer.setOrderedItems(orderedItems);
+		
 		cartPane.setText("");
 		this.subTotal += subTotal;
 
@@ -417,7 +430,14 @@ public class CustomerDashboard extends JFrame {
 
 	//Cancel order
 	public void cancelOrder() {
-		cartPane.setText("");
+		if(cartPane.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(this, "Cart is already empty");
+			return;
+		}
+		else {
+			cartPane.setText("");
+			currentUser.setOrderedItems(new ArrayList<String>());
+		}
 	}
 
 	public void changeTotal() {
