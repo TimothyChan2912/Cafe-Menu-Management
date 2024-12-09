@@ -326,7 +326,13 @@ public class CustomerDashboard extends JFrame {
 			JOptionPane.showMessageDialog(this, "Please select an item to add to cart");
 			return;
 		}
-
+		if(selectedMenuItem.getCount() > 0) {
+			selectedMenuItem.setCount(selectedMenuItem.getCount() - 1);
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Item out of stock");
+			return;
+		}
 		// menuModel.removeElement(selectedMenuItem);
 		try {
 			cartDoc.insertString(cartDoc.getLength(), selectedMenuItem.toString() + "\n", null);	
@@ -380,8 +386,14 @@ public class CustomerDashboard extends JFrame {
 		for(MenuItem menuItem : cartItems) {
 			orderedItems.add(menuItem.getItemID());
 		}
-		
+
+		List<User> userList = cafe.readUsers();
+		int index = userList.indexOf(currentCustomer);
+		userList.remove(currentCustomer);
 		currentCustomer.setOrderedItems(orderedItems);
+		userList.add(index, currentCustomer);
+		cafe.writeUsers(userList);
+
 		
 		cartPane.setText("");
 		this.subTotal += subTotal;
@@ -423,14 +435,33 @@ public class CustomerDashboard extends JFrame {
 			return;
 		}
 		else {
+			Element root = cartDoc.getDefaultRootElement();
+			for(int i = 0; i < root.getElementCount(); i++) {
+				Element line = root.getElement(i);
+
+				int start = line.getStartOffset();
+				int end = line.getEndOffset();
+
+				try {
+					String text = cartDoc.getText(start, end - start).trim();
+
+					for(MenuItem menuItem : menuManager.menuList) {
+						if(menuItem.toString().equals(text)) {
+							menuItem.setCount(menuItem.getCount() + 1);
+						}
+					}
+				}
+				catch (Exception e) {
+					System.out.println("Error canceling order");
+				}
+			}
+
 			cartPane.setText("");
 			currentUser.setOrderedItems(new ArrayList<String>());
 		}
 	}
 
 	public void changeTotal() {
-		double tip = 0;
-
 		if(noTipButton.isSelected()) {
 			tipTotal = 0;
 		}

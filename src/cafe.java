@@ -1,19 +1,17 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public enum cafe {
 	DB; // singleton design
 
-	private List<MenuItem> dataMenu;
 	private Map<String, User> dataUsers;
 
 	private cafe() { // must be private
-		dataMenu = new ArrayList<>();
+        
+		//dataMenu = new ArrayList<>()
 		dataUsers = new HashMap<>();
 	}
 
@@ -50,11 +48,12 @@ public enum cafe {
 		return menuList;
 	}
 
-	public void writeMenu() {
+	public static void writeMenu(List<MenuItem> menu) {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/resources/menuData.txt"))) {
-			for (MenuItem item : dataMenu) {
-				bw.write(item.toDataString());
-				bw.newLine();
+			for (MenuItem item : menu) {
+                String dataString = item.toDataString();
+                bw.write(dataString);
+                bw.newLine();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -99,10 +98,48 @@ public enum cafe {
 		return userList;
 	}
 
-	public void writeUsers() {
+    // public static ArrayList<Admin> readAdmins() {
+	// 	ArrayList<Admin> userList = new ArrayList<>();
+
+	// 	try (BufferedReader br = new BufferedReader(new FileReader("src/resources/userData.txt"))) {
+    //         String line;
+
+    //         while ((line = br.readLine()) != null) {
+    //             String[] parts = line.split(";");
+    //             if (parts[0].equals("admin")) {
+    //                 if (parts.length >= 7) {
+    //                     String type = parts[0];
+    //                     String firstName = parts[1];
+    //                     String lastName = parts[2];
+    //                     String email = parts[3];
+    //                     String username = parts[4];
+    //                     String password = parts[5];
+    //                     boolean active = Boolean.parseBoolean(parts[6]);
+
+    //                     List<String> orderedItems = new ArrayList<>();
+    //                     for (int i = 7; i < parts.length; i++) {
+    //                         orderedItems.add(parts[i]);
+    //                     }
+
+                        
+    //                     userList.add(new Admin(firstName, lastName, email, username, password, active, orderedItems));
+                         
+    //                 } else {
+    //                     System.err.println("Invalid line format: " + line);
+    //                 }
+    //             }
+    //         }
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+	// 	return userList;
+	// }
+
+	public static void writeUsers(List<User> users) {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/resources/userData.txt"))) {
-			for (User user : dataUsers.values()) {
-				bw.write(user.toDataString());
+			for (User user : users) {
+                String dataString = user.toDataString();
+				bw.write(dataString);
 				bw.newLine();
 			}
 		} catch (IOException e) {

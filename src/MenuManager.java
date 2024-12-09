@@ -129,19 +129,24 @@ public class MenuManager {
             if (menuType.equals("Diner")) {
                 DinerMenuItem activeDinerMenuItem = new DinerMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), true);
                 MenuManagementScreen.activeModel.addElement(activeDinerMenuItem);
+                menuList.add(activeDinerMenuItem);
             } else {
                 PancakeMenuItem activePancakeMenuItem = new PancakeMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), true);
                 MenuManagementScreen.activeModel.addElement(activePancakeMenuItem);
+                menuList.add(activePancakeMenuItem);
             }
         } else {
             if (menuType.equals("Diner")) {
                 DinerMenuItem inactiveDinerMenuItem = new DinerMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), false);
                 MenuManagementScreen.activeModel.addElement(inactiveDinerMenuItem);
+                menuList.add(inactiveDinerMenuItem);
             } else {
                 PancakeMenuItem inactivePancakeMenuItem = new PancakeMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), false);
                 MenuManagementScreen.activeModel.addElement(inactivePancakeMenuItem);
+                menuList.add(inactivePancakeMenuItem);
             }
         }  
+        cafe.writeMenu(menuList);
         fAdd.dispose();
     }
 
@@ -173,17 +178,20 @@ public class MenuManager {
         menuTypeDropDown = new JComboBox<String>();
         menuTypeDropDown.addItem("Diner");
         menuTypeDropDown.addItem("Pancake");
-        itemTitleField = new JTextField(item.getTitle());              // make sure these are initialized with the current item's info
+        menuTypeDropDown.setSelectedItem(item.getClass().getName().equals("DinerMenuItem") ? "Diner" : "Pancake");
+        itemTitleField = new JTextField(item.getTitle());             
         itemDescriptionField = new JTextField(item.getDescription());
         itemIDField = new JTextField(item.getItemID());
         itemPriceField = new JTextField(Float.toString(item.getPrice()));
-        itemCountField = new JTextField(item.getCount());
+        itemCountField = new JTextField(Integer.toString(item.getCount()));
         
         statusCheck = new ButtonGroup();
         current = new JRadioButton("Current");
         offSeason = new JRadioButton("Off-Season");
         statusCheck.add(current);
         statusCheck.add(offSeason);
+        current.setSelected(item.isCurrent());
+        offSeason.setSelected(!item.isCurrent());
         
         BtnListener btnListener = new BtnListener();
         editBtnOk = new JButton("OK");
@@ -238,14 +246,21 @@ public class MenuManager {
             if(isCurrent != isActive) {
                 MenuManagementScreen.activeModel.addElement(item);
                 MenuManagementScreen.inactiveModel.removeElement(item);
+                item.setCurrent(isCurrent);
+                menuList.remove(item);
+                menuList.add(itemIndex, item);
             }
             else {
                 if (menuType.equals("Diner")) {
                     DinerMenuItem activeDinerMenuItem = new DinerMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), true);
                     MenuManagementScreen.activeModel.set(itemIndex, activeDinerMenuItem);
+                    menuList.remove(item);
+                    menuList.add(itemIndex, activeDinerMenuItem);
                 } else {
                     PancakeMenuItem activePancakeMenuItem = new PancakeMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), true);
                     MenuManagementScreen.activeModel.set(itemIndex, activePancakeMenuItem);
+                    menuList.remove(item);
+                    menuList.add(itemIndex, activePancakeMenuItem);
                 }
             }
         } 
@@ -256,14 +271,20 @@ public class MenuManager {
             }
             else {
                 if (menuType.equals("Diner")) {
-                    DinerMenuItem activeDinerMenuItem = new DinerMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), false);
-                    MenuManagementScreen.activeModel.set(itemIndex, activeDinerMenuItem);
+                    DinerMenuItem inactiveDinerMenuItem = new DinerMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), false);
+                    MenuManagementScreen.activeModel.set(itemIndex, inactiveDinerMenuItem);
+                    menuList.remove(item);
+                    menuList.add(itemIndex, inactiveDinerMenuItem);
                 } else {
-                    PancakeMenuItem activePancakeMenuItem = new PancakeMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), false);
-                    MenuManagementScreen.activeModel.set(itemIndex, activePancakeMenuItem);
+                    PancakeMenuItem inactivePancakeMenuItem = new PancakeMenuItem(title, id, description, Float.parseFloat(price), Integer.parseInt(count), false);
+                    MenuManagementScreen.activeModel.set(itemIndex, inactivePancakeMenuItem);
+                    menuList.remove(item);
+                    menuList.add(itemIndex, inactivePancakeMenuItem);
                 }
             }
-        } 
+        }
+         
+        cafe.writeMenu(menuList);
         fEdit.dispose(); 
     }
 
@@ -287,7 +308,7 @@ public class MenuManager {
         btnYes.addActionListener(btnlistener);
         btnNo.addActionListener(btnlistener);
 
-        delete = new JLabel("Are you sure you want to delete the selected user?");
+        delete = new JLabel("Are you sure you want to delete the selected item?");
 
         JPanel pDelete = new JPanel();
         pDelete.setLayout(deleteLayout);
@@ -378,8 +399,12 @@ public class MenuManager {
                 if(selectedItem != null) {
                     if(MenuManagementScreen.inactiveModel.contains(selectedItem)) {
                         MenuManagementScreen.inactiveModel.removeElement(selectedItem);
+                        menuList.remove(selectedItem);
+                        cafe.writeMenu(menuList);
                     } else {
                         MenuManagementScreen.activeModel.removeElement(selectedItem);
+                        menuList.remove(selectedItem);
+                        cafe.writeMenu(menuList);
                     }
                 }
                 fDelete.dispose();

@@ -129,10 +129,13 @@ public class UserManager {
         if (isActive) {
             Customer activeCustomer = new Customer(firstName, lastName, email, username, password, true);
             CustomerManagementScreen.activeModel.addElement(activeCustomer);
+            userList.add(activeCustomer);
         } else {
             Customer inactiveCustomer = new Customer(firstName, lastName, email, username, password, false);
             CustomerManagementScreen.inactiveModel.addElement(inactiveCustomer); 
+            userList.add(inactiveCustomer);
         }  
+        cafe.writeUsers(userList);
         fAdd.dispose();
     }
 
@@ -152,7 +155,12 @@ public class UserManager {
         fEdit = new JFrame("Update User Details");
 
         this.customer = customer;
-        customerIndex = CustomerManagementScreen.activeModel.indexOf(customer);
+        if (isActive) {
+            customerIndex = CustomerManagementScreen.activeModel.indexOf(customer);
+        } else {
+            customerIndex = CustomerManagementScreen.inactiveModel.indexOf(customer);
+        }
+
         this.isActive = isActive;
 
         editBtnOk = new JButton("Ok");
@@ -177,6 +185,8 @@ public class UserManager {
         statusCheck = new ButtonGroup();
         statusCheckActive = new JRadioButton("Active");
         statusCheckInactive = new JRadioButton("Inactive");
+        statusCheckActive.setSelected(customer.isActive());
+        statusCheckInactive.setSelected(!customer.isActive());
 
         userTypeList = new JComboBox<String>();
         userTypeList.addItem("Admin");
@@ -231,22 +241,33 @@ public class UserManager {
             if(isActiveChecked != isActive) {
                 CustomerManagementScreen.activeModel.addElement(customer);
                 CustomerManagementScreen.inactiveModel.removeElement(customer);
+                customer.setActive(true);
+                userList.remove(customer);
+                userList.add(customerIndex, customer);
             }
             else {
             Customer activeCustomer = new Customer(firstName, lastName, email, username, password, true);
             CustomerManagementScreen.activeModel.set(customerIndex, activeCustomer);
+            userList.remove(customer);
+            userList.add(customerIndex, activeCustomer);
             }
         } 
         else {
             if(isActiveChecked != isActive) {
                 CustomerManagementScreen.inactiveModel.addElement(customer);
                 CustomerManagementScreen.activeModel.removeElement(customer);
+                customer.setActive(false);
+                userList.remove(customer);
+                userList.add(customerIndex, customer);
             }
             else {
                 Customer inactiveCustomer = new Customer(firstName, lastName, email, username, password, false);
                 CustomerManagementScreen.inactiveModel.set(customerIndex, inactiveCustomer);
+                userList.remove(customer);
+                userList.add(customerIndex, inactiveCustomer);
             }
         } 
+        cafe.writeUsers(userList);
         fEdit.dispose(); 
     }
 
@@ -360,8 +381,12 @@ public class UserManager {
                 if(selectedCustomer != null) {
                     if(CustomerManagementScreen.inactiveModel.contains(selectedCustomer)) {
                         CustomerManagementScreen.inactiveModel.removeElement(selectedCustomer);
+                        userList.remove(selectedCustomer);
+                        cafe.writeUsers(userList);
                     } else {
                         CustomerManagementScreen.activeModel.removeElement(selectedCustomer);
+                        userList.remove(selectedCustomer);
+                        cafe.writeUsers(userList);
                     }
                 }
                 fDelete.dispose();
