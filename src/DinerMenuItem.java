@@ -1,8 +1,7 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+
 
 public class DinerMenuItem implements MenuItem, Serializable  {
     

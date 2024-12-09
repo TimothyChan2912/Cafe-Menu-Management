@@ -1,7 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.regex.Pattern;
 
 public class PancakeMenuItem implements MenuItem, Serializable {
     private static final long serialVersionUID = 1L;
