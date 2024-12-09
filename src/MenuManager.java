@@ -44,8 +44,6 @@ public class MenuManager {
 
 	public MenuManager () {
         menuList = cafe.readMenu();
-
-        
 	}
 
     //Menu Add
@@ -105,11 +103,13 @@ public class MenuManager {
         pButtons.add(addBtnCancel);
         a.addObjects(pButtons, pAdd, addLayout, gbc, 0, 1, 15, 1);
 
-        a.addObjects(itemTitleField, pAdd, addLayout, gbc, 3, 0, 1, 1,50,0);
-        a.addObjects(itemDescriptionField, pAdd, addLayout, gbc, 5, 0, 1, 1,50,0);
-        a.addObjects(itemIDField, pAdd, addLayout, gbc, 7, 0, 1, 1,50,0);
-        a.addObjects(itemPriceField, pAdd, addLayout, gbc, 9, 0, 1, 1,50,0);
-        a.addObjects(itemCountField, pAdd, addLayout, gbc, 11, 0, 1, 1,50,0);
+        gbc.insets = new Insets(0, 25, 0, 25);
+        gbc.ipadx = 45;
+        a.addObjects(itemTitleField, pAdd, addLayout, gbc, 3, 0, 1, 1);
+        a.addObjects(itemDescriptionField, pAdd, addLayout, gbc, 5, 0, 1, 1);
+        a.addObjects(itemIDField, pAdd, addLayout, gbc, 7, 0, 1, 1);
+        a.addObjects(itemPriceField, pAdd, addLayout, gbc, 9, 0, 1, 1);
+        a.addObjects(itemCountField, pAdd, addLayout, gbc, 11, 0, 1, 1);
 
 
 		fAdd.add(pAdd);

@@ -13,8 +13,8 @@ import javax.swing.*;
 public class UserManager {
     public List<User> userList;
 
-	private final int FRAME_WIDTH = 1600;
-    private final int FRAME_HEIGHT = 300;
+	private final int FRAME_WIDTH = 1000;
+    private final int FRAME_HEIGHT = 200;
 
     private JFrame fAdd;
     private JFrame fEdit;
@@ -45,8 +45,6 @@ public class UserManager {
 
 	public UserManager () {
         userList = cafe.readUsers();
-
-        
 	}
 
 
@@ -72,10 +70,10 @@ public class UserManager {
         password = new JLabel("Password:");
         status = new JLabel("Status:");
 
-        firstNameText = new JTextField("");
-        lastNameText = new JTextField("");
-        emailText = new JTextField("");
-        passwordText = new JTextField("");
+        firstNameText = new JTextField(10);
+        lastNameText = new JTextField(10);
+        emailText = new JTextField(10);
+        passwordText = new JTextField(10);
 
         statusCheck = new ButtonGroup();
         statusCheckActive = new JRadioButton("Active");
@@ -93,19 +91,19 @@ public class UserManager {
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        a.addObjects(userType, pAdd, addLayout, gbc, 0, 0, 1, 1, 10, 50);
-        a.addObjects(userTypeList, pAdd, addLayout, gbc, 1, 0, 1, 1, 50, 5);
-        a.addObjects(firstName, pAdd, addLayout, gbc, 2, 0, 1, 1, 25, 50);
-        a.addObjects(firstNameText, pAdd, addLayout, gbc, 3, 0, 1, 1, 100, 5);
-        a.addObjects(lastName, pAdd, addLayout, gbc, 4, 0, 1, 1, 25, 50);
-        a.addObjects(lastNameText, pAdd, addLayout, gbc, 5, 0, 1, 1, 100, 5);
-        a.addObjects(email, pAdd, addLayout, gbc, 6, 0, 1, 1, 25, 50);
-        a.addObjects(emailText, pAdd, addLayout, gbc, 7, 0, 1, 1, 100, 5);
-        a.addObjects(password, pAdd, addLayout, gbc, 8, 0, 1, 1, 25, 50);
-        a.addObjects(passwordText, pAdd, addLayout, gbc, 9, 0, 1, 1, 100, 5);
-        a.addObjects(status, pAdd, addLayout, gbc, 10, 0, 1, 1, 25, 50);
-        a.addObjects(statusCheckActive, pAdd, addLayout, gbc, 11, 0, 1, 1, 50, 15);
-        a.addObjects(statusCheckInactive, pAdd, addLayout, gbc, 12, 0, 1, 1, 50, 15);
+        a.addObjects(userType, pAdd, addLayout, gbc, 0, 0, 1, 1);
+        a.addObjects(userTypeList, pAdd, addLayout, gbc, 1, 0, 1, 1);
+        a.addObjects(firstName, pAdd, addLayout, gbc, 2, 0, 1, 1);
+        a.addObjects(firstNameText, pAdd, addLayout, gbc, 3, 0, 1, 1);
+        a.addObjects(lastName, pAdd, addLayout, gbc, 4, 0, 1, 1);
+        a.addObjects(lastNameText, pAdd, addLayout, gbc, 5, 0, 1, 1);
+        a.addObjects(email, pAdd, addLayout, gbc, 6, 0, 1, 1);
+        a.addObjects(emailText, pAdd, addLayout, gbc, 7, 0, 1, 1);
+        a.addObjects(password, pAdd, addLayout, gbc, 8, 0, 1, 1);
+        a.addObjects(passwordText, pAdd, addLayout, gbc, 9, 0, 1, 1);
+        a.addObjects(status, pAdd, addLayout, gbc, 10, 0, 1, 1);
+        a.addObjects(statusCheckActive, pAdd, addLayout, gbc, 11, 0, 1, 1);
+        a.addObjects(statusCheckInactive, pAdd, addLayout, gbc, 12, 0, 1, 1);
 
         gbc.ipady = 50;
 
@@ -201,19 +199,19 @@ public class UserManager {
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        a.addObjects(userType, pEdit, editLayout, gbc, 0, 0, 1, 1, 10, 50);
-        a.addObjects(userTypeList, pEdit, editLayout, gbc, 1, 0, 1, 1, 50, 5);
-        a.addObjects(firstName, pEdit, editLayout, gbc, 2, 0, 1, 1, 25, 50);
-        a.addObjects(firstNameText, pEdit, editLayout, gbc, 3, 0, 1, 1, 100, 5);
-        a.addObjects(lastName, pEdit, editLayout, gbc, 4, 0, 1, 1, 25, 50);
-        a.addObjects(lastNameText, pEdit, editLayout, gbc, 5, 0, 1, 1, 100, 5);
-        a.addObjects(email, pEdit, editLayout, gbc, 6, 0, 1, 1, 25, 50);
-        a.addObjects(emailText, pEdit, editLayout, gbc, 7, 0, 1, 1, 100, 5);
-        a.addObjects(password, pEdit, editLayout, gbc, 8, 0, 1, 1, 25, 50);
-        a.addObjects(passwordText, pEdit, editLayout, gbc, 9, 0, 1, 1, 100, 5);
-        a.addObjects(status, pEdit, editLayout, gbc, 10, 0, 1, 1, 25, 50);
-        a.addObjects(statusCheckActive, pEdit, editLayout, gbc, 11, 0, 1, 1, 50, 15);
-        a.addObjects(statusCheckInactive, pEdit, editLayout, gbc, 12, 0, 1, 1, 50, 15);
+        a.addObjects(userType, pEdit, addLayout, gbc, 0, 0, 1, 1);
+        a.addObjects(userTypeList, pEdit, addLayout, gbc, 1, 0, 1, 1);
+        a.addObjects(firstName, pEdit, addLayout, gbc, 2, 0, 1, 1);
+        a.addObjects(firstNameText, pEdit, addLayout, gbc, 3, 0, 1, 1, 50, 0);
+        a.addObjects(lastName, pEdit, addLayout, gbc, 4, 0, 1, 1);
+        a.addObjects(lastNameText, pEdit, addLayout, gbc, 5, 0, 1, 1, 50, 0);
+        a.addObjects(email, pEdit, addLayout, gbc, 6, 0, 1, 1);
+        a.addObjects(emailText, pEdit, addLayout, gbc, 7, 0, 1, 1, 50, 0);
+        a.addObjects(password, pEdit, addLayout, gbc, 8, 0, 1, 1);
+        a.addObjects(passwordText, pEdit, addLayout, gbc, 9, 0, 1, 1, 50, 0);
+        a.addObjects(status, pEdit, addLayout, gbc, 10, 0, 1, 1);
+        a.addObjects(statusCheckActive, pEdit, addLayout, gbc, 11, 0, 1, 1);
+        a.addObjects(statusCheckInactive, pEdit, addLayout, gbc, 12, 0, 1, 1);
 
         gbc.ipady = 50;
 

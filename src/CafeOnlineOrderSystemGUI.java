@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class CafeOnlineOrderSystemGUI extends JFrame{
     private final int FRAME_WIDTH = 1000; 
-    private final int FRAME_HEIGHT = 1000;
+    private final int FRAME_HEIGHT = 800;
     
     private JButton btnLogin;
     private JButton btnSignup;
@@ -60,6 +60,7 @@ public class CafeOnlineOrderSystemGUI extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(pMain);
         this.setVisible(true);
+        this.setResizable(false);
     }
 
     class BtnListener implements ActionListener {

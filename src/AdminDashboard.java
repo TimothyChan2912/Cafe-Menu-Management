@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class AdminDashboard extends JFrame {
     private final int FRAME_WIDTH = 1000;
-    private final int FRAME_HEIGHT = 1000;
+    private final int FRAME_HEIGHT = 800;
 
     private JLabel welcome;
 
@@ -54,6 +54,7 @@ public class AdminDashboard extends JFrame {
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        this.setResizable(false);
     }
 
     class BtnListener implements ActionListener {

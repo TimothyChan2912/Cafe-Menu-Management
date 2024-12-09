@@ -1,16 +1,16 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
-import javax.swing.*;
+import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Pattern;
+import javax.swing.*;
 
 public class CustomerManagementScreen extends JFrame {
     private final int FRAME_WIDTH = 1000;
-    private final int FRAME_HEIGHT = 1000;
+    private final int FRAME_HEIGHT = 800;
 
     private Admin admin;
     UserManager userManager = new UserManager();
@@ -183,7 +183,7 @@ public class CustomerManagementScreen extends JFrame {
 		pSearchSort.add(btnSearch);
         pSearchSort.setOpaque(false);
 
-        gbc.insets = new Insets(25, 0, 0, 0);
+        gbc.insets = new Insets(45, 0, 0, 0);
 		a.addObjects(pAdminInfo, pAdminCustomerManager, layout, gbc, 1, 0, 1, 1, 0, 10);
         gbc.insets = new Insets(0, 0, 0, 0);
 		a.addObjects(inactiveCustomers, pAdminCustomerManager, layout, gbc, 0, 1, 1, 1, 200, 50);
@@ -200,6 +200,7 @@ public class CustomerManagementScreen extends JFrame {
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        this.setResizable(false);
     }
 
     class BtnListener implements ActionListener {
